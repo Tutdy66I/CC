@@ -1,0 +1,154 @@
+.form-section {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.form-section h2 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.form-subtitle {
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+
+/* ---- 表单 ---- */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---- 单个字段 ---- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.field input,
+.field textarea,
+.field select {
+  font-family: var(--sans);
+  font-size: 16px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.field select {
+  cursor: pointer;
+}
+
+/* ---- 错误状态 ---- */
+.field-error input,
+.field-error textarea,
+.field-error select {
+  border-color: #ef4444;
+}
+
+.field-error input:focus,
+.field-error textarea:focus,
+.field-error select:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.error-text {
+  font-size: 13px;
+  color: #ef4444;
+}
+
+/* ---- 按钮 ---- */
+.btn-submit {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 600;
+  padding: 12px 28px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--accent);
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-submit:hover {
+  opacity: 0.9;
+}
+
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+/* ---- 成功提示 ---- */
+.form-success {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.success-icon {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.form-success h2 {
+  margin-bottom: 12px;
+}
+
+.form-success p {
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.btn-reset {
+  font-family: var(--sans);
+  font-size: 15px;
+  padding: 8px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.btn-reset:hover {
+  border-color: var(--accent);
+}
+
+/* ---- 暗色适配 ---- */
+@media (prefers-color-scheme: dark) {
+  .error-text {
+    color: #f87171;
+  }
+}
