@@ -26,3 +26,8 @@ npm run preview  # Preview production build
 - Use `git` for version control; commit after each meaningful change
 - Format code with Prettier before committing
 - Verify TypeScript compiles before claiming work is done
+
+## Multi-Tool Collaboration
+When working alongside Codex or other tools, see `docs/tool-collaboration.md` for
+worktree-based isolation and shared standards. `CODEX.md` mirrors this file for Codex
+compatibility.
