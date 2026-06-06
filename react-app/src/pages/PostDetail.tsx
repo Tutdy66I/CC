@@ -1,5 +1,4 @@
-﻿import { useState } from 'react'
-import ReactMarkdown from 'react-markdown'
+﻿import ReactMarkdown from 'react-markdown'
 import { parsePostMeta, stripMetaComments, getPostContent } from '../lib/markdown'
 import { ErrorBoundary } from '../lib/ErrorBoundary'
 
@@ -9,7 +8,7 @@ interface Props {
 }
 
 export default function PostDetail({ slug, onBack }: Props) {
-  const [raw] = useState<string | null>(() => getPostContent(slug))
+  const raw = getPostContent(slug)
 
   if (!raw) {
     return (
