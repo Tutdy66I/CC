@@ -177,10 +177,9 @@ Codex 不会自动加载 skills，但你可以：
   # Codex 根据 spec 实现组件
   → "按照 docs/dashboard-spec.md 实现仪表盘组件"
 
-Code Review:
-  # 互相审查对方的 PR
-  Claude Code: /review # 审查 Codex 的 PR
-  Codex:        /review # 审查 Claude Code 的改动
+审查:
+  # Claude Code 对照 3 个 skill 文件审查 Codex 的代码
+  # 详见下方 "跨工具代码审查" 章节
 ```
 
 ### 验收检查清单
@@ -194,6 +193,149 @@ Code Review:
 
 ---
 
+## 跨工具代码审查
+
+这是 Codex 和 Claude Code 协同的核心场景：**Codex 写代码，Claude Code 用共享规范做审查**。
+
+### 为什么这样分工
+
+| 优势 | 说明 |
+|---|---|
+| 独立视角 | Claude Code 没有写过这些代码 → 不带偏见 |
+| 规范驱策 | 审查标准是写死的（skills），不是 Claude Code 临时编的 |
+| 可复现 | 下次审查用同样的 skill → 同样的标准 |
+| 双向 | Codex 也可以审 Claude Code 的代码，对称的 |
+
+### 审查流程
+
+```
+1. Codex 完成实现，推到分支 feat/xxx
+       │
+2. Claude Code 切换到该分支的 worktree
+       │
+3. Claude Code 读取三个规范文件作为审查标准
+       │
+4. /code-review 对 diff 做对照审查
+       │
+5. 输出审查报告 → Codex 修复 → 再审查
+       │
+6. 通过后 merge
+```
+
+### 实操步骤
+
+**Step 1 — Codex 推送代码：**
+```bash
+cd ../CC-some-feature
+git add -A && git commit -m "feat: user dashboard"
+git push -u origin feat/user-dashboard
+```
+
+**Step 2 — Claude Code 拿到代码：**
+```bash
+cd CC  # 主目录
+git fetch origin
+git worktree add ../CC-review feat/user-dashboard
+cd ../CC-review
+```
+
+**Step 3 — Claude Code 对照 3 个核心规范做审查：**
+
+给 Claude Code 的 prompt：
+```
+审查当前分支的 diff。
+
+审查标准（按优先级）：
+
+1. coding-standards/skill.md — 命名、SOLID、设计模式、代码坏味道
+   重点查：God Class、Primitive Obsession、Magic Numbers、重复代码
+   
+2. typescript/skill.md — 类型安全
+   重点查：是否用了 any、是否缺少 discriminated union、
+   noUncheckedIndexedAccess 兼容性、assertNever 穷尽检查
+   
+3. react/skill.md — React 模式
+   重点查：useEffect 依赖完整性、Context 拆分合理性、
+   Error Boundary 覆盖、forwardRef/useImperativeHandle 正确使用
+
+对每个发现：
+- 引用具体的规范条目（文件:行号）
+- 评估严重度：error（必须修）/ warn（建议修）/ info（可选）
+- 如果可能，给出修复建议
+```
+
+**Step 4 — 审查产出格式：**
+```
+## Code Review: feat/user-dashboard
+
+审查依据：coding-standards | typescript | react
+
+### 🔴 Error
+| 文件 | 行 | 违反的规范 | 说明 |
+|-----|---|----------|------|
+| UserList.tsx | 42 | coding-standards:454 | `any` 类型用于模块边界 |
+
+### 🟡 Warning  
+| 文件 | 行 | 违反的规范 | 说明 |
+|-----|---|----------|------|
+| useDashboard.ts | 18 | react:96 | Context 包含高频变化的 state，应该拆分 |
+
+### 🔵 Info
+| 文件 | 行 | 规范 | 建议 |
+|-----|---|------|------|
+| Dashboard.tsx | 30 | react:753 | Suspense 外面建议包 ErrorBoundary |
+
+### 总结
+- Error: 1, Warning: 1, Info: 1
+- 建议修复 Error 和 Warning 后再 merge
+```
+
+### 用 /code-review 命令
+
+Claude Code 内置的 `/code-review` 可以做这个审查。指定审查力度：
+
+```
+/code-review high
+```
+
+它会产出 diff 级别的审查结果。你也可以指定只审某些维度：
+```
+/code-review medium --focus=typescript,react
+```
+
+### 匹配规范到审查维度
+
+| Claude Code 审查维度 | 对应的 skill 文件 |
+|---|---|
+| correctness（正确性） | `typescript/skill.md` — 类型安全、null 处理 |
+| bugs（潜在 bug） | `coding-standards/skill.md` — 代码坏味道、Side effects |
+| simplification（简化） | `coding-standards/skill.md` — Design patterns、重复代码 |
+| performance（性能） | `performance/skill.md` — 打包/渲染优化 |
+| security（安全） | `security/skill.md` — XSS/注入/敏感数据 |
+
+### 审查后修复循环
+
+```
+Claude Code 提审查报告
+       ↓
+Codex 收到 → 修复 error + warning
+       ↓
+Codex commit & push fix commits
+       ↓
+Claude Code 二次审查（只审 fix diff）
+       ↓
+通过 → merge
+```
+
+### 快速审查脚本
+
+在给 Claude Code 的 prompt 里固化这个模式：
+
+> "每次 /code-review 前，先读取 `.claude/skills/coding-standards/skill.md` 的 Red Flags 和 Checklist 段、`typescript/skill.md` 的 Red Flags 段、`react/skill.md` 的 Red Flags 段 —— 用这些作为审查检查表，逐项对照 diff 中的每个文件。"
+
+审查模板保存位置可以是 `docs/review-checklist.md`（从三个 skill 中提取 Red Flags 聚合而成）。
+
+---
 ## Codex 特有配置
 
 ### 启用 Multi-Agent（如需要）
