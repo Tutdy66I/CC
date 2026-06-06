@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useRef, type FormEvent } from 'react'
 import './TodoList.css'
 
 interface Todo {
@@ -7,9 +7,8 @@ interface Todo {
   done: boolean
 }
 
-let nextId = 0
-
 export default function TodoList() {
+  const nextId = useRef(0)
   const [todos, setTodos] = useState<Todo[]>([])
   const [input, setInput] = useState('')
 
@@ -19,7 +18,7 @@ export default function TodoList() {
     if (!trimmed) return
     setTodos((prev) => [
       ...prev,
-      { id: String(++nextId), text: trimmed, done: false },
+      { id: String(++nextId.current), text: trimmed, done: false },
     ])
     setInput('')
   }

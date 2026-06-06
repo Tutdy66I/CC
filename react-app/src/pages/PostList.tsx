@@ -1,11 +1,10 @@
-﻿import { type FC } from 'react'
+import { parsePostMeta, type PostMeta } from '../lib/markdown'
 
-interface PostMeta {
-  slug: string
-  title: string
-  date: string
+interface Props {
+  onSelect: (slug: string) => void
 }
 
+// Vite glob type isn't inferred with `import: 'default'` — bridge it at the boundary
 const postModules = import.meta.glob('../posts/*.md', {
   query: '?raw',
   import: 'default',
@@ -15,24 +14,12 @@ const postModules = import.meta.glob('../posts/*.md', {
 const posts: PostMeta[] = Object.entries(postModules)
   .map(([path, raw]) => {
     const slug = path.replace(/^\.\.\/posts\//, '').replace(/\.md$/, '')
-    const lines = raw.split('\n')
-    let title = slug
-    let date = ''
-    for (const line of lines) {
-      const t = line.match(/<!--\s*title:\s*(.+?)\s*-->/)
-      const d = line.match(/<!--\s*date:\s*(.+?)\s*-->/)
-      if (t) title = t[1]
-      if (d) date = d[1]
-    }
-    return { slug, title, date }
+    const { title, date } = parsePostMeta(raw)
+    return { slug, title: title || slug, date }
   })
   .sort((a, b) => b.date.localeCompare(a.date))
 
-interface Props {
-  onSelect: (slug: string) => void
-}
-
-const PostList: FC<Props> = ({ onSelect }) => {
+export default function PostList({ onSelect }: Props) {
   return (
     <div className="blog-list">
       <h1 className="blog-heading">Blog</h1>
@@ -54,5 +41,3 @@ const PostList: FC<Props> = ({ onSelect }) => {
     </div>
   )
 }
-
-export default PostList
