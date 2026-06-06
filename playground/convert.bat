@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0"
-python convert.py %*
+py -3 convert.py %*
 pause

@@ -1,3 +1,4 @@
 @echo off
 cd /d "%~dp0"
-python heart.py
+py -3 heart.py
+pause

@@ -1,3 +1,4 @@
 @echo off
 cd /d "%~dp0"
-python fireworks.py
+py -3 fireworks.py
+pause
