@@ -1,5 +1,7 @@
-﻿import { useState, useEffect, type FC } from 'react'
+import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { parsePostMeta, stripMetaComments } from '../lib/markdown'
+import { ErrorBoundary } from '../lib/ErrorBoundary'
 
 interface Props {
   slug: string
@@ -11,26 +13,37 @@ const postModules = import.meta.glob('../posts/*.md', {
   import: 'default',
 }) as Record<string, () => Promise<string>>
 
-const PostDetail: FC<Props> = ({ slug, onBack }) => {
+export default function PostDetail({ slug, onBack }: Props) {
   const [raw, setRaw] = useState<string | null>(null)
   const [error, setError] = useState(false)
 
-  useEffect(() => {
-    const imp = postModules[`../posts/${slug}.md`]
-    if (!imp) {
-      setError(true)
-      return
-    }
-    imp()
-      .then((content) => setRaw(content))
-      .catch(() => setError(true))
-  }, [slug])
+  const moduleKey = `../posts/${slug}.md`
+  const loadModule = postModules[moduleKey]
 
-  if (error) {
+  useEffect(() => {
+    if (!loadModule) return // handled during render
+    let ignore = false
+    loadModule()
+      .then((content) => {
+        if (!ignore) setRaw(content)
+      })
+      .catch(() => {
+        if (!ignore) setError(true)
+      })
+    return () => {
+      ignore = true
+    }
+  }, [loadModule])
+
+  if (!loadModule || error) {
     return (
       <div className="blog-detail">
-        <button className="blog-back" onClick={onBack}>← Back</button>
-        <p className="blog-not-found">Post not found.</p>
+        <button className="blog-back" onClick={onBack}>
+          ← Back
+        </button>
+        <p className="blog-not-found">
+          {error ? 'Failed to load post.' : 'Post not found.'}
+        </p>
       </div>
     )
   }
@@ -38,33 +51,29 @@ const PostDetail: FC<Props> = ({ slug, onBack }) => {
   if (!raw) {
     return (
       <div className="blog-detail">
-        <button className="blog-back" onClick={onBack}>← Back</button>
+        <button className="blog-back" onClick={onBack}>
+          ← Back
+        </button>
         <p className="blog-loading">Loading...</p>
       </div>
     )
   }
 
-  const lines = raw.split('\n')
-  const bodyLines = lines.filter(
-    (l) => !/<!--\s*(title|date):/.test(l),
-  )
-  const body = bodyLines.join('\n').replace(/^\s*\n/, '')
-
-  const titleMatch = raw.match(/<!--\s*title:\s*(.+?)\s*-->/)
-  const dateMatch = raw.match(/<!--\s*date:\s*(.+?)\s*-->/)
-  const title = titleMatch ? titleMatch[1] : slug
-  const date = dateMatch ? dateMatch[1] : ''
+  const body = stripMetaComments(raw)
+  const { title, date } = parsePostMeta(raw)
 
   return (
     <article className="blog-detail">
-      <button className="blog-back" onClick={onBack}>← Back</button>
-      <h1 className="blog-detail-title">{title}</h1>
+      <button className="blog-back" onClick={onBack}>
+        ← Back
+      </button>
+      <h1 className="blog-detail-title">{title || slug}</h1>
       {date && <time className="blog-detail-date">{date}</time>}
       <div className="blog-content">
-        <ReactMarkdown>{body}</ReactMarkdown>
+        <ErrorBoundary>
+          <ReactMarkdown>{body}</ReactMarkdown>
+        </ErrorBoundary>
       </div>
     </article>
   )
 }
-
-export default PostDetail

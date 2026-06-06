@@ -3,17 +3,19 @@ import PostList from './pages/PostList'
 import PostDetail from './pages/PostDetail'
 import './App.css'
 
-type View = 'list' | { slug: string }
+type View =
+  | { page: 'list' }
+  | { page: 'detail'; slug: string }
 
 function App() {
-  const [view, setView] = useState<View>('list')
+  const [view, setView] = useState<View>({ page: 'list' })
 
-  if (typeof view === 'object') {
-    return <PostDetail slug={view.slug} onBack={() => setView('list')} />
+  if (view.page === 'detail') {
+    return <PostDetail slug={view.slug} onBack={() => setView({ page: 'list' })} />
   }
 
   return (
-    <PostList onSelect={(slug) => setView({ slug })} />
+    <PostList onSelect={(slug) => setView({ page: 'detail', slug })} />
   )
 }
 
