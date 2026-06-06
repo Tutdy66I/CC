@@ -1,4 +1,4 @@
-import { posts } from '../lib/markdown'
+import { posts, type PostMeta } from '../lib/markdown'
 
 interface Props {
   onSelect: (slug: string) => void
@@ -11,7 +11,7 @@ interface YearGroup {
 
 interface MonthGroup {
   month: string
-  items: typeof posts
+  items: PostMeta[]
 }
 
 function groupByYear(): YearGroup[] {

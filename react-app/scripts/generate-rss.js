@@ -5,9 +5,10 @@ const POSTS_DIR = join(import.meta.dirname, '..', 'src', 'posts')
 const DIST_DIR = join(import.meta.dirname, '..', 'dist')
 const YOUR_DOMAIN = 'YOUR_DOMAIN'
 
-// Frontmatter regex
+// Keep in sync with src/lib/markdown.ts — source of truth for metadata format
 const TITLE_RE = /<!--\s*title:\s*(.+?)\s*-->/
 const DATE_RE = /<!--\s*date:\s*(.+?)\s*-->/
+const TAGS_RE = /<!--\s*tags:\s*(.+?)\s*-->/
 
 function xmlEscape(s) {
   return s
@@ -28,24 +29,34 @@ function readPosts() {
 
     const titleMatch = raw.match(TITLE_RE)
     const dateMatch = raw.match(DATE_RE)
+    const tagsMatch = raw.match(TAGS_RE)
     const title = titleMatch ? titleMatch[1] : slug
     const date = dateMatch ? dateMatch[1] : ''
+    const tags = tagsMatch
+      ? tagsMatch[1].split(',').map((s) => s.trim()).filter(Boolean)
+      : []
 
-    // Strip metadata comments for description
+    // Strip metadata comments
     const body = raw
       .split('\n')
       .filter((l) => !/<!--\s*(title|date|tags):/.test(l))
       .join('\n')
       .trim()
 
-    // First 200 chars of plain text for description
-    const desc = body.replace(/```[\s\S]*?```/g, '') // strip code blocks
-      .replace(/[#*`\[\]()>_-]/g, '')              // strip markdown syntax
-      .replace(/\n+/g, ' ')
+    // Description: plain text, keep readable
+    const desc = body
+      .replace(/```[\s\S]*?```/g, '')                // strip code blocks
+      .replace(/#{1,6}\s+/g, '')                     // strip headings
+      .replace(/[*_~`]/g, '')                         // strip inline formatting
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')        // links → text
+      .replace(/^\s*[-*+]\s+/gm, '')                  // list markers
+      .replace(/\n{2,}/g, ' \n')                      // collapse blank lines
+      .replace(/\n/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim()
       .slice(0, 200)
 
-    posts.push({ slug, title, date, description: desc })
+    posts.push({ slug, title, date, tags, description: desc })
   }
 
   return posts.sort((a, b) => b.date.localeCompare(a.date))
@@ -57,13 +68,19 @@ function generateRSS() {
 
   const items = posts
     .map(
-      (p) => `    <item>
+      (p) => {
+        const categories = p.tags
+          .map((t) => `      <category>${xmlEscape(t)}</category>`)
+          .join('\n')
+        return `    <item>
       <title>${xmlEscape(p.title)}</title>
       <link>https://${YOUR_DOMAIN}/#/post/${p.slug}</link>
       <description>${xmlEscape(p.description)}</description>
       <pubDate>${new Date(p.date).toUTCString()}</pubDate>
       <guid>https://${YOUR_DOMAIN}/#/post/${p.slug}</guid>
-    </item>`,
+${categories}
+    </item>`
+      },
     )
     .join('\n')
 

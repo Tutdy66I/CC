@@ -3,6 +3,10 @@ import './TodoList.css'
 
 type Priority = 'low' | 'medium' | 'high'
 
+function isPriority(v: string): v is Priority {
+  return v === 'low' || v === 'medium' || v === 'high'
+}
+
 interface Todo {
   id: string
   text: string
@@ -135,7 +139,7 @@ export default function TodoList() {
                   onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                     setPriority(
                       t.id,
-                      (e.target.value as Priority) || null,
+                      isPriority(e.target.value) ? e.target.value : null,
                     )
                   }
                 >
