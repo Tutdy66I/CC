@@ -4,11 +4,14 @@ import TagBar from '../components/TagBar'
 
 interface Props {
   onSelect: (slug: string) => void
+  initialTag?: string
 }
 
-export default function PostList({ onSelect }: Props) {
+export default function PostList({ onSelect, initialTag }: Props) {
   const allTags = getAllTags()
-  const [selectedTag, setSelectedTag] = useState<string | null>(null)
+  const [selectedTag, setSelectedTag] = useState<string | null>(
+    initialTag ?? null,
+  )
 
   const filtered = selectedTag
     ? posts.filter((p) => p.tags.includes(selectedTag))

@@ -1,4 +1,3 @@
-import { type FC } from 'react'
 import './TagBar.css'
 
 interface Props {
@@ -7,7 +6,7 @@ interface Props {
   onSelect: (tag: string | null) => void
 }
 
-const TagBar: FC<Props> = ({ tags, selected, onSelect }) => {
+export default function TagBar({ tags, selected, onSelect }: Props) {
   if (tags.length === 0) return null
 
   return (
@@ -31,5 +30,3 @@ const TagBar: FC<Props> = ({ tags, selected, onSelect }) => {
     </div>
   )
 }
-
-export default TagBar

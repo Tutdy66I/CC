@@ -59,7 +59,7 @@ export default function ArchivePage({ onSelect }: Props) {
             <div key={month} className="archive-month">
               <h3 className="archive-month-heading">
                 {new Date(Number(year), Number(month) - 1).toLocaleString(
-                  'default',
+                  'en-US',
                   { month: 'long' },
                 )}
               </h3>

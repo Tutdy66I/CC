@@ -79,6 +79,8 @@ function App() {
     <>
       {nav}
       <PostList
+        key={view.selectedTag ?? '_'}
+        initialTag={view.selectedTag}
         onSelect={(slug) => setView({ page: 'detail', slug })}
       />
     </>
