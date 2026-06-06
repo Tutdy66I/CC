@@ -1,23 +1,8 @@
-import { parsePostMeta, type PostMeta } from '../lib/markdown'
+﻿import { posts } from '../lib/markdown'
 
 interface Props {
   onSelect: (slug: string) => void
 }
-
-// Vite glob type isn't inferred with `import: 'default'` — bridge it at the boundary
-const postModules = import.meta.glob('../posts/*.md', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as Record<string, string>
-
-const posts: PostMeta[] = Object.entries(postModules)
-  .map(([path, raw]) => {
-    const slug = path.replace(/^\.\.\/posts\//, '').replace(/\.md$/, '')
-    const { title, date } = parsePostMeta(raw)
-    return { slug, title: title || slug, date }
-  })
-  .sort((a, b) => b.date.localeCompare(a.date))
 
 export default function PostList({ onSelect }: Props) {
   return (

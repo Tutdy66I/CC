@@ -298,3 +298,72 @@
     color: #93c5fd;
   }
 }
+
+/* ── Error boundary ── */
+
+.blog-error {
+  margin: 24px 0;
+  padding: 20px 24px;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.blog-error p {
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+
+.blog-error pre {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  background: #fef3c7;
+  border-radius: 6px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  color: #78350f;
+}
+
+.blog-error button {
+  padding: 6px 18px;
+  font: inherit;
+  font-size: 14px;
+  border: 1px solid #d97706;
+  border-radius: 6px;
+  background: #fff;
+  color: #92400e;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.blog-error button:hover {
+  background: #fef3c7;
+}
+
+@media (prefers-color-scheme: dark) {
+  .blog-error {
+    border-color: #92400e;
+    background: #1c1917;
+    color: #fcd34d;
+  }
+
+  .blog-error pre {
+    background: #292524;
+    color: #fbbf24;
+  }
+
+  .blog-error button {
+    border-color: #d97706;
+    background: #292524;
+    color: #fcd34d;
+  }
+
+  .blog-error button:hover {
+    background: #44403c;
+  }
+}
