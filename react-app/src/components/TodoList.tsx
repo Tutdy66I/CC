@@ -18,22 +18,23 @@ const PRIORITIES: { value: Priority | null; label: string }[] = [
   { value: 'low', label: 'Low' },
 ]
 
+function isTodo(t: unknown): t is Todo {
+  return (
+    typeof t === 'object' &&
+    t !== null &&
+    'id' in t &&
+    'text' in t &&
+    'done' in t
+  )
+}
+
 function loadTodos(): { todos: Todo[]; nextId: number } {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return { todos: [], nextId: 0 }
     const arr = JSON.parse(raw)
     if (!Array.isArray(arr)) return { todos: [], nextId: 0 }
-    const todos: Todo[] = arr
-      .filter(
-        (t: unknown) =>
-          typeof t === 'object' &&
-          t !== null &&
-          'id' in (t as object) &&
-          'text' in (t as object) &&
-          'done' in (t as object),
-      )
-      .map((t) => t as Todo)
+    const todos: Todo[] = arr.filter(isTodo)
     const maxId = todos.reduce(
       (max, t) => Math.max(max, Number(t.id) || 0),
       0,
@@ -121,13 +122,13 @@ export default function TodoList() {
                   onChange={() => toggle(t.id)}
                 />
                 <span className="todo-text">{t.text}</span>
+              </label>
+              <div className="todo-actions">
                 {t.priority && (
                   <span className={`todo-priority prio-${t.priority}`}>
                     {t.priority}
                   </span>
                 )}
-              </label>
-              <div className="todo-actions">
                 <select
                   className="todo-prio-select"
                   value={t.priority ?? ''}
