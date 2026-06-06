@@ -164,23 +164,38 @@ Codex 不会自动加载 skills，但你可以：
 
 ## 组合使用：完整工作流示例
 
-假设要做一个新功能"用户仪表盘"：
+### 拆分策略（重要）
+
+**永远拆成小 spec，一次只给 Codex 一件事。** 实测：3 合 1 → 8 分钟；拆开每块 ~2 分钟。
 
 ```
-终端 1 (Claude Code):
-  cd CC
-  # Claude Code 负责架构设计、写 spec
-  → "帮我设计用户仪表盘的 spec，放到 docs/dashboard-spec.md"
-
-终端 2 (Codex):
-  cd ../CC-dashboard
-  # Codex 根据 spec 实现组件
-  → "按照 docs/dashboard-spec.md 实现仪表盘组件"
-
-审查:
-  # Claude Code 对照 3 个 skill 文件审查 Codex 的代码
-  # 详见下方 "跨工具代码审查" 章节
+❌ 一次给完: "做标签 + 归档 + RSS"        → 8 分钟，6+ 文件冲突
+✅ 三轮拆分:
+  轮1: 标签系统                            → ~2 分钟，改 4 个文件
+  轮2: 归档页                              → ~2 分钟，改 2 个文件
+  轮3: RSS                                 → ~2 分钟，改 2 个文件
 ```
+
+### 单轮流水线
+
+```
+1. Claude Code 写小块 spec（≤80 行，只描述一个问题）
+       │
+2. Codex 按 spec 实现（只改 2-4 个文件，一次 push 完成）
+       │
+3. Claude Code 审查 → 修复 → merge
+       │
+4. 下一轮
+```
+
+### Spec 大小指南
+
+| 指南 | 说明 |
+|---|---|
+| 每个 spec ≤ 80 行 | 太小拆不动为止 |
+| 涉及文件 ≤ 4 个 | 减少交叉冲突 |
+| 可一次 git push 完成 | 不跨 commit |
+| 完成后立刻 merge | 避免积压
 
 ### 验收检查清单
 
