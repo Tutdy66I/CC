@@ -104,6 +104,11 @@
   opacity: 0.5;
 }
 
+.todo-item.done .todo-priority,
+.todo-item.done .todo-prio-select {
+  opacity: 0.4;
+}
+
 .todo-text {
   color: #1a1a1a;
   font-size: 16px;

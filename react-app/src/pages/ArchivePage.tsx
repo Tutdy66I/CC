@@ -17,13 +17,14 @@ interface MonthGroup {
 function groupByYear(): YearGroup[] {
   const map = new Map<string, MonthGroup[]>()
   for (const p of posts) {
-    if (!p.date) continue
-    const [year, month] = p.date.split('-')
-    if (!year) continue
+    const parts = p.date.split('-')
+    const year = parts[0]?.padStart(4, '0')
+    const month = parts[1]?.padStart(2, '0') ?? '??'
+    if (!year || year === '0000') continue
     const y = map.get(year) ?? []
     let m = y.find((g) => g.month === month)
     if (!m) {
-      m = { month: month ?? '??', items: [] }
+      m = { month, items: [] }
       y.push(m)
     }
     m.items.push(p)
@@ -71,7 +72,7 @@ export default function ArchivePage({ onSelect }: Props) {
                       onClick={() => onSelect(p.slug)}
                     >
                       <span className="archive-post-date">
-                        {month}-{p.date.split('-')[2] ?? '??'}
+                        {p.date.split('-')[2]?.padStart(2, '0') ?? month}
                       </span>
                       <span className="archive-post-title">{p.title}</span>
                     </button>
