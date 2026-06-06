@@ -1,4 +1,56 @@
-﻿/* ── Blog layout ── */
+﻿/* ── App navigation ── */
+
+.app-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px 0;
+}
+
+.app-nav-btn {
+  padding: 8px 24px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.app-nav-btn:hover {
+  color: #4a90d9;
+  border-color: #4a90d9;
+}
+
+.app-nav-btn.active {
+  background: #4a90d9;
+  color: #fff;
+  border-color: #4a90d9;
+}
+
+@media (prefers-color-scheme: dark) {
+  .app-nav-btn {
+    border-color: #2e303a;
+    background: #16171d;
+    color: #9ca3af;
+  }
+
+  .app-nav-btn:hover {
+    color: #93c5fd;
+    border-color: #93c5fd;
+  }
+
+  .app-nav-btn.active {
+    background: #93c5fd;
+    color: #16171d;
+    border-color: #93c5fd;
+  }
+}
+
+/* ── Blog layout ── */
 
 .blog-list,
 .blog-detail {
