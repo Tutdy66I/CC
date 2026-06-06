@@ -176,10 +176,39 @@ Codex 不会自动加载 skills，但你可以：
   轮3: RSS                                 → ~2 分钟，改 2 个文件
 ```
 
-### 单轮流水线
+### 单轮流水线（正向 — Claude Code 设计，Codex 实现）
 
 ```
 1. Claude Code 写小块 spec（≤80 行，只描述一个问题）
+       │
+2. Codex 按 spec 实现（只改 2-4 个文件，一次 push 完成）
+       │
+3. Claude Code 审查 → 修复 → merge
+       │
+4. 下一轮
+```
+
+### 反向流水线（Codex 设计，Claude Code 实现）
+
+```
+1. 你给 Codex 一句话需求："我需要 X 功能"
+       │
+2. Codex 产出设计方案 + 精简 spec（快，~30 秒）
+       │
+3. Claude Code 审阅 spec 合理性 → 调整
+       │
+4. Claude Code 按 spec 实现（快，支持并行）
+       │
+5. Codex 审查 Claude Code 的实现 → 修复 → merge
+```
+
+**什么时候用反向：** Codex 写代码慢但设计快；Claude Code 实现速度更快且有 workflow 并行能力。需要快速出代码时选反向。
+
+| 场景 | 用哪个 |
+|---|---|
+| 功能明确，需要快速落地 | 反向（Codex 设计，Claude 实现） |
+| 需求模糊，需要仔细推敲 | 正向（Claude 写 spec，Codex 实现） |
+| 安全/规范敏感 | 正向（Claude spec 更可控）
        │
 2. Codex 按 spec 实现（只改 2-4 个文件，一次 push 完成）
        │
