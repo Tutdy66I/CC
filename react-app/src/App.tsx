@@ -3,6 +3,7 @@ import PostList from './pages/PostList'
 import PostDetail from './pages/PostDetail'
 import ArchivePage from './pages/ArchivePage'
 import TodoList from './components/TodoList'
+import Icon from './components/Icon'
 import './App.css'
 
 type View =
@@ -18,6 +19,7 @@ function App() {
 
   const nav = (
     <nav className="app-nav">
+      <Icon name="claude-icon" size={28} className="app-nav-icon" />
       <button
         className={
           isBlogSection ? 'app-nav-btn active' : 'app-nav-btn'

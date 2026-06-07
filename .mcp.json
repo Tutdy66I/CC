@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "C:\\Users\\Tu't'd'y\\AppData\\Local\\codegraph\\current\\node.exe",
+      "args": ["--liftoff-only", "C:\\Users\\Tu't'd'y\\AppData\\Local\\codegraph\\current\\lib\\dist\\bin\\codegraph.js", "serve", "--mcp"]
+    }
+  }
+}
