@@ -11,6 +11,17 @@
 # Git worktrees (if nested)
 .claude/worktrees/
 
+# Understand-Anything artifacts
+.understand-anything/
+react-app/.understand-anything/
+AGENTS.md
+
+# CodeGraph runtime files
+.codegraph/
+
+# Agent skill packs (installed from marketplaces)
+.agents/
+
 # OS
 .DS_Store
 Thumbs.db
