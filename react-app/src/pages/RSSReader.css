@@ -1,0 +1,382 @@
+/* -- RSS Reader -- */
+
+.rss-reader {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 64px 24px 120px;
+}
+
+/* -- Heading -- */
+
+.rss-heading {
+  margin: 0 0 32px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* -- Add feed form -- */
+
+.rss-add-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.rss-add-input {
+  flex: 1;
+  padding: 10px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.rss-add-input:focus {
+  border-color: #4a90d9;
+}
+
+.rss-add-input:disabled {
+  opacity: 0.5;
+}
+
+.rss-add-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 6px;
+  background: #4a90d9;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.rss-add-btn:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.rss-add-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* -- Error -- */
+
+.rss-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 0.95rem;
+}
+
+.rss-error p {
+  margin: 0;
+  flex: 1;
+}
+
+.rss-error-dismiss {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  border: 1px solid #92400e;
+  border-radius: 4px;
+  background: transparent;
+  color: #92400e;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.rss-error-dismiss:hover {
+  background: #92400e;
+  color: #fff;
+}
+
+/* -- Empty -- */
+
+.rss-empty {
+  color: #6b7280;
+  font-style: italic;
+  padding: 24px 0;
+  margin: 0;
+}
+
+/* -- Feed selector bar -- */
+
+.rss-feeds-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+
+.rss-feed-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.rss-feed-pill.active {
+  border-color: #4a90d9;
+  background: #4a90d9;
+}
+
+.rss-feed-pill-btn {
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: none;
+  background: transparent;
+  color: #4a90d9;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.rss-feed-pill.active .rss-feed-pill-btn {
+  color: #fff;
+}
+
+.rss-feed-remove {
+  padding: 6px 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  line-height: 1;
+}
+
+.rss-feed-remove:hover {
+  color: #ef4444;
+}
+
+.rss-feed-pill.active .rss-feed-remove:hover {
+  color: #fff;
+}
+
+/* -- Feed content -- */
+
+.rss-feed-content {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
+}
+
+.rss-feed-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.rss-feed-title {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.rss-feed-title a {
+  color: #1a1a1a;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.rss-feed-title a:hover {
+  color: #2563eb;
+}
+
+.rss-feed-desc {
+  margin: 0 0 6px;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.rss-feed-updated {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.rss-refresh-btn {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #4a90d9;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.rss-refresh-btn:hover:not(:disabled) {
+  background: #4a90d9;
+  color: #fff;
+  border-color: #4a90d9;
+}
+
+.rss-refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* -- Feed items -- */
+
+.rss-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rss-item {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.rss-item:last-child {
+  border-bottom: none;
+}
+
+.rss-item-title {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.rss-item-title a {
+  color: #1a1a1a;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.rss-item-title a:hover {
+  color: #2563eb;
+}
+
+.rss-item-date {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+.rss-item-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* -- Dark mode -- */
+
+@media (prefers-color-scheme: dark) {
+  .rss-heading {
+    color: #e5e7eb;
+  }
+
+  .rss-add-input {
+    background: #16171d;
+    border-color: #2e303a;
+    color: #e5e7eb;
+  }
+
+  .rss-add-input:focus {
+    border-color: #93c5fd;
+  }
+
+  .rss-add-btn {
+    background: #93c5fd;
+    color: #16171d;
+  }
+
+  .rss-add-btn:hover:not(:disabled) {
+    background: #bfdbfe;
+  }
+
+  .rss-error {
+    background: #1c1917;
+    color: #fcd34d;
+  }
+
+  .rss-error-dismiss {
+    border-color: #fcd34d;
+    color: #fcd34d;
+  }
+
+  .rss-error-dismiss:hover {
+    background: #fcd34d;
+    color: #1c1917;
+  }
+
+  .rss-feed-pill {
+    border-color: #374151;
+  }
+
+  .rss-feed-pill.active {
+    border-color: #93c5fd;
+    background: #93c5fd;
+  }
+
+  .rss-feed-pill-btn {
+    color: #93c5fd;
+  }
+
+  .rss-feed-pill.active .rss-feed-pill-btn {
+    color: #16171d;
+  }
+
+  .rss-feed-content {
+    border-top-color: #2e303a;
+  }
+
+  .rss-feed-title a {
+    color: #e5e7eb;
+  }
+
+  .rss-feed-title a:hover {
+    color: #bfdbfe;
+  }
+
+  .rss-refresh-btn {
+    background: #16171d;
+    border-color: #374151;
+    color: #93c5fd;
+  }
+
+  .rss-refresh-btn:hover:not(:disabled) {
+    background: #93c5fd;
+    color: #16171d;
+    border-color: #93c5fd;
+  }
+
+  .rss-item {
+    border-bottom-color: #1f2028;
+  }
+
+  .rss-item-title a {
+    color: #e5e7eb;
+  }
+
+  .rss-item-title a:hover {
+    color: #bfdbfe;
+  }
+}

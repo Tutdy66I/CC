@@ -1,0 +1,329 @@
+import { useState, useRef, type FormEvent } from 'react'
+import {
+  type FeedMeta,
+  type FeedData,
+  fetchFeed,
+  loadFeeds,
+  saveFeeds,
+  loadFeedItems,
+  saveFeedItems,
+  removeFeedCache,
+} from '../lib/rss'
+import './RSSReader.css'
+
+export default function RSSReader() {
+  const [feeds, setFeeds] = useState<FeedMeta[]>(loadFeeds)
+  const [selectedUrl, setSelectedUrl] = useState<string | null>(
+    feeds.length > 0 ? feeds[0]!.url : null,
+  )
+  const [feedData, setFeedData] = useState<FeedData | null>(null)
+  const [newUrl, setNewUrl] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function selectFeed(url: string) {
+    setSelectedUrl(url)
+    setError(null)
+    const cached = loadFeedItems(url)
+    setFeedData(cached.length > 0 ? { meta: feeds.find(f => f.url === url)!, items: cached } : null)
+  }
+
+  async function handleAdd(e: FormEvent) {
+    e.preventDefault()
+    const trimmed = newUrl.trim()
+    if (!trimmed) return
+
+    // Validate URL
+    let parsed: URL
+    try {
+      parsed = new URL(trimmed)
+    } catch {
+      setError('Invalid URL.')
+      return
+    }
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+      setError('URL must start with http:// or https://')
+      return
+    }
+
+    // Prevent duplicates
+    if (feeds.some((f) => f.url === trimmed)) {
+      setError('Feed already added.')
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await fetchFeed(trimmed)
+      const updated = [...feeds, data.meta]
+      setFeeds(updated)
+      saveFeeds(updated)
+      saveFeedItems(trimmed, data.items)
+      setFeedData(data)
+      setSelectedUrl(trimmed)
+      setNewUrl('')
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'Failed to fetch feed.',
+      )
+    } finally {
+      setLoading(false)
+      inputRef.current?.focus()
+    }
+  }
+
+  async function handleRefresh(url: string) {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await fetchFeed(url)
+      const updated = feeds.map((f) =>
+        f.url === url ? data.meta : f,
+      )
+      setFeeds(updated)
+      saveFeeds(updated)
+      saveFeedItems(url, data.items)
+      if (selectedUrl === url) setFeedData(data)
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'Failed to refresh.',
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function handleRemove(url: string) {
+    const updated = feeds.filter((f) => f.url !== url)
+    setFeeds(updated)
+    saveFeeds(updated)
+    removeFeedCache(url)
+    if (selectedUrl === url) {
+      setSelectedUrl(updated.length > 0 ? updated[0]!.url : null)
+      setFeedData(null)
+    }
+  }
+
+  const selectedMeta = feeds.find((f) => f.url === selectedUrl) ?? null
+  const isCached = selectedUrl ? loadFeedItems(selectedUrl).length > 0 : false
+
+  return (
+    <div className="rss-reader">
+      <h1 className="rss-heading">RSS Reader</h1>
+
+      {/* Add feed form */}
+      <form className="rss-add-form" onSubmit={handleAdd}>
+        <input
+          ref={inputRef}
+          className="rss-add-input"
+          type="url"
+          placeholder="https://example.com/feed.xml"
+          value={newUrl}
+          onChange={(e) => setNewUrl(e.target.value)}
+          disabled={loading}
+        />
+        <button
+          className="rss-add-btn"
+          type="submit"
+          disabled={loading || !newUrl.trim()}
+        >
+          {loading ? '...' : 'Add'}
+        </button>
+      </form>
+
+      {/* Error */}
+      {error && (
+        <div className="rss-error">
+          <p>{error}</p>
+          <button className="rss-error-dismiss" onClick={() => setError(null)}>
+            Dismiss
+          </button>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {feeds.length === 0 && (
+        <p className="rss-empty">No feeds yet. Add one above.</p>
+      )}
+
+      {/* Feed selector pills */}
+      {feeds.length > 0 && (
+        <div className="rss-feeds-bar">
+          {feeds.map((f) => (
+            <span
+              key={f.url}
+              className={
+                f.url === selectedUrl
+                  ? 'rss-feed-pill active'
+                  : 'rss-feed-pill'
+              }
+            >
+              <button
+                className="rss-feed-pill-btn"
+                onClick={() => selectFeed(f.url)}
+              >
+                {f.title || new URL(f.url).hostname}
+              </button>
+              <button
+                className="rss-feed-remove"
+                onClick={() => handleRemove(f.url)}
+                title="Remove feed"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Feed content */}
+      {selectedMeta && feedData && (
+        <section className="rss-feed-content">
+          <header className="rss-feed-header">
+            <div>
+              <h2 className="rss-feed-title">
+                {feedData.meta.link ? (
+                  <a href={feedData.meta.link} target="_blank" rel="noopener noreferrer">
+                    {feedData.meta.title || 'Untitled'}
+                  </a>
+                ) : (
+                  feedData.meta.title || 'Untitled'
+                )}
+              </h2>
+              {feedData.meta.description && (
+                <p className="rss-feed-desc">{feedData.meta.description}</p>
+              )}
+              <span className="rss-feed-updated">
+                Updated: {new Date(feedData.meta.lastFetched).toLocaleString()}
+              </span>
+            </div>
+            <button
+              className="rss-refresh-btn"
+              onClick={() => handleRefresh(selectedMeta.url)}
+              disabled={loading}
+            >
+              {loading ? '...' : 'Refresh'}
+            </button>
+          </header>
+
+          {feedData.items.length === 0 ? (
+            <p className="rss-empty">No items in this feed.</p>
+          ) : (
+            <ul className="rss-items">
+              {feedData.items.map((item) => (
+                <li key={item.id} className="rss-item">
+                  <h3 className="rss-item-title">
+                    {item.link ? (
+                      <a href={item.link} target="_blank" rel="noopener noreferrer">
+                        {item.title || 'Untitled'}
+                      </a>
+                    ) : (
+                      item.title || 'Untitled'
+                    )}
+                  </h3>
+                  {item.pubDate && (
+                    <time className="rss-item-date">
+                      {(() => {
+                        try {
+                          return new Date(item.pubDate).toLocaleDateString(
+                            'en-US',
+                            {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            },
+                          )
+                        } catch {
+                          return item.pubDate
+                        }
+                      })()}
+                    </time>
+                  )}
+                  {item.description && (
+                    <p className="rss-item-desc">
+                      {stripHtml(item.description).slice(0, 300)}
+                      {stripHtml(item.description).length > 300 ? '…' : ''}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
+
+      {/* Selected but not loaded — show cached or prompt refresh */}
+      {selectedMeta && !feedData && (
+        <section className="rss-feed-content">
+          <header className="rss-feed-header">
+            <div>
+              <h2 className="rss-feed-title">
+                {selectedMeta.title || new URL(selectedMeta.url).hostname}
+              </h2>
+            </div>
+            <button
+              className="rss-refresh-btn"
+              onClick={() => handleRefresh(selectedMeta.url)}
+              disabled={loading}
+            >
+              {loading ? '...' : 'Refresh'}
+            </button>
+          </header>
+          {isCached ? (
+            <ul className="rss-items">
+              {loadFeedItems(selectedMeta.url).map((item) => (
+                <li key={item.id} className="rss-item">
+                  <h3 className="rss-item-title">
+                    {item.link ? (
+                      <a href={item.link} target="_blank" rel="noopener noreferrer">
+                        {item.title || 'Untitled'}
+                      </a>
+                    ) : (
+                      item.title || 'Untitled'
+                    )}
+                  </h3>
+                  {item.pubDate && (
+                    <time className="rss-item-date">
+                      {(() => {
+                        try {
+                          return new Date(item.pubDate).toLocaleDateString(
+                            'en-US',
+                            { year: 'numeric', month: 'short', day: 'numeric' },
+                          )
+                        } catch {
+                          return item.pubDate
+                        }
+                      })()}
+                    </time>
+                  )}
+                  {item.description && (
+                    <p className="rss-item-desc">
+                      {stripHtml(item.description).slice(0, 300)}
+                      {stripHtml(item.description).length > 300 ? '…' : ''}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="rss-empty">
+              No cached items. Click Refresh to fetch.
+            </p>
+          )}
+        </section>
+      )}
+    </div>
+  )
+}
+
+/** Strip HTML tags, return plain text */
+function stripHtml(html: string): string {
+  if (typeof document === 'undefined') {
+    return html.replace(/<[^>]*>/g, '')
+  }
+  const div = document.createElement('div')
+  div.innerHTML = html
+  return div.textContent ?? div.innerText ?? ''
+}

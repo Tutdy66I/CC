@@ -3,6 +3,7 @@ import PostList from './pages/PostList'
 import PostDetail from './pages/PostDetail'
 import ArchivePage from './pages/ArchivePage'
 import TodoList from './components/TodoList'
+import RSSReader from './pages/RSSReader'
 import Icon from './components/Icon'
 import { ErrorBoundary } from './lib/ErrorBoundary'
 import './App.css'
@@ -11,6 +12,7 @@ type View =
   | { page: 'blog'; selectedTag?: string }
   | { page: 'detail'; slug: string }
   | { page: 'archive' }
+  | { page: 'rss' }
   | { page: 'todos' }
 
 function App() {
@@ -34,6 +36,12 @@ function App() {
         onClick={() => setView({ page: 'archive' })}
       >
         Archive
+      </button>
+      <button
+        className={view.page === 'rss' ? 'app-nav-btn active' : 'app-nav-btn'}
+        onClick={() => setView({ page: 'rss' })}
+      >
+        RSS
       </button>
       <button
         className={view.page === 'todos' ? 'app-nav-btn active' : 'app-nav-btn'}
@@ -68,6 +76,17 @@ function App() {
           <ArchivePage
             onSelect={(slug) => setView({ page: 'detail', slug })}
           />
+        </ErrorBoundary>
+      </>
+    )
+  }
+
+  if (view.page === 'rss') {
+    return (
+      <>
+        {nav}
+        <ErrorBoundary>
+          <RSSReader />
         </ErrorBoundary>
       </>
     )
