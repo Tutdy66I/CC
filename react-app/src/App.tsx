@@ -4,6 +4,7 @@ import PostDetail from './pages/PostDetail'
 import ArchivePage from './pages/ArchivePage'
 import TodoList from './components/TodoList'
 import Icon from './components/Icon'
+import { ErrorBoundary } from './lib/ErrorBoundary'
 import './App.css'
 
 type View =
@@ -47,12 +48,14 @@ function App() {
     return (
       <>
         {nav}
-        <PostDetail
-          slug={view.slug}
-          onBack={(selectedTag) =>
-            setView({ page: 'blog', selectedTag })
-          }
-        />
+        <ErrorBoundary>
+          <PostDetail
+            slug={view.slug}
+            onBack={(selectedTag) =>
+              setView({ page: 'blog', selectedTag })
+            }
+          />
+        </ErrorBoundary>
       </>
     )
   }
@@ -61,9 +64,11 @@ function App() {
     return (
       <>
         {nav}
-        <ArchivePage
-          onSelect={(slug) => setView({ page: 'detail', slug })}
-        />
+        <ErrorBoundary>
+          <ArchivePage
+            onSelect={(slug) => setView({ page: 'detail', slug })}
+          />
+        </ErrorBoundary>
       </>
     )
   }
@@ -72,7 +77,9 @@ function App() {
     return (
       <>
         {nav}
-        <TodoList />
+        <ErrorBoundary>
+          <TodoList />
+        </ErrorBoundary>
       </>
     )
   }
@@ -80,11 +87,13 @@ function App() {
   return (
     <>
       {nav}
-      <PostList
-        key={view.selectedTag ?? '_'}
-        initialTag={view.selectedTag}
-        onSelect={(slug) => setView({ page: 'detail', slug })}
-      />
+      <ErrorBoundary>
+        <PostList
+          key={view.selectedTag ?? '_'}
+          initialTag={view.selectedTag}
+          onSelect={(slug) => setView({ page: 'detail', slug })}
+        />
+      </ErrorBoundary>
     </>
   )
 }
