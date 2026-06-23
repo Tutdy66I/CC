@@ -2,6 +2,7 @@ import { useState, useRef, type FormEvent } from 'react'
 import {
   type FeedMeta,
   type FeedData,
+  type FeedItem,
   fetchFeed,
   loadFeeds,
   saveFeeds,
@@ -208,49 +209,7 @@ export default function RSSReader() {
             </button>
           </header>
 
-          {feedData.items.length === 0 ? (
-            <p className="rss-empty">No items in this feed.</p>
-          ) : (
-            <ul className="rss-items">
-              {feedData.items.map((item) => (
-                <li key={item.id} className="rss-item">
-                  <h3 className="rss-item-title">
-                    {item.link ? (
-                      <a href={item.link} target="_blank" rel="noopener noreferrer">
-                        {item.title || 'Untitled'}
-                      </a>
-                    ) : (
-                      item.title || 'Untitled'
-                    )}
-                  </h3>
-                  {item.pubDate && (
-                    <time className="rss-item-date">
-                      {(() => {
-                        try {
-                          return new Date(item.pubDate).toLocaleDateString(
-                            'en-US',
-                            {
-                              year: 'numeric',
-                              month: 'short',
-                              day: 'numeric',
-                            },
-                          )
-                        } catch {
-                          return item.pubDate
-                        }
-                      })()}
-                    </time>
-                  )}
-                  {item.description && (
-                    <p className="rss-item-desc">
-                      {stripHtml(item.description).slice(0, 300)}
-                      {stripHtml(item.description).length > 300 ? '…' : ''}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
+          <FeedItemList items={feedData.items} />
         </section>
       )}
 
@@ -272,41 +231,7 @@ export default function RSSReader() {
             </button>
           </header>
           {isCached ? (
-            <ul className="rss-items">
-              {loadFeedItems(selectedMeta.url).map((item) => (
-                <li key={item.id} className="rss-item">
-                  <h3 className="rss-item-title">
-                    {item.link ? (
-                      <a href={item.link} target="_blank" rel="noopener noreferrer">
-                        {item.title || 'Untitled'}
-                      </a>
-                    ) : (
-                      item.title || 'Untitled'
-                    )}
-                  </h3>
-                  {item.pubDate && (
-                    <time className="rss-item-date">
-                      {(() => {
-                        try {
-                          return new Date(item.pubDate).toLocaleDateString(
-                            'en-US',
-                            { year: 'numeric', month: 'short', day: 'numeric' },
-                          )
-                        } catch {
-                          return item.pubDate
-                        }
-                      })()}
-                    </time>
-                  )}
-                  {item.description && (
-                    <p className="rss-item-desc">
-                      {stripHtml(item.description).slice(0, 300)}
-                      {stripHtml(item.description).length > 300 ? '…' : ''}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <FeedItemList items={loadFeedItems(selectedMeta.url)} />
           ) : (
             <p className="rss-empty">
               No cached items. Click Refresh to fetch.
@@ -315,6 +240,62 @@ export default function RSSReader() {
         </section>
       )}
     </div>
+  )
+}
+
+/** Date formatter shared by FeedItemList */
+function formatDate(raw: string): string {
+  try {
+    return new Date(raw).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  } catch {
+    return raw
+  }
+}
+
+/** Shared feed-item list used by loaded and cached views */
+function FeedItemList({ items }: { items: FeedItem[] }) {
+  if (items.length === 0) {
+    return <p className="rss-empty">No items in this feed.</p>
+  }
+
+  return (
+    <ul className="rss-items">
+      {items.map((item) => {
+        const desc = item.description ? stripHtml(item.description) : ''
+        return (
+          <li key={item.id} className="rss-item">
+            <h3 className="rss-item-title">
+              {item.link ? (
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.title || 'Untitled'}
+                </a>
+              ) : (
+                item.title || 'Untitled'
+              )}
+            </h3>
+            {item.pubDate && (
+              <time className="rss-item-date">
+                {formatDate(item.pubDate)}
+              </time>
+            )}
+            {desc && (
+              <p className="rss-item-desc">
+                {desc.slice(0, 300)}
+                {desc.length > 300 ? '…' : ''}
+              </p>
+            )}
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
