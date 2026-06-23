@@ -3,7 +3,7 @@ import { join } from 'path'
 
 const POSTS_DIR = join(import.meta.dirname, '..', 'src', 'posts')
 const DIST_DIR = join(import.meta.dirname, '..', 'dist')
-const YOUR_DOMAIN = 'YOUR_DOMAIN'
+const YOUR_DOMAIN = process.env.SITE_DOMAIN || 'localhost'
 
 // Keep in sync with src/lib/markdown.ts — source of truth for metadata format
 const TITLE_RE = /<!--\s*title:\s*(.+?)\s*-->/
