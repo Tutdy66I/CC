@@ -22,8 +22,9 @@ AGENTS.md
 # Agent skill packs (installed from marketplaces)
 .agents/
 
-# Playwright CLI sessions
+# Playwright sessions
 .playwright-cli/
+.playwright-mcp/
 
 # Build
 react-app/dist/
