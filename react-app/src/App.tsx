@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import PostList from './pages/PostList'
 import PostDetail from './pages/PostDetail'
 import ArchivePage from './pages/ArchivePage'
@@ -52,67 +52,46 @@ function App() {
     </nav>
   )
 
-  if (view.page === 'detail') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <PostDetail
-            slug={view.slug}
-            onBack={(selectedTag) =>
-              setView({ page: 'blog', selectedTag })
-            }
-          />
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  if (view.page === 'archive') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <ArchivePage
-            onSelect={(slug) => setView({ page: 'detail', slug })}
-          />
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  if (view.page === 'rss') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <RSSReader />
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  if (view.page === 'todos') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <TodoList />
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  return (
-    <>
-      {nav}
-      <ErrorBoundary>
+  let content: ReactNode
+  switch (view.page) {
+    case 'detail':
+      content = (
+        <PostDetail
+          slug={view.slug}
+          onBack={(selectedTag) =>
+            setView({ page: 'blog', selectedTag })
+          }
+        />
+      )
+      break
+    case 'archive':
+      content = (
+        <ArchivePage
+          onSelect={(slug) => setView({ page: 'detail', slug })}
+        />
+      )
+      break
+    case 'rss':
+      content = <RSSReader />
+      break
+    case 'todos':
+      content = <TodoList />
+      break
+    case 'blog':
+      content = (
         <PostList
           key={view.selectedTag ?? '_'}
           initialTag={view.selectedTag}
           onSelect={(slug) => setView({ page: 'detail', slug })}
         />
-      </ErrorBoundary>
+      )
+      break
+  }
+
+  return (
+    <>
+      {nav}
+      <ErrorBoundary>{content}</ErrorBoundary>
     </>
   )
 }
