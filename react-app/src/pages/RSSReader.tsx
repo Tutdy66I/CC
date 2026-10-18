@@ -27,7 +27,11 @@ export default function RSSReader() {
     setSelectedUrl(url)
     setError(null)
     const cached = loadFeedItems(url)
-    setFeedData(cached.length > 0 ? { meta: feeds.find(f => f.url === url)!, items: cached } : null)
+    setFeedData(
+      cached.length > 0
+        ? { meta: feeds.find((f) => f.url === url)!, items: cached }
+        : null,
+    )
   }
 
   async function handleAdd(e: FormEvent) {
@@ -66,9 +70,7 @@ export default function RSSReader() {
       setSelectedUrl(trimmed)
       setNewUrl('')
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to fetch feed.',
-      )
+      setError(err instanceof Error ? err.message : 'Failed to fetch feed.')
     } finally {
       setLoading(false)
       inputRef.current?.focus()
@@ -80,17 +82,13 @@ export default function RSSReader() {
     setError(null)
     try {
       const data = await fetchFeed(url)
-      const updated = feeds.map((f) =>
-        f.url === url ? data.meta : f,
-      )
+      const updated = feeds.map((f) => (f.url === url ? data.meta : f))
       setFeeds(updated)
       saveFeeds(updated)
       saveFeedItems(url, data.items)
       if (selectedUrl === url) setFeedData(data)
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to refresh.',
-      )
+      setError(err instanceof Error ? err.message : 'Failed to refresh.')
     } finally {
       setLoading(false)
     }
@@ -156,9 +154,7 @@ export default function RSSReader() {
             <span
               key={f.url}
               className={
-                f.url === selectedUrl
-                  ? 'rss-feed-pill active'
-                  : 'rss-feed-pill'
+                f.url === selectedUrl ? 'rss-feed-pill active' : 'rss-feed-pill'
               }
             >
               <button
@@ -186,7 +182,11 @@ export default function RSSReader() {
             <div>
               <h2 className="rss-feed-title">
                 {feedData.meta.link ? (
-                  <a href={feedData.meta.link} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={feedData.meta.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {feedData.meta.title || 'Untitled'}
                   </a>
                 ) : (
@@ -209,7 +209,7 @@ export default function RSSReader() {
             </button>
           </header>
 
-          <FeedItemList items={feedData.items} />
+          <FeedItemList key={selectedMeta.url} items={feedData.items} />
         </section>
       )}
 
@@ -231,7 +231,10 @@ export default function RSSReader() {
             </button>
           </header>
           {isCached ? (
-            <FeedItemList items={loadFeedItems(selectedMeta.url)} />
+            <FeedItemList
+              key={selectedMeta.url}
+              items={loadFeedItems(selectedMeta.url)}
+            />
           ) : (
             <p className="rss-empty">
               No cached items. Click Refresh to fetch.
@@ -258,44 +261,79 @@ function formatDate(raw: string): string {
 
 /** Shared feed-item list used by loaded and cached views */
 function FeedItemList({ items }: { items: FeedItem[] }) {
+  const [query, setQuery] = useState('')
+
   if (items.length === 0) {
     return <p className="rss-empty">No items in this feed.</p>
   }
 
+  const normalizedQuery = query.trim().toLocaleLowerCase()
+  const filteredItems = normalizedQuery
+    ? items.filter((item) => {
+        const searchableText = `${item.title} ${stripHtml(item.description ?? '')}`
+        return searchableText.toLocaleLowerCase().includes(normalizedQuery)
+      })
+    : items
+
   return (
-    <ul className="rss-items">
-      {items.map((item) => {
-        const desc = item.description ? stripHtml(item.description) : ''
-        return (
-          <li key={item.id} className="rss-item">
-            <h3 className="rss-item-title">
-              {item.link ? (
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item.title || 'Untitled'}
-                </a>
-              ) : (
-                item.title || 'Untitled'
-              )}
-            </h3>
-            {item.pubDate && (
-              <time className="rss-item-date">
-                {formatDate(item.pubDate)}
-              </time>
-            )}
-            {desc && (
-              <p className="rss-item-desc">
-                {desc.slice(0, 300)}
-                {desc.length > 300 ? '…' : ''}
-              </p>
-            )}
-          </li>
-        )
-      })}
-    </ul>
+    <>
+      <div className="rss-search">
+        <input
+          className="rss-search-input"
+          type="search"
+          placeholder="Search articles..."
+          aria-label="Search articles by title or summary"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
+        {query && (
+          <button
+            className="rss-search-clear"
+            type="button"
+            onClick={() => setQuery('')}
+          >
+            Clear
+          </button>
+        )}
+      </div>
+      {filteredItems.length > 0 ? (
+        <ul className="rss-items">
+          {filteredItems.map((item) => {
+            const desc = item.description ? stripHtml(item.description) : ''
+            return (
+              <li key={item.id} className="rss-item">
+                <h3 className="rss-item-title">
+                  {item.link ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {item.title || 'Untitled'}
+                    </a>
+                  ) : (
+                    item.title || 'Untitled'
+                  )}
+                </h3>
+                {item.pubDate && (
+                  <time className="rss-item-date">
+                    {formatDate(item.pubDate)}
+                  </time>
+                )}
+                {desc && (
+                  <p className="rss-item-desc">
+                    {desc.slice(0, 300)}
+                    {desc.length > 300 ? '…' : ''}
+                  </p>
+                )}
+              </li>
+            )
+          })}
+        </ul>
+      ) : (
+        <p className="rss-empty">No articles match “{query}”.</p>
+      )}
+    </>
   )
 }
 

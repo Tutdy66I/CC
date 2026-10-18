@@ -126,7 +126,9 @@
   border: 1px solid #e5e7eb;
   border-radius: 20px;
   overflow: hidden;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .rss-feed-pill.active {
@@ -222,7 +224,10 @@
   background: #fff;
   color: #4a90d9;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .rss-refresh-btn:hover:not(:disabled) {
@@ -237,6 +242,44 @@
 }
 
 /* -- Feed items -- */
+
+.rss-search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.rss-search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+}
+
+.rss-search-input:focus {
+  border-color: #4a90d9;
+}
+
+.rss-search-clear {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #4a90d9;
+  cursor: pointer;
+}
+
+.rss-search-clear:hover {
+  background: #f3f4f6;
+}
 
 .rss-items {
   list-style: none;
@@ -346,6 +389,21 @@
 
   .rss-feed-content {
     border-top-color: #2e303a;
+  }
+
+  .rss-search-input,
+  .rss-search-clear {
+    background: #16171d;
+    border-color: #374151;
+    color: #e5e7eb;
+  }
+
+  .rss-search-input:focus {
+    border-color: #93c5fd;
+  }
+
+  .rss-search-clear:hover {
+    background: #272a35;
   }
 
   .rss-feed-title a {
