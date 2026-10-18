@@ -26,10 +26,7 @@ export interface FeedData {
 
 type Node = Element | Document
 
-function* children(
-  parent: Node | null,
-  tag: string,
-): Generator<Element> {
+function* children(parent: Node | null, tag: string): Generator<Element> {
   if (!parent) return
   const list = parent.getElementsByTagName(tag)
   for (let i = 0; i < list.length; i++) yield list[i]!
@@ -80,42 +77,33 @@ function parseAtom(doc: Document): FeedData {
   const feed = first(doc, 'feed')!
 
   const titleEl = first(feed, 'title')
-  const linkEl = feed.querySelector(
-    'link[rel="alternate"]',
-  ) as Element | null
+  const linkEl = feed.querySelector('link[rel="alternate"]') as Element | null
   const subtitle = first(feed, 'subtitle')
 
   const title = titleEl?.textContent?.trim() ?? ''
-  const link =
-    (linkEl?.getAttribute('href') ?? '') ||
-    text(feed, 'link')
+  const link = (linkEl?.getAttribute('href') ?? '') || text(feed, 'link')
   const description = subtitle?.textContent?.trim() ?? ''
 
   const items: FeedItem[] = []
   for (const it of children(feed, 'entry')) {
     const entryTitle = text(it, 'title')
     const entryLink =
-      (it.querySelector('link[rel="alternate"]')?.getAttribute('href') ??
-        '') ||
+      (it.querySelector('link[rel="alternate"]')?.getAttribute('href') ?? '') ||
       text(it, 'link')
-      items.push({
-        id:
-          it.getElementsByTagName('id')?.[0]?.textContent?.trim() ||
-          entryLink ||
-          entryTitle ||
-          crypto.randomUUID(),
-        title: entryTitle,
-        link: entryLink,
-        description:
-          text(it, 'summary') ||
-          text(it, 'content') ||
-          text(it, 'description'),
-        pubDate:
-          text(it, 'published') ||
-          text(it, 'updated') ||
-          text(it, 'pubDate'),
-        feedUrl: '',
-      })
+    items.push({
+      id:
+        it.getElementsByTagName('id')?.[0]?.textContent?.trim() ||
+        entryLink ||
+        entryTitle ||
+        crypto.randomUUID(),
+      title: entryTitle,
+      link: entryLink,
+      description:
+        text(it, 'summary') || text(it, 'content') || text(it, 'description'),
+      pubDate:
+        text(it, 'published') || text(it, 'updated') || text(it, 'pubDate'),
+      feedUrl: '',
+    })
   }
 
   return {
@@ -139,19 +127,22 @@ function parseFeedXML(xml: string): FeedData {
   // Heuristic: RSS 2.0 has <channel>, Atom has <feed>
   if (first(doc, 'channel')) return parseRSS2(doc)
   if (first(doc, 'feed')) return parseAtom(doc)
-  return { meta: { url: '', title: '', link: '', description: '', lastFetched: '' }, items: [] }
+  return {
+    meta: { url: '', title: '', link: '', description: '', lastFetched: '' },
+    items: [],
+  }
 }
 
 /* ---- Fetch via dev-server proxy ---- */
 
-export async function fetchFeed(url: string): Promise<FeedData> {
-  const proxyUrl =
-    '/api/rss-proxy?url=' + encodeURIComponent(url)
-  const res = await fetch(proxyUrl)
+export async function fetchFeed(
+  url: string,
+  signal?: AbortSignal,
+): Promise<FeedData> {
+  const proxyUrl = '/api/rss-proxy?url=' + encodeURIComponent(url)
+  const res = await fetch(proxyUrl, { signal })
   if (!res.ok) {
-    throw new Error(
-      `Failed to fetch feed: ${res.status} ${res.statusText}`,
-    )
+    throw new Error(`Failed to fetch feed: ${res.status} ${res.statusText}`)
   }
   const xml = await res.text()
   const data = parseFeedXML(xml)
@@ -165,6 +156,41 @@ export async function fetchFeed(url: string): Promise<FeedData> {
 const FEEDS_KEY = 'rss-feeds-v1'
 const ITEMS_PREFIX = 'rss-items-'
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function isFeedMeta(value: unknown): value is FeedMeta {
+  if (
+    isRecord(value) &&
+    typeof value.url === 'string' &&
+    typeof value.title === 'string' &&
+    typeof value.link === 'string' &&
+    typeof value.description === 'string' &&
+    typeof value.lastFetched === 'string'
+  ) {
+    try {
+      const url = new URL(value.url)
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    } catch {
+      return false
+    }
+  }
+  return false
+}
+
+function isFeedItem(value: unknown): value is FeedItem {
+  return (
+    isRecord(value) &&
+    typeof value.id === 'string' &&
+    typeof value.title === 'string' &&
+    typeof value.link === 'string' &&
+    typeof value.description === 'string' &&
+    typeof value.pubDate === 'string' &&
+    typeof value.feedUrl === 'string'
+  )
+}
+
 function storageKey(itemsKey: string): string {
   // Simple encoding: replace chars that might cause issues
   return ITEMS_PREFIX + btoa(encodeURIComponent(itemsKey))
@@ -176,10 +202,7 @@ export function loadFeeds(): FeedMeta[] {
     if (!raw) return []
     const arr = JSON.parse(raw)
     if (!Array.isArray(arr)) return []
-    return arr.filter(
-      (f: unknown) =>
-        typeof f === 'object' && f !== null && 'url' in f,
-    ) as FeedMeta[]
+    return arr.filter(isFeedMeta)
   } catch {
     return []
   }
@@ -199,13 +222,7 @@ export function loadFeedItems(url: string): FeedItem[] {
     if (!raw) return []
     const arr = JSON.parse(raw)
     if (!Array.isArray(arr)) return []
-    return arr.filter(
-      (it: unknown) =>
-        typeof it === 'object' &&
-        it !== null &&
-        'id' in it &&
-        'title' in it,
-    ) as FeedItem[]
+    return arr.filter(isFeedItem)
   } catch {
     return []
   }

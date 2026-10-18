@@ -1,4 +1,4 @@
-import { useState, useRef, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   type FeedMeta,
   type FeedData,
@@ -13,25 +13,75 @@ import {
 import './RSSReader.css'
 
 export default function RSSReader() {
-  const [feeds, setFeeds] = useState<FeedMeta[]>(loadFeeds)
+  const [initialState] = useState(() => {
+    const feeds = loadFeeds()
+    const selectedUrl = feeds[0]?.url ?? null
+    const cachedItems = selectedUrl ? loadFeedItems(selectedUrl) : []
+    const selectedMeta = feeds.find((feed) => feed.url === selectedUrl)
+
+    return {
+      feeds,
+      selectedUrl,
+      feedData:
+        selectedMeta && cachedItems.length > 0
+          ? { meta: selectedMeta, items: cachedItems }
+          : null,
+    }
+  })
+  const [feeds, setFeeds] = useState<FeedMeta[]>(initialState.feeds)
   const [selectedUrl, setSelectedUrl] = useState<string | null>(
-    feeds.length > 0 ? feeds[0]!.url : null,
+    initialState.selectedUrl,
   )
-  const [feedData, setFeedData] = useState<FeedData | null>(null)
+  const [feedData, setFeedData] = useState<FeedData | null>(
+    initialState.feedData,
+  )
   const [newUrl, setNewUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const selectedUrlRef = useRef(selectedUrl)
+  const activeRequestRef = useRef<AbortController | null>(null)
+  const activeRequestUrlRef = useRef<string | null>(null)
+  const requestIdRef = useRef(0)
+
+  useEffect(
+    () => () => {
+      requestIdRef.current++
+      activeRequestRef.current?.abort()
+    },
+    [],
+  )
+
+  function beginRequest(url: string) {
+    activeRequestRef.current?.abort()
+    const controller = new AbortController()
+    activeRequestRef.current = controller
+    activeRequestUrlRef.current = url
+    const id = ++requestIdRef.current
+    setLoading(true)
+    setError(null)
+    return { controller, id }
+  }
+
+  function finishRequest(id: number) {
+    if (requestIdRef.current !== id) return
+    activeRequestRef.current = null
+    activeRequestUrlRef.current = null
+    setLoading(false)
+    inputRef.current?.focus()
+  }
+
+  function updateSelectedUrl(url: string | null) {
+    selectedUrlRef.current = url
+    setSelectedUrl(url)
+  }
 
   function selectFeed(url: string) {
-    setSelectedUrl(url)
+    updateSelectedUrl(url)
     setError(null)
     const cached = loadFeedItems(url)
-    setFeedData(
-      cached.length > 0
-        ? { meta: feeds.find((f) => f.url === url)!, items: cached }
-        : null,
-    )
+    const meta = feeds.find((feed) => feed.url === url)
+    setFeedData(meta && cached.length > 0 ? { meta, items: cached } : null)
   }
 
   async function handleAdd(e: FormEvent) {
@@ -58,55 +108,81 @@ export default function RSSReader() {
       return
     }
 
-    setLoading(true)
-    setError(null)
+    const request = beginRequest(trimmed)
     try {
-      const data = await fetchFeed(trimmed)
+      const data = await fetchFeed(trimmed, request.controller.signal)
+      if (requestIdRef.current !== request.id) return
       const updated = [...feeds, data.meta]
       setFeeds(updated)
       saveFeeds(updated)
       saveFeedItems(trimmed, data.items)
       setFeedData(data)
-      setSelectedUrl(trimmed)
+      updateSelectedUrl(trimmed)
       setNewUrl('')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch feed.')
+      if (
+        !request.controller.signal.aborted &&
+        requestIdRef.current === request.id
+      ) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch feed.')
+      }
     } finally {
-      setLoading(false)
-      inputRef.current?.focus()
+      finishRequest(request.id)
     }
   }
 
   async function handleRefresh(url: string) {
-    setLoading(true)
-    setError(null)
+    const request = beginRequest(url)
     try {
-      const data = await fetchFeed(url)
+      const data = await fetchFeed(url, request.controller.signal)
+      if (requestIdRef.current !== request.id) return
       const updated = feeds.map((f) => (f.url === url ? data.meta : f))
       setFeeds(updated)
       saveFeeds(updated)
       saveFeedItems(url, data.items)
-      if (selectedUrl === url) setFeedData(data)
+      if (selectedUrlRef.current === url) {
+        setFeedData(data)
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to refresh.')
+      if (
+        !request.controller.signal.aborted &&
+        requestIdRef.current === request.id &&
+        selectedUrlRef.current === url
+      ) {
+        setError(err instanceof Error ? err.message : 'Failed to refresh.')
+      }
     } finally {
-      setLoading(false)
+      finishRequest(request.id)
     }
   }
 
   function handleRemove(url: string) {
+    if (activeRequestUrlRef.current === url) {
+      activeRequestRef.current?.abort()
+      activeRequestRef.current = null
+      activeRequestUrlRef.current = null
+      requestIdRef.current++
+      setLoading(false)
+    }
+
     const updated = feeds.filter((f) => f.url !== url)
     setFeeds(updated)
     saveFeeds(updated)
     removeFeedCache(url)
-    if (selectedUrl === url) {
-      setSelectedUrl(updated.length > 0 ? updated[0]!.url : null)
-      setFeedData(null)
+    if (selectedUrlRef.current === url) {
+      const nextUrl = updated[0]?.url ?? null
+      updateSelectedUrl(nextUrl)
+      const nextItems = nextUrl ? loadFeedItems(nextUrl) : []
+      const nextMeta = updated.find((feed) => feed.url === nextUrl)
+      setFeedData(
+        nextMeta && nextItems.length > 0
+          ? { meta: nextMeta, items: nextItems }
+          : null,
+      )
     }
   }
 
   const selectedMeta = feeds.find((f) => f.url === selectedUrl) ?? null
-  const isCached = selectedUrl ? loadFeedItems(selectedUrl).length > 0 : false
 
   return (
     <div className="rss-reader">
@@ -230,16 +306,7 @@ export default function RSSReader() {
               {loading ? '...' : 'Refresh'}
             </button>
           </header>
-          {isCached ? (
-            <FeedItemList
-              key={selectedMeta.url}
-              items={loadFeedItems(selectedMeta.url)}
-            />
-          ) : (
-            <p className="rss-empty">
-              No cached items. Click Refresh to fetch.
-            </p>
-          )}
+          <p className="rss-empty">No cached items. Click Refresh to fetch.</p>
         </section>
       )}
     </div>

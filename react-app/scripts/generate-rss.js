@@ -33,7 +33,10 @@ function readPosts() {
     const title = titleMatch ? titleMatch[1] : slug
     const date = dateMatch ? dateMatch[1] : ''
     const tags = tagsMatch
-      ? tagsMatch[1].split(',').map((s) => s.trim()).filter(Boolean)
+      ? tagsMatch[1]
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
       : []
 
     // Strip metadata comments
@@ -45,12 +48,12 @@ function readPosts() {
 
     // Description: plain text, keep readable
     const desc = body
-      .replace(/```[\s\S]*?```/g, '')                // strip code blocks
-      .replace(/#{1,6}\s+/g, '')                     // strip headings
-      .replace(/[*_~`]/g, '')                         // strip inline formatting
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')        // links → text
-      .replace(/^\s*[-*+]\s+/gm, '')                  // list markers
-      .replace(/\n{2,}/g, ' \n')                      // collapse blank lines
+      .replace(/```[\s\S]*?```/g, '') // strip code blocks
+      .replace(/#{1,6}\s+/g, '') // strip headings
+      .replace(/[*_~`]/g, '') // strip inline formatting
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links → text
+      .replace(/^\s*[-*+]\s+/gm, '') // list markers
+      .replace(/\n{2,}/g, ' \n') // collapse blank lines
       .replace(/\n/g, ' ')
       .replace(/\s+/g, ' ')
       .trim()
@@ -67,21 +70,27 @@ function generateRSS() {
   const now = new Date().toUTCString()
 
   const items = posts
-    .map(
-      (p) => {
-        const categories = p.tags
-          .map((t) => `      <category>${xmlEscape(t)}</category>`)
-          .join('\n')
-        return `    <item>
+    .map((p) => {
+      let pubDate = ''
+      if (p.date) {
+        const parsedDate = new Date(p.date)
+        if (Number.isNaN(parsedDate.getTime())) {
+          throw new Error(`Invalid post date "${p.date}" for "${p.slug}"`)
+        }
+        pubDate = `      <pubDate>${parsedDate.toUTCString()}</pubDate>\n`
+      }
+      const categories = p.tags
+        .map((t) => `      <category>${xmlEscape(t)}</category>`)
+        .join('\n')
+      return `    <item>
       <title>${xmlEscape(p.title)}</title>
       <link>https://${YOUR_DOMAIN}/#/post/${p.slug}</link>
       <description>${xmlEscape(p.description)}</description>
-      <pubDate>${new Date(p.date).toUTCString()}</pubDate>
       <guid>https://${YOUR_DOMAIN}/#/post/${p.slug}</guid>
+${pubDate.trimEnd()}
 ${categories}
     </item>`
-      },
-    )
+    })
     .join('\n')
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
