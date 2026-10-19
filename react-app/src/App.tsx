@@ -6,69 +6,16 @@ import TodoList from './components/TodoList'
 import RSSReader from './pages/RSSReader'
 import Icon from './components/Icon'
 import { ErrorBoundary } from './lib/ErrorBoundary'
+import { hashForView, readViewFromHash, type View } from './lib/routes'
 import './App.css'
 
-type View =
-  | { page: 'blog'; selectedTag?: string }
-  | { page: 'detail'; slug: string }
-  | { page: 'archive' }
-  | { page: 'rss' }
-  | { page: 'todos' }
-
-function readViewFromHash(): View {
-  const path = window.location.hash.replace(/^#\/?/, '')
-  if (!path) return { page: 'blog' }
-
-  const [route, ...segments] = path.split('/')
-  try {
-    switch (route) {
-      case 'post':
-        return segments.length > 0
-          ? { page: 'detail', slug: decodeURIComponent(segments.join('/')) }
-          : { page: 'blog' }
-      case 'tag':
-        return segments.length > 0
-          ? {
-              page: 'blog',
-              selectedTag: decodeURIComponent(segments.join('/')),
-            }
-          : { page: 'blog' }
-      case 'archive':
-        return { page: 'archive' }
-      case 'rss':
-        return { page: 'rss' }
-      case 'todos':
-        return { page: 'todos' }
-      default:
-        return { page: 'blog' }
-    }
-  } catch {
-    return { page: 'blog' }
-  }
-}
-
-function hashForView(view: View): string {
-  switch (view.page) {
-    case 'detail':
-      return `#/post/${encodeURIComponent(view.slug)}`
-    case 'blog':
-      return view.selectedTag
-        ? `#/tag/${encodeURIComponent(view.selectedTag)}`
-        : '#/'
-    case 'archive':
-      return '#/archive'
-    case 'rss':
-      return '#/rss'
-    case 'todos':
-      return '#/todos'
-  }
-}
-
 function App() {
-  const [view, setView] = useState<View>(() => readViewFromHash())
+  const [view, setView] = useState<View>(() =>
+    readViewFromHash(window.location.hash),
+  )
 
   useEffect(() => {
-    const syncView = () => setView(readViewFromHash())
+    const syncView = () => setView(readViewFromHash(window.location.hash))
     window.addEventListener('hashchange', syncView)
     return () => window.removeEventListener('hashchange', syncView)
   }, [])

@@ -28,6 +28,7 @@ AGENTS.md
 
 # Build
 react-app/dist/
+react-app/.test-build/
 
 # OS
 .DS_Store
