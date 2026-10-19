@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react'
-import PostList from './pages/PostList'
-import PostDetail from './pages/PostDetail'
-import ArchivePage from './pages/ArchivePage'
-import TodoList from './components/TodoList'
-import RSSReader from './pages/RSSReader'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import Icon from './components/Icon'
 import { ErrorBoundary } from './lib/ErrorBoundary'
 import { hashForView, readViewFromHash, type View } from './lib/routes'
 import './App.css'
+
+const PostList = lazy(() => import('./pages/PostList'))
+const PostDetail = lazy(() => import('./pages/PostDetail'))
+const ArchivePage = lazy(() => import('./pages/ArchivePage'))
+const TodoList = lazy(() => import('./components/TodoList'))
+const RSSReader = lazy(() => import('./pages/RSSReader'))
 
 function App() {
   const [view, setView] = useState<View>(() =>
@@ -65,10 +66,12 @@ function App() {
       <>
         {nav}
         <ErrorBoundary>
-          <PostDetail
-            slug={view.slug}
-            onBack={(selectedTag) => navigate({ page: 'blog', selectedTag })}
-          />
+          <Suspense fallback={<p className="app-loading">Loading…</p>}>
+            <PostDetail
+              slug={view.slug}
+              onBack={(selectedTag) => navigate({ page: 'blog', selectedTag })}
+            />
+          </Suspense>
         </ErrorBoundary>
       </>
     )
@@ -79,9 +82,11 @@ function App() {
       <>
         {nav}
         <ErrorBoundary>
-          <ArchivePage
-            onSelect={(slug) => navigate({ page: 'detail', slug })}
-          />
+          <Suspense fallback={<p className="app-loading">Loading…</p>}>
+            <ArchivePage
+              onSelect={(slug) => navigate({ page: 'detail', slug })}
+            />
+          </Suspense>
         </ErrorBoundary>
       </>
     )
@@ -92,7 +97,9 @@ function App() {
       <>
         {nav}
         <ErrorBoundary>
-          <RSSReader />
+          <Suspense fallback={<p className="app-loading">Loading…</p>}>
+            <RSSReader />
+          </Suspense>
         </ErrorBoundary>
       </>
     )
@@ -103,7 +110,9 @@ function App() {
       <>
         {nav}
         <ErrorBoundary>
-          <TodoList />
+          <Suspense fallback={<p className="app-loading">Loading…</p>}>
+            <TodoList />
+          </Suspense>
         </ErrorBoundary>
       </>
     )
@@ -113,11 +122,13 @@ function App() {
     <>
       {nav}
       <ErrorBoundary>
-        <PostList
-          key={view.selectedTag ?? '_'}
-          initialTag={view.selectedTag}
-          onSelect={(slug) => navigate({ page: 'detail', slug })}
-        />
+        <Suspense fallback={<p className="app-loading">Loading…</p>}>
+          <PostList
+            key={view.selectedTag ?? '_'}
+            initialTag={view.selectedTag}
+            onSelect={(slug) => navigate({ page: 'detail', slug })}
+          />
+        </Suspense>
       </ErrorBoundary>
     </>
   )

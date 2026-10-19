@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "types": ["node"],
@@ -12,5 +12,12 @@
     "rootDir": ".",
     "outDir": ".test-build"
   },
-  "include": ["tests/**/*.test.ts", "src/lib/routes.ts", "server/rssProxy.ts"]
+  "include": [
+    "tests/**/*.test.ts",
+    "src/lib/routes.ts",
+    "src/lib/rss.ts",
+    "server/rssProxy.ts",
+    "server/rssProxyHandler.ts",
+    "server/productionServer.ts"
+  ]
 }

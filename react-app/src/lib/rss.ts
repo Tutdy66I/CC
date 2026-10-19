@@ -155,6 +155,9 @@ export async function fetchFeed(
 
 const FEEDS_KEY = 'rss-feeds-v1'
 const ITEMS_PREFIX = 'rss-items-'
+export const MAX_FEEDS = 25
+export const MAX_ITEMS_PER_FEED = 100
+export const FEED_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -202,27 +205,41 @@ export function loadFeeds(): FeedMeta[] {
     if (!raw) return []
     const arr = JSON.parse(raw)
     if (!Array.isArray(arr)) return []
-    return arr.filter(isFeedMeta)
+    return arr.filter(isFeedMeta).slice(-MAX_FEEDS)
   } catch {
     return []
   }
 }
 
-export function saveFeeds(feeds: FeedMeta[]): void {
+export function saveFeeds(feeds: FeedMeta[]): FeedMeta[] {
+  const retainedFeeds = feeds.slice(-MAX_FEEDS)
   try {
-    localStorage.setItem(FEEDS_KEY, JSON.stringify(feeds))
+    const retainedUrls = new Set(retainedFeeds.map((feed) => feed.url))
+    for (const cachedFeed of loadFeeds()) {
+      if (!retainedUrls.has(cachedFeed.url)) removeFeedCache(cachedFeed.url)
+    }
+    localStorage.setItem(FEEDS_KEY, JSON.stringify(retainedFeeds))
   } catch {
     // localStorage full or unavailable — non-critical
   }
+  return retainedFeeds
 }
 
-export function loadFeedItems(url: string): FeedItem[] {
+export function loadFeedItems(url: string, now = Date.now()): FeedItem[] {
   try {
     const raw = localStorage.getItem(storageKey(url))
     if (!raw) return []
-    const arr = JSON.parse(raw)
-    if (!Array.isArray(arr)) return []
-    return arr.filter(isFeedItem)
+    const cached: unknown = JSON.parse(raw)
+    if (!isRecord(cached) || !Array.isArray(cached.items)) return []
+    if (
+      typeof cached.savedAt !== 'number' ||
+      now - cached.savedAt > FEED_CACHE_TTL_MS ||
+      cached.savedAt > now
+    ) {
+      localStorage.removeItem(storageKey(url))
+      return []
+    }
+    return cached.items.filter(isFeedItem)
   } catch {
     return []
   }
@@ -230,7 +247,13 @@ export function loadFeedItems(url: string): FeedItem[] {
 
 export function saveFeedItems(url: string, items: FeedItem[]): void {
   try {
-    localStorage.setItem(storageKey(url), JSON.stringify(items))
+    localStorage.setItem(
+      storageKey(url),
+      JSON.stringify({
+        savedAt: Date.now(),
+        items: items.slice(0, MAX_ITEMS_PER_FEED),
+      }),
+    )
   } catch {
     // non-critical
   }

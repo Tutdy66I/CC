@@ -1,4 +1,10 @@
-import { useState, useRef, useEffect, type FormEvent, type ChangeEvent } from 'react'
+import {
+  useState,
+  useRef,
+  useEffect,
+  type FormEvent,
+  type ChangeEvent,
+} from 'react'
 import './TodoList.css'
 
 type Priority = 'low' | 'medium' | 'high'
@@ -39,10 +45,7 @@ function loadTodos(): { todos: Todo[]; nextId: number } {
     const arr = JSON.parse(raw)
     if (!Array.isArray(arr)) return { todos: [], nextId: 0 }
     const todos: Todo[] = arr.filter(isTodo)
-    const maxId = todos.reduce(
-      (max, t) => Math.max(max, Number(t.id) || 0),
-      0,
-    )
+    const maxId = todos.reduce((max, t) => Math.max(max, Number(t.id) || 0), 0)
     return { todos, nextId: maxId }
   } catch {
     return { todos: [], nextId: 0 }
@@ -86,9 +89,7 @@ export default function TodoList() {
   }
 
   function setPriority(id: string, priority: Priority | null) {
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, priority } : t)),
-    )
+    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, priority } : t)))
   }
 
   const undone = todos.filter((t) => !t.done).length
@@ -101,6 +102,7 @@ export default function TodoList() {
         <input
           className="todo-input"
           type="text"
+          aria-label="New todo"
           placeholder="Add a new todo..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -115,10 +117,7 @@ export default function TodoList() {
       ) : (
         <ul className="todo-items">
           {todos.map((t) => (
-            <li
-              key={t.id}
-              className={'todo-item' + (t.done ? ' done' : '')}
-            >
+            <li key={t.id} className={'todo-item' + (t.done ? ' done' : '')}>
               <label className="todo-label">
                 <input
                   type="checkbox"
@@ -151,7 +150,9 @@ export default function TodoList() {
                 </select>
                 <button
                   className="todo-del"
+                  type="button"
                   onClick={() => remove(t.id)}
+                  aria-label={`Delete ${t.text}`}
                 >
                   ×
                 </button>

@@ -112,9 +112,8 @@ export default function RSSReader() {
     try {
       const data = await fetchFeed(trimmed, request.controller.signal)
       if (requestIdRef.current !== request.id) return
-      const updated = [...feeds, data.meta]
+      const updated = saveFeeds([...feeds, data.meta])
       setFeeds(updated)
-      saveFeeds(updated)
       saveFeedItems(trimmed, data.items)
       setFeedData(data)
       updateSelectedUrl(trimmed)
@@ -241,8 +240,10 @@ export default function RSSReader() {
               </button>
               <button
                 className="rss-feed-remove"
+                type="button"
                 onClick={() => handleRemove(f.url)}
                 title="Remove feed"
+                aria-label={`Remove ${f.title || new URL(f.url).hostname} feed`}
               >
                 ×
               </button>
@@ -278,6 +279,7 @@ export default function RSSReader() {
             </div>
             <button
               className="rss-refresh-btn"
+              type="button"
               onClick={() => handleRefresh(selectedMeta.url)}
               disabled={loading}
             >
@@ -300,6 +302,7 @@ export default function RSSReader() {
             </div>
             <button
               className="rss-refresh-btn"
+              type="button"
               onClick={() => handleRefresh(selectedMeta.url)}
               disabled={loading}
             >
