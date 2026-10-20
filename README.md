@@ -37,6 +37,10 @@ SignalLab includes BPSK, QPSK, BER scans, and an AI experiment tutor. To enable
 the tutor, configure server-side `AI_BASE_URL`, `AI_MODEL`, and `AI_API_KEY`.
 See [AI tutor setup and validation](docs/signallab-ai-tutor.md).
 
+Each SignalLab experiment can export a self-contained HTML report or Markdown,
+including graphs, results, and optional completed AI conversations. HTML reports
+can be printed to PDF. See [report export](docs/signallab-report-export.md).
+
 ## Project layout
 
 - `react-app/src/` — application source

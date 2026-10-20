@@ -305,6 +305,27 @@ export default function QpskExperiment() {
         </>
       )}
       <AiTutor
+        reportData={
+          experiment.result && experiment.bits
+            ? {
+                inputBits: experiment.bits.join(''),
+                decodedBits: experiment.result.decoded.join(''),
+                samples: experiment.result.received
+                  .slice(0, 16)
+                  .map((point, index) => ({
+                    index: index + 1,
+                    sent: experiment.bits
+                      .slice(index * 2, index * 2 + 2)
+                      .join(''),
+                    i: point.i,
+                    q: point.q,
+                    decoded: experiment.result.decoded
+                      .slice(index * 2, index * 2 + 2)
+                      .join(''),
+                  })),
+              }
+            : undefined
+        }
         context={
           experiment.result && experiment.bits
             ? {

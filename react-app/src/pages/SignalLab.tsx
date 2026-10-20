@@ -97,7 +97,7 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v0.3</p>
+        <p className="signal-version">通信实验 · v0.4</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK 在高斯白噪声信道中的传输。</p>
       </header>
@@ -219,6 +219,22 @@ export default function SignalLab() {
         </>
       )}
       <AiTutor
+        reportData={
+          experiment.result && experiment.bits
+            ? {
+                inputBits: experiment.bits.join(''),
+                decodedBits: experiment.result.decoded.join(''),
+                samples: experiment.result.received
+                  .slice(0, 32)
+                  .map((received, index) => ({
+                    index: index + 1,
+                    sent: experiment.bits[index],
+                    received,
+                    decoded: experiment.result.decoded[index],
+                  })),
+              }
+            : undefined
+        }
         context={
           experiment.result && experiment.bits
             ? {

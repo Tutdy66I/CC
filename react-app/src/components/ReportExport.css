@@ -1,0 +1,36 @@
+.report-export {
+  border: 1px solid var(--signal-border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 24px 0;
+}
+.report-export h3 {
+  margin-top: 0;
+}
+.report-export p,
+.report-export label {
+  font-size: 14px;
+}
+.report-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.report-export button {
+  padding: 10px 14px;
+  border: 1px solid var(--signal-border);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.report-export button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.report-export button:focus-visible {
+  outline: 2px solid var(--signal-accent);
+  outline-offset: 3px;
+}

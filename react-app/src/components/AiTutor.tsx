@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './AiTutor.css'
+import ReportExport from './ReportExport'
 
 export interface ExperimentContext {
   experiment: 'BPSK' | 'QPSK' | 'BER'
@@ -18,8 +19,10 @@ const suggestions = [
 
 export default function AiTutor({
   context,
+  reportData,
 }: {
   context: ExperimentContext | null
+  reportData?: Record<string, unknown>
 }) {
   const [messages, setMessages] = useState<Message[]>([])
   const [question, setQuestion] = useState('')
@@ -120,96 +123,109 @@ export default function AiTutor({
   }
 
   return (
-    <details className="ai-tutor">
-      <summary>AI 实验助教 · {context?.experiment ?? '等待有效实验'}</summary>
-      <p>
-        提问时会将本实验的参数、结果摘要及最近对话发送给已配置的模型服务。AI
-        解释可能出错，请结合实验验证。
-      </p>
-      {context ? (
-        <details className="ai-tutor-snapshot">
-          <summary>查看将发送的实验快照</summary>
-          <pre>{JSON.stringify(context, null, 2)}</pre>
-        </details>
-      ) : (
-        <p>请先修正实验参数或运行 BER 扫描。</p>
-      )}
-      <div className="ai-tutor-actions">
-        {suggestions.map((text) => (
-          <button
-            type="button"
-            key={text}
-            disabled={busy || !context}
-            onClick={() => void ask(text)}
-          >
-            {text}
-          </button>
-        ))}
-      </div>
-      <div
-        className="ai-tutor-messages"
-        role="log"
-        aria-label="助教对话"
-        aria-live="polite"
-      >
-        {messages.map((message, index) => (
-          <article key={index} className={`ai-tutor-${message.role}`}>
-            <strong>{message.role === 'user' ? '你' : 'AI 助教'}</strong>
-            <p>{message.content}</p>
-            {message.snapshot && (
-              <details>
-                <summary>本次提问的实验快照</summary>
-                <pre>{message.snapshot}</pre>
-              </details>
-            )}
-          </article>
-        ))}
-      </div>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault()
-          void ask(question)
-        }}
-      >
-        <label>
-          向实验助教提问
-          <textarea
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            rows={3}
-            maxLength={4000}
-            disabled={busy}
-            placeholder="例如：增加比特数后，为什么更接近理论 BER？"
-          />
-        </label>
-        <div className="ai-tutor-actions">
-          <button type="submit" disabled={busy || !context || !question.trim()}>
-            发送问题
-          </button>
-          {busy && (
-            <button type="button" onClick={cancel}>
-              取消回答
-            </button>
-          )}
-          <button
-            type="button"
-            disabled={busy || messages.length === 0}
-            onClick={() => {
-              setMessages([])
-              setError('')
-              setNotice('对话已清空。')
-            }}
-          >
-            清空对话
-          </button>
-        </div>
-      </form>
-      <p role="status">{busy ? '助教正在分析本次实验…' : notice}</p>
-      {error && (
-        <p role="alert" className="signal-error">
-          {error}
+    <>
+      <details className="ai-tutor">
+        <summary>AI 实验助教 · {context?.experiment ?? '等待有效实验'}</summary>
+        <p>
+          提问时会将本实验的参数、结果摘要及最近对话发送给已配置的模型服务。AI
+          解释可能出错，请结合实验验证。
         </p>
-      )}
-    </details>
+        {context ? (
+          <details className="ai-tutor-snapshot">
+            <summary>查看将发送的实验快照</summary>
+            <pre>{JSON.stringify(context, null, 2)}</pre>
+          </details>
+        ) : (
+          <p>请先修正实验参数或运行 BER 扫描。</p>
+        )}
+        <div className="ai-tutor-actions">
+          {suggestions.map((text) => (
+            <button
+              type="button"
+              key={text}
+              disabled={busy || !context}
+              onClick={() => void ask(text)}
+            >
+              {text}
+            </button>
+          ))}
+        </div>
+        <div
+          className="ai-tutor-messages"
+          role="log"
+          aria-label="助教对话"
+          aria-live="polite"
+        >
+          {messages.map((message, index) => (
+            <article key={index} className={`ai-tutor-${message.role}`}>
+              <strong>{message.role === 'user' ? '你' : 'AI 助教'}</strong>
+              <p>{message.content}</p>
+              {message.snapshot && (
+                <details>
+                  <summary>本次提问的实验快照</summary>
+                  <pre>{message.snapshot}</pre>
+                </details>
+              )}
+            </article>
+          ))}
+        </div>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault()
+            void ask(question)
+          }}
+        >
+          <label>
+            向实验助教提问
+            <textarea
+              value={question}
+              onChange={(event) => setQuestion(event.target.value)}
+              rows={3}
+              maxLength={4000}
+              disabled={busy}
+              placeholder="例如：增加比特数后，为什么更接近理论 BER？"
+            />
+          </label>
+          <div className="ai-tutor-actions">
+            <button
+              type="submit"
+              disabled={busy || !context || !question.trim()}
+            >
+              发送问题
+            </button>
+            {busy && (
+              <button type="button" onClick={cancel}>
+                取消回答
+              </button>
+            )}
+            <button
+              type="button"
+              disabled={busy || messages.length === 0}
+              onClick={() => {
+                setMessages([])
+                setError('')
+                setNotice('对话已清空。')
+              }}
+            >
+              清空对话
+            </button>
+          </div>
+        </form>
+        <p role="status">{busy ? '助教正在分析本次实验…' : notice}</p>
+        {error && (
+          <p role="alert" className="signal-error">
+            {error}
+          </p>
+        )}
+      </details>
+      <ReportExport
+        context={
+          context
+            ? { ...context, data: { ...context.data, ...reportData } }
+            : null
+        }
+        messages={busy ? messages.slice(0, -1) : messages}
+      />
+    </>
   )
 }

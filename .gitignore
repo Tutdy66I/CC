@@ -30,6 +30,7 @@ AGENTS.md
 react-app/dist/
 react-app/.test-build/
 react-app/.server-build/
+output/report-export/
 
 # OS
 .DS_Store
