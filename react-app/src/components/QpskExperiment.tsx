@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import AiTutor from './AiTutor'
 import { theoreticalBpskBer } from '../lib/berSweep'
 import { modulateQpsk, simulateQpsk, type QpskSymbol } from '../lib/qpsk'
 import { parseBits } from '../lib/signallab'
@@ -303,6 +304,25 @@ export default function QpskExperiment() {
           </details>
         </>
       )}
+      <AiTutor
+        context={
+          experiment.result && experiment.bits
+            ? {
+                experiment: 'QPSK',
+                data: {
+                  bits: experiment.bits.length,
+                  symbols: experiment.result.symbols.length,
+                  ebN0Db,
+                  seed: Number(seed),
+                  noiseEnabled,
+                  errors: experiment.result.errors,
+                  ber: experiment.result.ber,
+                  theoretical: noiseEnabled ? theoreticalBpskBer(ebN0Db) : null,
+                },
+              }
+            : null
+        }
+      />
       <aside className="signal-notes">
         <h3>QPSK 实验模型</h3>
         <p>

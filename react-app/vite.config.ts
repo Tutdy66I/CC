@@ -1,11 +1,15 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { createRssProxyResponse } from './server/rssProxyHandler'
+import { handleTutorRequest } from './server/aiTutorHandler'
 
 function rssProxyPlugin(): Plugin {
   return {
     name: 'rss-proxy',
     configureServer(server) {
+      server.middlewares.use('/api/ai-tutor', (req, res) => {
+        void handleTutorRequest(req, res)
+      })
       server.middlewares.use('/api/rss-proxy', async (req, res) => {
         const url = new URL(
           req.url ?? '/',

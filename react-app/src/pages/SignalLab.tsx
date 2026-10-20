@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { parseBits, simulateBpsk } from '../lib/signallab'
 import BerSweep from '../components/BerSweep'
 import QpskExperiment from '../components/QpskExperiment'
+import AiTutor from '../components/AiTutor'
 import './SignalLab.css'
 
 const MAX_BITS = 10000
@@ -96,7 +97,7 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v0.2</p>
+        <p className="signal-version">通信实验 · v0.3</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK 在高斯白噪声信道中的传输。</p>
       </header>
@@ -217,6 +218,23 @@ export default function SignalLab() {
           </section>
         </>
       )}
+      <AiTutor
+        context={
+          experiment.result && experiment.bits
+            ? {
+                experiment: 'BPSK',
+                data: {
+                  bits: experiment.bits.length,
+                  ebN0Db,
+                  seed: Number(seed),
+                  noiseEnabled,
+                  errors: experiment.result.errors,
+                  ber: experiment.result.ber,
+                },
+              }
+            : null
+        }
+      />
       <BerSweep />
       <aside className="signal-notes">
         <h2>BPSK 实验模型</h2>

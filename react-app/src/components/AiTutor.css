@@ -1,0 +1,74 @@
+.ai-tutor {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid var(--signal-border);
+  border-radius: 8px;
+}
+.ai-tutor > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.ai-tutor > p {
+  color: var(--signal-muted);
+  font-size: 14px;
+}
+.ai-tutor textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  resize: vertical;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--signal-border);
+  border-radius: 6px;
+}
+.ai-tutor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+.ai-tutor button {
+  padding: 8px 12px;
+  border: 1px solid var(--signal-border);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.ai-tutor button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ai-tutor button:focus-visible,
+.ai-tutor summary:focus-visible {
+  outline: 2px solid var(--signal-accent);
+  outline-offset: 3px;
+}
+.ai-tutor-messages {
+  max-height: 560px;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+.ai-tutor-messages article {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--signal-border);
+}
+.ai-tutor-messages p {
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+.ai-tutor pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.ai-tutor-assistant > strong {
+  color: var(--signal-accent);
+}

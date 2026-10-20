@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import AiTutor from './AiTutor'
 import {
   SWEEP_DB,
   theoreticalBpskBer,
@@ -273,6 +274,16 @@ export default function BerSweep() {
         </p>
       )}
       <BerChart points={points} />
+      <AiTutor
+        context={
+          run
+            ? {
+                experiment: 'BER',
+                data: { modulation: 'BPSK', status, run, points },
+              }
+            : null
+        }
+      />
       {points.length > 0 && (
         <div
           className="signal-ber-scroll"

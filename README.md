@@ -26,12 +26,16 @@ Run these from `react-app/`:
 | `npm run build`   | Check TypeScript, build the app, and generate RSS output |
 | `npm run lint`    | Run ESLint                                               |
 | `npm run preview` | Preview the production build locally                     |
-| `npm start`       | Serve the production build and RSS proxy on Node.js       |
+| `npm start`       | Serve the production build and RSS proxy on Node.js      |
 
 For production hosting, use a Node.js service: run `npm run build`, then `npm start`.
 The server listens on `PORT` when provided, or port `4173` by default. It serves
 the built site and `/api/rss-proxy` from the same origin. Static-only hosting
 requires a platform-specific serverless adapter for the RSS proxy.
+
+SignalLab includes BPSK, QPSK, BER scans, and an AI experiment tutor. To enable
+the tutor, configure server-side `AI_BASE_URL`, `AI_MODEL`, and `AI_API_KEY`.
+See [AI tutor setup and validation](docs/signallab-ai-tutor.md).
 
 ## Project layout
 

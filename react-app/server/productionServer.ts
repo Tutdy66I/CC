@@ -3,6 +3,7 @@ import { createServer } from 'node:http'
 import { extname, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createRssProxyResponse } from './rssProxyHandler.js'
+import { handleTutorRequest } from './aiTutorHandler.js'
 
 const MIME_TYPES: Record<string, string> = {
   '.css': 'text/css; charset=utf-8',
@@ -50,6 +51,10 @@ async function handleRequest(
   distDirectory: string,
 ): Promise<void> {
   const requestUrl = new URL(request.url ?? '/', 'http://localhost')
+  if (requestUrl.pathname === '/api/ai-tutor') {
+    await handleTutorRequest(request, response)
+    return
+  }
   if (requestUrl.pathname === '/api/rss-proxy') {
     if (request.method !== 'GET') {
       response.writeHead(405, { Allow: 'GET', 'Content-Type': 'text/plain' })
