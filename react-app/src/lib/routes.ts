@@ -4,6 +4,7 @@ export type View =
   | { page: 'archive' }
   | { page: 'rss' }
   | { page: 'todos' }
+  | { page: 'signallab' }
 
 export function readViewFromHash(hash: string): View {
   const path = hash.replace(/^#\/?/, '')
@@ -29,6 +30,8 @@ export function readViewFromHash(hash: string): View {
         return { page: 'rss' }
       case 'todos':
         return { page: 'todos' }
+      case 'signallab':
+        return { page: 'signallab' }
       default:
         return { page: 'blog' }
     }
@@ -51,5 +54,7 @@ export function hashForView(view: View): string {
       return '#/rss'
     case 'todos':
       return '#/todos'
+    case 'signallab':
+      return '#/signallab'
   }
 }

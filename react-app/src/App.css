@@ -2,6 +2,7 @@
 
 .app-nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -22,7 +23,10 @@
   background: #fff;
   color: #6b7280;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .app-nav-btn:hover {
@@ -105,8 +109,6 @@
 .blog-post-title:hover {
   color: #4a90d9;
 }
-
-
 
 .blog-empty {
   color: #6b7280;

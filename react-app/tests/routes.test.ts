@@ -22,6 +22,7 @@ test('round trips the main navigation routes', () => {
     { page: 'archive' },
     { page: 'rss' },
     { page: 'todos' },
+    { page: 'signallab' },
   ]
   for (const view of views) {
     assert.deepEqual(readViewFromHash(hashForView(view)), view)
@@ -31,4 +32,8 @@ test('round trips the main navigation routes', () => {
 test('falls back to the blog for malformed or unknown hashes', () => {
   assert.deepEqual(readViewFromHash('#/post/%E0%A4%A'), { page: 'blog' })
   assert.deepEqual(readViewFromHash('#/unknown'), { page: 'blog' })
+})
+
+test('opens the SignalLab experiment directly', () => {
+  assert.deepEqual(readViewFromHash('#/signallab'), { page: 'signallab' })
 })

@@ -1,0 +1,168 @@
+.signal-lab {
+  --signal-border: #e5e7eb;
+  --signal-muted: #6b7280;
+  --signal-accent: #4a90d9;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 24px 120px;
+}
+
+.signal-lab h1 {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 48px);
+  letter-spacing: -1px;
+}
+
+.signal-version,
+.signal-lab header > p,
+.signal-controls p,
+.signal-notes,
+.signal-lab section > p {
+  color: var(--signal-muted);
+  font-size: 14px;
+}
+
+.signal-controls,
+.signal-notes,
+.signal-chart {
+  margin: 24px 0;
+  border: 1px solid var(--signal-border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.signal-controls > label:first-child {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.signal-controls textarea,
+.signal-controls input[type='number'] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--signal-border);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.signal-controls textarea {
+  font-family: var(--mono);
+  resize: vertical;
+}
+
+.signal-parameters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.signal-parameters input {
+  display: block;
+  width: 100%;
+  accent-color: var(--signal-accent);
+}
+
+.signal-controls :focus-visible {
+  outline: 2px solid var(--signal-accent);
+  outline-offset: 3px;
+}
+
+.signal-checkbox {
+  font-size: 14px;
+}
+
+.signal-checkbox input {
+  margin-right: 8px;
+  accent-color: var(--signal-accent);
+}
+
+.signal-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.signal-metrics div {
+  flex: 1;
+  min-width: 100px;
+}
+
+.signal-metrics dt {
+  font-size: 14px;
+  color: var(--signal-muted);
+}
+
+.signal-metrics dd {
+  margin: 0;
+  font-size: 28px;
+  font-family: var(--mono);
+}
+
+.signal-decoded {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-family: var(--mono);
+}
+
+.signal-bit-error,
+.signal-error {
+  color: #b91c1c;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.signal-chart figcaption {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.signal-chart svg {
+  display: block;
+  width: 100%;
+}
+
+.signal-chart text {
+  fill: var(--signal-muted);
+  font-size: 12px;
+}
+
+.signal-axis {
+  stroke: var(--signal-border);
+}
+
+.signal-samples {
+  stroke: var(--signal-accent);
+}
+
+.signal-carrier {
+  stroke: #a855f7;
+}
+
+.signal-notes h2 {
+  font-size: 18px;
+  margin-top: 0;
+}
+
+@media (max-width: 540px) {
+  .signal-parameters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .signal-lab {
+    --signal-border: #374151;
+    --signal-muted: #9ca3af;
+    --signal-accent: #93c5fd;
+  }
+
+  .signal-bit-error,
+  .signal-error {
+    color: #fca5a5;
+  }
+}

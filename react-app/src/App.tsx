@@ -9,6 +9,7 @@ const PostDetail = lazy(() => import('./pages/PostDetail'))
 const ArchivePage = lazy(() => import('./pages/ArchivePage'))
 const TodoList = lazy(() => import('./components/TodoList'))
 const RSSReader = lazy(() => import('./pages/RSSReader'))
+const SignalLab = lazy(() => import('./pages/SignalLab'))
 
 function App() {
   const [view, setView] = useState<View>(() =>
@@ -58,6 +59,14 @@ function App() {
       >
         Todos
       </button>
+      <button
+        className={
+          view.page === 'signallab' ? 'app-nav-btn active' : 'app-nav-btn'
+        }
+        onClick={() => navigate({ page: 'signallab' })}
+      >
+        SignalLab AI
+      </button>
     </nav>
   )
 
@@ -99,6 +108,19 @@ function App() {
         <ErrorBoundary>
           <Suspense fallback={<p className="app-loading">Loading…</p>}>
             <RSSReader />
+          </Suspense>
+        </ErrorBoundary>
+      </>
+    )
+  }
+
+  if (view.page === 'signallab') {
+    return (
+      <>
+        {nav}
+        <ErrorBoundary>
+          <Suspense fallback={<p className="app-loading">Loading…</p>}>
+            <SignalLab />
           </Suspense>
         </ErrorBoundary>
       </>
