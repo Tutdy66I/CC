@@ -12,7 +12,11 @@ SignalLab v0.3 在 BPSK、BER 扫描和 QPSK 区域各提供可展开的助教�
 
 启动脚本固定使用 `https://api.deepseek.com`、`deepseek-flash` 和 `AI_THINKING=disabled`（直接回答）。依据 [DeepSeek 官方文档](https://api-docs.deepseek.com/zh-cn/)（2026-10-20 核对）。API Key 可在 [DeepSeek 平台](https://platform.deepseek.com/api_keys)创建。
 
-密钥仅传入本次服务进程内存，不写文件。每次重新启动需再次输入；也可继承已有 `DEEPSEEK_API_KEY`，或在原 `AI_BASE_URL` 为官方 DeepSeek 地址时继承 `AI_API_KEY`。退出后恢复原进程环境。启动命令的执行策略设置仅作用于本次 PowerShell 子进程。
+隐藏输入的密钥仅传入本次服务进程内存，不自动写文件；若没有下文的加密文件，每次重新启动需再次输入。也可继承已有 `DEEPSEEK_API_KEY`，或在原 `AI_BASE_URL` 为官方 DeepSeek 地址时继承 `AI_API_KEY`。退出后恢复原进程环境。启动命令的执行策略设置仅作用于本次 PowerShell 子进程。
+
+本机也可使用 `react-app/.deepseek-key.local` 保存 Windows DPAPI 加密的密钥。启动脚本在环境变量未提供密钥时读取它；没有该文件才隐藏提示输入。文件由 Git 的 `*.local` 规则忽略，只能在创建时的 Windows 账户和对应加密环境下解密；不能直接复制到其他用户或服务器使用。2026-10-20 已在桌面账户验证 DeepSeek 官方接口返回 200、助教收到非空回答；未记录密钥或模型回答正文。
+
+同日浏览器通过真实本地服务完成一次 BPSK 提问，收到非空供应商回答且界面无错误，未使用模型替身。
 
 生产运行使用 `npm.cmd run start:deepseek`，脚本会先构建再启动。没有实际密钥前只能验证配置和本地链路，不能确认账号权限、余额及真实回答。
 

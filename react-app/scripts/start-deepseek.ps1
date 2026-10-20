@@ -18,6 +18,17 @@ try {
   } elseif ($taskPrevious['AI_BASE_URL'] -notin @('https://api.deepseek.com', 'https://api.deepseek.com/v1')) {
     $env:AI_API_KEY = ''
   }
+  $taskKeyPath = Join-Path (Split-Path -Parent $PSScriptRoot) '.deepseek-key.local'
+  if ([string]::IsNullOrWhiteSpace($env:AI_API_KEY) -and (Test-Path -LiteralPath $taskKeyPath)) {
+    $taskStoredKey = Get-Content -LiteralPath $taskKeyPath -Raw | ConvertTo-SecureString
+    $taskStoredPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($taskStoredKey)
+    try {
+      $env:AI_API_KEY = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($taskStoredPointer)
+    } finally {
+      [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($taskStoredPointer)
+      $taskStoredKey.Dispose()
+    }
+  }
   if ($CheckOnly) {
     [PSCustomObject]@{
       BaseUrl = $env:AI_BASE_URL
