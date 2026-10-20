@@ -1,0 +1,88 @@
+.signal-sweep {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--signal-border);
+}
+
+.signal-sweep h2 {
+  font-size: 26px;
+}
+
+.signal-sweep .signal-parameters select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--signal-border);
+  border-radius: 6px;
+  background: Field;
+  color: inherit;
+  font: inherit;
+}
+
+.signal-sweep-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.signal-sweep-actions button {
+  padding: 10px 20px;
+  border: 1px solid var(--signal-accent);
+  border-radius: 6px;
+  background: var(--signal-accent);
+  color: #16171d;
+  font: inherit;
+  cursor: pointer;
+}
+
+.signal-sweep-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.signal-sweep progress {
+  width: 100%;
+  accent-color: var(--signal-accent);
+}
+
+.signal-ber-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.signal-ber-chart svg {
+  min-width: 600px;
+}
+
+.signal-ber-chart p,
+.signal-ber-table caption {
+  color: var(--signal-muted);
+  font-size: 13px;
+  text-align: left;
+}
+
+.signal-ber-point {
+  stroke: var(--signal-accent);
+  fill: var(--signal-accent);
+  stroke-width: 1.5;
+}
+
+.signal-ber-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.signal-ber-table caption {
+  padding-bottom: 12px;
+}
+
+.signal-ber-table th,
+.signal-ber-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--signal-border);
+  text-align: left;
+  white-space: nowrap;
+}

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { parseBits, simulateBpsk } from '../lib/signallab'
+import BerSweep from '../components/BerSweep'
 import './SignalLab.css'
 
 const MAX_BITS = 10000
@@ -94,7 +95,7 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v0.1</p>
+        <p className="signal-version">通信实验 · v0.2</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形，观察 BPSK 在高斯白噪声信道中的传输。</p>
       </header>
@@ -215,6 +216,7 @@ export default function SignalLab() {
           </section>
         </>
       )}
+      <BerSweep />
       <aside className="signal-notes">
         <h2>实验模型</h2>
         <p>

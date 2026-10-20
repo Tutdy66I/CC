@@ -9,7 +9,7 @@
     "start": "node .server-build/server/productionServer.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/routes.test.js .test-build/tests/rss-proxy.test.js .test-build/tests/rss-cache.test.js .test-build/tests/rss-proxy-handler.test.js .test-build/tests/rss-production-server.test.js .test-build/tests/signallab.test.js"
+    "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/routes.test.js .test-build/tests/rss-proxy.test.js .test-build/tests/rss-cache.test.js .test-build/tests/rss-proxy-handler.test.js .test-build/tests/rss-production-server.test.js .test-build/tests/signallab.test.js .test-build/tests/ber-sweep.test.js"
   },
   "dependencies": {
     "react": "^19.2.6",
