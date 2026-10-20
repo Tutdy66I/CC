@@ -1,0 +1,81 @@
+.qpsk-experiment {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--signal-border);
+}
+
+.qpsk-constellation svg {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.qpsk-constellation p {
+  font-size: 14px;
+  color: var(--signal-muted);
+}
+
+.qpsk-boundary {
+  stroke: var(--signal-muted);
+  stroke-dasharray: 5 5;
+}
+
+.qpsk-received-point {
+  fill: var(--signal-accent);
+  opacity: 0.65;
+}
+
+.qpsk-error-point {
+  stroke: #b91c1c;
+  stroke-width: 2;
+  fill: none;
+}
+
+.qpsk-ideal-point {
+  fill: none;
+  stroke: #a855f7;
+  stroke-width: 2;
+}
+
+.qpsk-ideal-label {
+  font-weight: 700;
+}
+
+.qpsk-experiment summary {
+  cursor: pointer;
+  padding: 12px 0;
+}
+
+.qpsk-experiment :focus-visible {
+  outline: 2px solid var(--signal-accent);
+  outline-offset: 3px;
+}
+
+.qpsk-table-scroll {
+  overflow-x: auto;
+}
+
+.qpsk-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.qpsk-table-scroll th,
+.qpsk-table-scroll td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--signal-border);
+  white-space: nowrap;
+  text-align: left;
+}
+
+.qpsk-table-scroll caption {
+  text-align: left;
+  padding: 8px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .qpsk-error-point {
+    stroke: #fca5a5;
+  }
+}

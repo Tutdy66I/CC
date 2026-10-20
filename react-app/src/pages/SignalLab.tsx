@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { parseBits, simulateBpsk } from '../lib/signallab'
 import BerSweep from '../components/BerSweep'
+import QpskExperiment from '../components/QpskExperiment'
 import './SignalLab.css'
 
 const MAX_BITS = 10000
@@ -97,7 +98,7 @@ export default function SignalLab() {
       <header>
         <p className="signal-version">通信实验 · v0.2</p>
         <h1>SignalLab AI</h1>
-        <p>从比特到波形，观察 BPSK 在高斯白噪声信道中的传输。</p>
+        <p>从比特到波形与星座图，观察 BPSK、QPSK 在高斯白噪声信道中的传输。</p>
       </header>
       <section className="signal-controls" aria-label="实验参数">
         <label htmlFor="signal-bits">输入比特流</label>
@@ -218,7 +219,7 @@ export default function SignalLab() {
       )}
       <BerSweep />
       <aside className="signal-notes">
-        <h2>实验模型</h2>
+        <h2>BPSK 实验模型</h2>
         <p>
           单位比特能量 Eb = 1，接收采样 r = s + n，n ∼ N(0, σ²)，σ² = 1 / (2 ×
           10^(Eb/N0[dB] / 10))。r ≥ 0 判为 0，否则判为 1。
@@ -233,6 +234,7 @@ export default function SignalLab() {
           BER 为零；有限样本的 BER 不保证每次随 Eb/N0 严格下降。
         </p>
       </aside>
+      <QpskExperiment />
     </main>
   )
 }
