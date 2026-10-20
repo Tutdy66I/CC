@@ -6,6 +6,18 @@ SignalLab v0.3 在 BPSK、BER 扫描和 QPSK 区域各提供可展开的助教�
 
 ## 配置与运行
 
+### DeepSeek 一键启动（Windows）
+
+在 `react-app` 目录运行 `npm.cmd run dev:deepseek`，在终端隐藏输入 DeepSeek API Key，再打开 Vite 输出的本地地址并进入 `#/signallab`。
+
+启动脚本固定使用 `https://api.deepseek.com`、`deepseek-flash` 和 `AI_THINKING=disabled`（直接回答）。依据 [DeepSeek 官方文档](https://api-docs.deepseek.com/zh-cn/)（2026-10-20 核对）。API Key 可在 [DeepSeek 平台](https://platform.deepseek.com/api_keys)创建。
+
+密钥仅传入本次服务进程内存，不写文件。每次重新启动需再次输入；也可继承已有 `DEEPSEEK_API_KEY`，或在原 `AI_BASE_URL` 为官方 DeepSeek 地址时继承 `AI_API_KEY`。退出后恢复原进程环境。启动命令的执行策略设置仅作用于本次 PowerShell 子进程。
+
+生产运行使用 `npm.cmd run start:deepseek`，脚本会先构建再启动。没有实际密钥前只能验证配置和本地链路，不能确认账号权限、余额及真实回答。
+
+### 手动配置其他兼容服务
+
 需要提供兼容 Chat Completions 的模型服务，支持 `POST /chat/completions`、Bearer 认证及 `choices[0].message.content` 字符串响应。没有预设供应商或默认模型。
 
 在 PowerShell 中，于 `react-app` 目录运行：

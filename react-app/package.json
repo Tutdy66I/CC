@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:deepseek": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/start-deepseek.ps1",
+    "start:deepseek": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/start-deepseek.ps1 -Production",
     "build": "tsc -b && tsc -p tsconfig.server.json && vite build && node scripts/generate-rss.js",
     "start": "node .server-build/server/productionServer.js",
     "lint": "eslint .",

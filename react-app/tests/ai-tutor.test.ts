@@ -4,6 +4,28 @@ import { createServer } from 'node:http'
 import { handleTutorRequest } from '../server/aiTutorHandler.js'
 import { createTutorReply, validateTutorRequest } from '../server/aiTutor.js'
 
+test('DeepSeek configuration can disable thinking for direct tutor answers', async () => {
+  const result = await createTutorReply(
+    {
+      messages: [{ role: 'user', content: '解释实验' }],
+      context: { experiment: 'BPSK', data: { bits: 32 } },
+    },
+    {
+      AI_BASE_URL: 'https://api.deepseek.com',
+      AI_MODEL: 'deepseek-flash',
+      AI_API_KEY: 'test-key',
+      AI_THINKING: 'disabled',
+    },
+    async (_url, options) => {
+      assert.deepEqual(JSON.parse(String(options?.body)).thinking, {
+        type: 'disabled',
+      })
+      return Response.json({ choices: [{ message: { content: '解释' } }] })
+    },
+  )
+  assert.equal(result.status, 200)
+})
+
 const request = {
   messages: [{ role: 'user', content: '为什么零误码？' }],
   context: { experiment: 'BPSK', data: { bits: 32, errors: 0, seed: 42 } },

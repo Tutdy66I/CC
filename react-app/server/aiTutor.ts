@@ -6,7 +6,9 @@ export interface TutorRequest {
   }
 }
 
-type Config = Partial<Record<'AI_BASE_URL' | 'AI_MODEL' | 'AI_API_KEY', string>>
+type Config = Partial<
+  Record<'AI_BASE_URL' | 'AI_MODEL' | 'AI_API_KEY' | 'AI_THINKING', string>
+>
 interface TutorResult {
   status: number
   body: { answer?: string; error?: string }
@@ -91,6 +93,9 @@ export async function createTutorReply(
       body: JSON.stringify({
         model,
         stream: false,
+        ...(['enabled', 'disabled'].includes(config.AI_THINKING ?? '')
+          ? { thinking: { type: config.AI_THINKING } }
+          : {}),
         messages: [
           { role: 'system', content: rules },
           ...input.messages.slice(0, -1),
