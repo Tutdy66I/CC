@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react'
 import Icon from './components/Icon'
 import { ErrorBoundary } from './lib/ErrorBoundary'
 import { hashForView, readViewFromHash, type View } from './lib/routes'
@@ -70,74 +70,39 @@ function App() {
     </nav>
   )
 
-  if (view.page === 'detail') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <Suspense fallback={<p className="app-loading">Loading…</p>}>
-            <PostDetail
-              slug={view.slug}
-              onBack={(selectedTag) => navigate({ page: 'blog', selectedTag })}
-            />
-          </Suspense>
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  if (view.page === 'archive') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <Suspense fallback={<p className="app-loading">Loading…</p>}>
-            <ArchivePage
-              onSelect={(slug) => navigate({ page: 'detail', slug })}
-            />
-          </Suspense>
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  if (view.page === 'rss') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <Suspense fallback={<p className="app-loading">Loading…</p>}>
-            <RSSReader />
-          </Suspense>
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  if (view.page === 'signallab') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <Suspense fallback={<p className="app-loading">Loading…</p>}>
-            <SignalLab />
-          </Suspense>
-        </ErrorBoundary>
-      </>
-    )
-  }
-
-  if (view.page === 'todos') {
-    return (
-      <>
-        {nav}
-        <ErrorBoundary>
-          <Suspense fallback={<p className="app-loading">Loading…</p>}>
-            <TodoList />
-          </Suspense>
-        </ErrorBoundary>
-      </>
-    )
+  let content: ReactNode
+  switch (view.page) {
+    case 'detail':
+      content = (
+        <PostDetail
+          slug={view.slug}
+          onBack={(selectedTag) => navigate({ page: 'blog', selectedTag })}
+        />
+      )
+      break
+    case 'archive':
+      content = (
+        <ArchivePage onSelect={(slug) => navigate({ page: 'detail', slug })} />
+      )
+      break
+    case 'rss':
+      content = <RSSReader />
+      break
+    case 'signallab':
+      content = <SignalLab />
+      break
+    case 'todos':
+      content = <TodoList />
+      break
+    case 'blog':
+      content = (
+        <PostList
+          key={view.selectedTag ?? '_'}
+          initialTag={view.selectedTag}
+          onSelect={(slug) => navigate({ page: 'detail', slug })}
+        />
+      )
+      break
   }
 
   return (
@@ -145,11 +110,7 @@ function App() {
       {nav}
       <ErrorBoundary>
         <Suspense fallback={<p className="app-loading">Loading…</p>}>
-          <PostList
-            key={view.selectedTag ?? '_'}
-            initialTag={view.selectedTag}
-            onSelect={(slug) => navigate({ page: 'detail', slug })}
-          />
+          {content}
         </Suspense>
       </ErrorBoundary>
     </>

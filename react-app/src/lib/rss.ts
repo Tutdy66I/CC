@@ -135,20 +135,45 @@ function parseFeedXML(xml: string): FeedData {
 
 /* ---- Fetch via dev-server proxy ---- */
 
+export const FETCH_TIMEOUT_MS = 15_000
+
 export async function fetchFeed(
   url: string,
   signal?: AbortSignal,
+  timeoutMs = FETCH_TIMEOUT_MS,
 ): Promise<FeedData> {
   const proxyUrl = '/api/rss-proxy?url=' + encodeURIComponent(url)
-  const res = await fetch(proxyUrl, { signal })
-  if (!res.ok) {
-    throw new Error(`Failed to fetch feed: ${res.status} ${res.statusText}`)
+  const controller = new AbortController()
+  const cancel = () => controller.abort(signal?.reason)
+  if (signal?.aborted) cancel()
+  else signal?.addEventListener('abort', cancel, { once: true })
+  let timedOut = false
+  const timer = setTimeout(() => {
+    timedOut = true
+    controller.abort()
+  }, timeoutMs)
+  try {
+    const res = await fetch(proxyUrl, { signal: controller.signal })
+    if (!res.ok) {
+      throw new Error(`Failed to fetch feed: ${res.status} ${res.statusText}`)
+    }
+    const xml = await res.text()
+    const data = parseFeedXML(xml)
+    data.meta.url = url
+    for (const it of data.items) it.feedUrl = url
+    return data
+  } catch (error) {
+    if (timedOut && !signal?.aborted) {
+      throw new Error(
+        `Feed request timed out after ${timeoutMs / 1000}s: ${url}`,
+        { cause: error },
+      )
+    }
+    throw error
+  } finally {
+    clearTimeout(timer)
+    signal?.removeEventListener('abort', cancel)
   }
-  const xml = await res.text()
-  const data = parseFeedXML(xml)
-  data.meta.url = url
-  for (const it of data.items) it.feedUrl = url
-  return data
 }
 
 /* ---- localStorage persistence ---- */

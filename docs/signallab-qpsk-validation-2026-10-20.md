@@ -33,3 +33,24 @@ Playwright 访问 `http://127.0.0.1:4180/#/signallab`，直接打开路由成功
 截图：[桌面实验区](../output/playwright/qpsk-desktop.png)、[窄屏实验区](../output/playwright/qpsk-mobile.png)、[深色星座图](../output/playwright/qpsk-dark.png)。
 
 以上为算法单测与单浏览器冒烟验证，尚未覆盖其他浏览器或辅助技术的完整测试。本次不包含主分支同步、QPSK BER 扫描或 AI 助教。
+
+## 后续主分支整合验证
+
+同日按用户授权，将远程 `master` 的 `4f5e416` 合并到 QPSK 分支。三个冲突文件的处理如下：
+
+- `App.tsx`：采用远程的统一内容分支结构，保留本地 hash 深链接、导航、懒加载、Suspense 和 SignalLab。
+- `lib/rss.ts`：保留调用方 AbortSignal，整合远程默认 15 秒超时；计时覆盖响应正文读取，并在结束时清理计时器和监听。超时错误保留原始 cause，主动取消不会被误报为超时。
+- `RSSReader.tsx`：整合安全主机名显示与描述文本 memo，保留本地缓存状态、搜索、请求取消和卸载清理。无需恢复远程的重复 localStorage 读取，因为本地已用状态保存选中缓存。
+
+独立审查发现一个原有竞态：刷新 A 时删除 B，A 返回后会从旧闭包恢复 B。浏览器使用两个受控 RSS fixture 复现了该失败；改为从最新订阅 ref 构造 Add/Refresh 更新后，重复同一测试通过。另行验证添加 C 期间删除 A，最终状态和 localStorage 只包含 C，A 没有恢复。
+
+新增 5 项请求测试覆盖超时、主动取消、预先取消、HTTP 错误和正文阻塞。完整测试增至 44 项，全部通过；lint、TypeScript 和生产构建通过，Prettier 格式化完成。独立审查复核修复后未发现新增问题。
+
+生产服务器 `http://127.0.0.1:4181` 的浏览器验证使用受控 RSS 返回值，无外部订阅请求：
+
+- 摘要文本搜索、无匹配结果、清空搜索及刷新页面读取缓存通过。
+- Blog、Archive、Todos、SignalLab、RSS 导航与浏览器返回通过；SignalLab 深链接刷新通过。
+- QPSK 关闭噪声时 32 比特、16 符号全部恢复；BER 扫描完成 8/8 点。
+- 浏览器控制台 0 错误、0 警告。
+
+此节记录整合时验证，取代上一段关于未同步主分支的历史状态；原 QPSK 截图仍对应功能开发阶段。

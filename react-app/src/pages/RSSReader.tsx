@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import {
   type FeedMeta,
   type FeedData,
@@ -11,6 +11,14 @@ import {
   removeFeedCache,
 } from '../lib/rss'
 import './RSSReader.css'
+
+function safeHostname(url: string): string {
+  try {
+    return new URL(url).hostname
+  } catch {
+    return url
+  }
+}
 
 export default function RSSReader() {
   const [initialState] = useState(() => {
@@ -29,6 +37,7 @@ export default function RSSReader() {
     }
   })
   const [feeds, setFeeds] = useState<FeedMeta[]>(initialState.feeds)
+  const feedsRef = useRef(feeds)
   const [selectedUrl, setSelectedUrl] = useState<string | null>(
     initialState.selectedUrl,
   )
@@ -76,6 +85,12 @@ export default function RSSReader() {
     setSelectedUrl(url)
   }
 
+  function updateFeeds(nextFeeds: FeedMeta[]) {
+    const retained = saveFeeds(nextFeeds)
+    feedsRef.current = retained
+    setFeeds(retained)
+  }
+
   function selectFeed(url: string) {
     updateSelectedUrl(url)
     setError(null)
@@ -112,8 +127,7 @@ export default function RSSReader() {
     try {
       const data = await fetchFeed(trimmed, request.controller.signal)
       if (requestIdRef.current !== request.id) return
-      const updated = saveFeeds([...feeds, data.meta])
-      setFeeds(updated)
+      updateFeeds([...feedsRef.current, data.meta])
       saveFeedItems(trimmed, data.items)
       setFeedData(data)
       updateSelectedUrl(trimmed)
@@ -135,9 +149,7 @@ export default function RSSReader() {
     try {
       const data = await fetchFeed(url, request.controller.signal)
       if (requestIdRef.current !== request.id) return
-      const updated = feeds.map((f) => (f.url === url ? data.meta : f))
-      setFeeds(updated)
-      saveFeeds(updated)
+      updateFeeds(feedsRef.current.map((f) => (f.url === url ? data.meta : f)))
       saveFeedItems(url, data.items)
       if (selectedUrlRef.current === url) {
         setFeedData(data)
@@ -164,9 +176,8 @@ export default function RSSReader() {
       setLoading(false)
     }
 
-    const updated = feeds.filter((f) => f.url !== url)
-    setFeeds(updated)
-    saveFeeds(updated)
+    const updated = feedsRef.current.filter((f) => f.url !== url)
+    updateFeeds(updated)
     removeFeedCache(url)
     if (selectedUrlRef.current === url) {
       const nextUrl = updated[0]?.url ?? null
@@ -181,7 +192,10 @@ export default function RSSReader() {
     }
   }
 
-  const selectedMeta = feeds.find((f) => f.url === selectedUrl) ?? null
+  const selectedMeta = useMemo(
+    () => feeds.find((f) => f.url === selectedUrl) ?? null,
+    [feeds, selectedUrl],
+  )
 
   return (
     <div className="rss-reader">
@@ -236,14 +250,14 @@ export default function RSSReader() {
                 className="rss-feed-pill-btn"
                 onClick={() => selectFeed(f.url)}
               >
-                {f.title || new URL(f.url).hostname}
+                {f.title || safeHostname(f.url)}
               </button>
               <button
                 className="rss-feed-remove"
                 type="button"
                 onClick={() => handleRemove(f.url)}
                 title="Remove feed"
-                aria-label={`Remove ${f.title || new URL(f.url).hostname} feed`}
+                aria-label={`Remove ${f.title || safeHostname(f.url)} feed`}
               >
                 ×
               </button>
@@ -297,7 +311,7 @@ export default function RSSReader() {
           <header className="rss-feed-header">
             <div>
               <h2 className="rss-feed-title">
-                {selectedMeta.title || new URL(selectedMeta.url).hostname}
+                {selectedMeta.title || safeHostname(selectedMeta.url)}
               </h2>
             </div>
             <button
@@ -332,6 +346,14 @@ function formatDate(raw: string): string {
 /** Shared feed-item list used by loaded and cached views */
 function FeedItemList({ items }: { items: FeedItem[] }) {
   const [query, setQuery] = useState('')
+  const renderedItems = useMemo(
+    () =>
+      items.map((item) => ({
+        item,
+        desc: stripHtml(item.description ?? ''),
+      })),
+    [items],
+  )
 
   if (items.length === 0) {
     return <p className="rss-empty">No items in this feed.</p>
@@ -339,11 +361,11 @@ function FeedItemList({ items }: { items: FeedItem[] }) {
 
   const normalizedQuery = query.trim().toLocaleLowerCase()
   const filteredItems = normalizedQuery
-    ? items.filter((item) => {
-        const searchableText = `${item.title} ${stripHtml(item.description ?? '')}`
+    ? renderedItems.filter(({ item, desc }) => {
+        const searchableText = `${item.title} ${desc}`
         return searchableText.toLocaleLowerCase().includes(normalizedQuery)
       })
-    : items
+    : renderedItems
 
   return (
     <>
@@ -368,8 +390,7 @@ function FeedItemList({ items }: { items: FeedItem[] }) {
       </div>
       {filteredItems.length > 0 ? (
         <ul className="rss-items">
-          {filteredItems.map((item) => {
-            const desc = item.description ? stripHtml(item.description) : ''
+          {filteredItems.map(({ item, desc }) => {
             return (
               <li key={item.id} className="rss-item">
                 <h3 className="rss-item-title">
