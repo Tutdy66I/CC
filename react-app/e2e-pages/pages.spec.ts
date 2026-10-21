@@ -1,5 +1,26 @@
 import { expect, test } from '@playwright/test'
 
+test('v0.7 statistics Worker works under the repository subpath', async ({
+  page,
+}) => {
+  await page.goto('./#/signallab')
+  const section = page.getByRole('region', {
+    name: '多种子 BER 统计验证',
+    exact: true,
+  })
+  await section
+    .getByRole('combobox', { name: '统计每次比特数', exact: true })
+    .selectOption('16384')
+  await section
+    .getByRole('combobox', { name: '统计重复次数', exact: true })
+    .selectOption('5')
+  await section.getByRole('button', { name: '开始多种子统计' }).click()
+  await expect(section.getByRole('status')).toHaveText(
+    '统计完成：150/150 次调制试验',
+  )
+  await expect(section.locator('tbody tr')).toHaveCount(30)
+})
+
 test('v0.6 static edition supports 16QAM EVM and the three-modulation Worker', async ({
   page,
 }) => {

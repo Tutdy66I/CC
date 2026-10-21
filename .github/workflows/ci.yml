@@ -33,7 +33,7 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:e2e
       - name: BER benchmark and exact result parity
         run: npm run benchmark:ber -- --output benchmark-results.json
