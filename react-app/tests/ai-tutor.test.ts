@@ -3,6 +3,39 @@ import test from 'node:test'
 import { createServer } from 'node:http'
 import { handleTutorRequest } from '../server/aiTutorHandler.js'
 import { createTutorReply, validateTutorRequest } from '../server/aiTutor.js'
+import { defaultGuidedPlan } from '../src/lib/guidedExperiment.js'
+
+test('guided planning uses constrained JSON rules and analysis uses completed snapshots only', async () => {
+  for (const stage of ['plan', 'analysis']) {
+    const result = await createTutorReply(
+      {
+        messages: [
+          { role: 'user', content: stage === 'plan' ? '建议参数' : '分析快照' },
+        ],
+        context: {
+          experiment: 'GUIDED',
+          data: { stage, plan: defaultGuidedPlan('equivalence') },
+        },
+      },
+      {
+        AI_BASE_URL: 'https://example.com/v1',
+        AI_MODEL: 'test',
+        AI_API_KEY: 'test',
+      },
+      async (_url, options) => {
+        const body = JSON.parse(String(options?.body))
+        assert.match(body.messages[0].content, /GUIDED/)
+        assert.match(body.messages[0].content, /JSON/)
+        assert.match(body.messages[0].content, /逐点/)
+        assert.match(body.messages[1].content, new RegExp(stage))
+        return Response.json({
+          choices: [{ message: { content: '测试响应' } }],
+        })
+      },
+    )
+    assert.equal(result.status, 200)
+  }
+})
 
 test('DeepSeek configuration can disable thinking for direct tutor answers', async () => {
   const result = await createTutorReply(

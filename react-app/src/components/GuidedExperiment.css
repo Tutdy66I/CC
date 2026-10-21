@@ -1,0 +1,59 @@
+.guided-experiment {
+  min-width: 0;
+  margin-block: 1.5rem 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 12px;
+}
+.guided-experiment select {
+  max-width: 100%;
+}
+.guided-db {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+.guided-db label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.guided-experiment fieldset {
+  min-width: 0;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 6px;
+}
+.guided-experiment .signal-sweep-actions {
+  margin-block: 1rem;
+}
+.guided-experiment p {
+  overflow-wrap: anywhere;
+}
+.guided-rationale {
+  border-left: 3px solid #2289c4;
+  padding-left: 0.75rem;
+}
+.guided-analysis {
+  white-space: pre-wrap;
+}
+.guided-table {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.guided-table table {
+  border-collapse: collapse;
+  min-width: 900px;
+  width: 100%;
+  font-size: 0.85rem;
+}
+.guided-table th,
+.guided-table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color, #ddd);
+}
+@media (max-width: 600px) {
+  .guided-experiment {
+    padding: 0.75rem;
+  }
+}

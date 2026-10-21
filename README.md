@@ -49,6 +49,13 @@ SignalLab v0.7 adds reproducible multi-seed BER statistics, sample spread and
 conservative pointwise bounds in a separate Worker, with CSV export and worker
 failure/recovery coverage. See [v0.7 validation and limits](docs/signallab-v0.7.md).
 
+SignalLab v0.8 connects experiment goals, validated AI parameter suggestions,
+explicit confirmation, Worker simulations, saved result snapshots and AI analysis.
+Three guided templates support BER equivalence, 16QAM BER/EVM and sample-size
+comparisons, with five local records and JSON export. Static Pages supports
+template experiments; AI requires the configured Node backend.
+See [v0.8 workflow and validation](docs/signallab-v0.8.md).
+
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).

@@ -1,5 +1,36 @@
 import { expect, test } from '@playwright/test'
 
+test('v0.8 static guided experiment runs without an AI API and exports a completed snapshot', async ({
+  page,
+}) => {
+  let calls = 0
+  page.on('request', (request) => {
+    if (request.url().includes('/api/')) calls++
+  })
+  await page.goto('./#/signallab')
+  const section = page.getByRole('region', {
+    name: 'AI 引导式实验',
+    exact: true,
+  })
+  await expect(
+    section.getByRole('button', { name: 'AI 建议参数', exact: true }),
+  ).toBeDisabled()
+  await section
+    .getByRole('button', { name: '确认方案并运行', exact: true })
+    .click()
+  await expect(section.getByRole('status')).toContainText('实验完成')
+  await expect(section.locator('tbody tr')).toHaveCount(6)
+  await expect(
+    section.getByRole('button', { name: 'AI 分析本次结果', exact: true }),
+  ).toBeDisabled()
+  const downloadEvent = page.waitForEvent('download')
+  await section.getByRole('button', { name: '导出实验记录 JSON' }).click()
+  expect((await downloadEvent).suggestedFilename()).toMatch(
+    /^SignalLab-guided-.*\.json$/,
+  )
+  expect(calls).toBe(0)
+})
+
 test('v0.7 statistics Worker works under the repository subpath', async ({
   page,
 }) => {

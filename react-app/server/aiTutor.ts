@@ -1,7 +1,7 @@
 export interface TutorRequest {
   messages: { role: 'user' | 'assistant'; content: string }[]
   context: {
-    experiment: 'BPSK' | 'QPSK' | 'BER' | '16QAM' | 'COMPARISON'
+    experiment: 'BPSK' | 'QPSK' | 'BER' | '16QAM' | 'COMPARISON' | 'GUIDED'
     data: Record<string, unknown>
   }
 }
@@ -23,7 +23,13 @@ EVM RMS=√(Σ|r−s|²/Σ|s|²)，以实际发送信号为参考，不作增益
 COMPARISON每64位循环发送0000到1111，均匀覆盖星座。BPSK/QPSK共用逐位噪声，实测BER完全重合是预期结果。比较扫描不提供置信区间，点数不足时不编造后续点。
 关闭噪声时不应用当前 Eb/N0 的有噪声理论值。零误码不等于真实 BER 为零；有限样本有统计波动。
 BER 扫描零误码为单侧95%上限，其余为逐点双侧95% Wilson区间，不是整条曲线的同时置信带。
-先解释当前结果，再给一个可验证的调参建议；数据不足就说明缺什么，不编造结果。回答不超过约800字。`
+GUIDED 是引导式实验。stage=plan 时尚未运行，不能声称有实测结果；只返回一个 JSON 对象，不带解释段落：
+{"template":"与提供方案相同","bits":16384,"seed":42,"trials":5,"dbValues":[0,4,8],"rationale":"说明每项参数选择与实验目标的关系，2000字以内"}。
+仅允许 template=equivalence/qam/sampling，保持用户选定 template；bits=16384/65536/131072，trials=5/10/20，seed 是 0 到 4294967295 整数；dbValues 是 [-4,-2,0,2,4,6,8,10,12,14] 的非空递增子集。除明确理由外保留用户已有参数。
+GUIDED stage=analysis 时只解释 record 中已完成的真实结果，引用调制、Eb/N0、总误码数/总比特数、理论 BER 与实测偏差，区分事实和推测。必须给出一个可验证的下一轮建议，不声称已执行建议。
+GUIDED 统计采用完整64比特块的逐点95% Hoeffding保守区间；允许同符号内比特相关，假设块间理想独立噪声，伪随机流只是近似。标准差描述种子波动，不是均值区间；不是同时置信带。零误码上界仍为正；不要把落在区间内解释为证明理论成立，也不要把偏差直接归因于实现错误。
+GUIDED sampling 比较 N/4 与 N 的 BPSK；同种子样本前缀配对，不是两组独立样本。统计噪声种子=(基础种子+trial*10+snrIndex) mod 2^32；trial从0起，snrIndex是完整十点网格索引。
+先解释当前结果，再给一个可验证的调参建议；数据不足就说明缺什么，不编造结果。分析回答不超过约800字。`
 
 export function validateTutorRequest(value: unknown): TutorRequest {
   if (!value || typeof value !== 'object') throw new Error('请求格式无效。')
@@ -46,7 +52,7 @@ export function validateTutorRequest(value: unknown): TutorRequest {
     throw new Error('请输入问题，最多4000字，历史最多12条。')
   if (
     !context ||
-    !['BPSK', 'QPSK', 'BER', '16QAM', 'COMPARISON'].includes(
+    !['BPSK', 'QPSK', 'BER', '16QAM', 'COMPARISON', 'GUIDED'].includes(
       context.experiment,
     ) ||
     !context.data ||
