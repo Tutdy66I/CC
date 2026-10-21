@@ -6,6 +6,7 @@ import AiTutor from '../components/AiTutor'
 import EvmReadout from '../components/EvmReadout'
 import QamExperiment from '../components/QamExperiment'
 import ModulationComparison from '../components/ModulationComparison'
+import SeedStatistics from '../components/SeedStatistics'
 import { measureEvm } from '../lib/evm'
 import './SignalLab.css'
 
@@ -101,7 +102,7 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v0.6</p>
+        <p className="signal-version">通信实验 · v0.7</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK、16QAM 的 BER 与 EVM。</p>
       </header>
@@ -284,6 +285,7 @@ export default function SignalLab() {
       <QpskExperiment />
       <QamExperiment />
       <ModulationComparison />
+      <SeedStatistics />
     </main>
   )
 }
