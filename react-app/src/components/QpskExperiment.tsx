@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 import AiTutor from './AiTutor'
+import EvmReadout from './EvmReadout'
+import { measureEvm } from '../lib/evm'
 import { theoreticalBpskBer } from '../lib/berSweep'
 import { modulateQpsk, simulateQpsk, type QpskSymbol } from '../lib/qpsk'
 import { parseBits } from '../lib/signallab'
@@ -207,6 +209,11 @@ export default function QpskExperiment() {
       {experiment.result && experiment.bits && (
         <>
           <div aria-live="polite" aria-label="QPSK 实验结果">
+            <EvmReadout
+              modulation="QPSK"
+              reference={experiment.result.symbols}
+              received={experiment.result.received}
+            />
             <dl className="signal-metrics qpsk-metrics">
               <div>
                 <dt>传输比特</dt>
@@ -338,6 +345,10 @@ export default function QpskExperiment() {
                   noiseEnabled,
                   errors: experiment.result.errors,
                   ber: experiment.result.ber,
+                  evmPercent: measureEvm(
+                    experiment.result.symbols,
+                    experiment.result.received,
+                  ).percent,
                   theoretical: noiseEnabled ? theoreticalBpskBer(ebN0Db) : null,
                 },
               }

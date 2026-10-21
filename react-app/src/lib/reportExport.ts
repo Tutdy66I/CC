@@ -1,4 +1,6 @@
 import { theoreticalBpskBer, type BerPoint } from './berSweep.js'
+import { theoreticalQam16Ber } from './qam16.js'
+import type { ComparisonPoint } from './modulationComparison.js'
 
 export interface ReportMessage {
   role: 'user' | 'assistant'
@@ -8,7 +10,7 @@ export interface ReportMessage {
 export interface ReportSnapshot {
   generatedAt: string
   context: {
-    experiment: 'BPSK' | 'QPSK' | 'BER'
+    experiment: 'BPSK' | 'QPSK' | 'BER' | '16QAM' | 'COMPARISON'
     data: Record<string, unknown>
   }
   charts: { title: string; dataUrl: string }[]
@@ -25,6 +27,8 @@ const labels: Record<string, string> = {
   theoretical: '理论 BER',
   symbols: '符号数',
   modulation: '调制方式',
+  evmPercent: '参考辅助 RMS EVM (%)',
+  evmDb: 'RMS EVM (dB，零误差为负无穷)',
 }
 const statusLabels: Record<string, string> = {
   idle: '未运行',
@@ -81,7 +85,7 @@ export function renderReport(
   }).format(new Date(snapshot.generatedAt))
   let body = html ? `<h1>${title}</h1>` : `# ${title}\n`
   body += paragraph(
-    `SignalLab v0.5 · 生成时间：${time}（Asia/Hong_Kong，UTC+08:00）`,
+    `SignalLab v0.6 · 生成时间：${time}（Asia/Hong_Kong，UTC+08:00）`,
   )
   body += heading('实验参数与结果')
   const rows = Object.entries(data)
@@ -99,7 +103,7 @@ export function renderReport(
         value !== undefined,
     )
     .map(([key, value]) => [labels[key] ?? key, valueText(value)])
-  if (experiment === 'BER') {
+  if (experiment === 'BER' || experiment === 'COMPARISON') {
     const run = data.run as { bits: number; seed: number }
     rows.push(['每点比特数', String(run.bits)], ['基础种子', String(run.seed)])
   } else if (
@@ -107,7 +111,14 @@ export function renderReport(
     typeof data.ebN0Db === 'number' &&
     data.theoretical === undefined
   ) {
-    rows.push(['理论 BER', String(theoreticalBpskBer(data.ebN0Db))])
+    rows.push([
+      '理论 BER',
+      String(
+        experiment === '16QAM'
+          ? theoreticalQam16Ber(data.ebN0Db)
+          : theoreticalBpskBer(data.ebN0Db),
+      ),
+    ])
   }
   body += table(['项目', '数值'], rows)
   if (typeof data.inputBits === 'string')
@@ -126,7 +137,7 @@ export function renderReport(
       q: '接收 Q',
     }
     body += heading(
-      `采样明细（前 ${samples.length} ${experiment === 'QPSK' ? '个符号' : '比特'}）`,
+      `采样明细（前 ${samples.length} ${experiment === 'QPSK' || experiment === '16QAM' ? '个符号' : '比特'}）`,
     )
     body += table(
       columns.map((key) => sampleLabels[key] ?? key),
@@ -172,6 +183,39 @@ export function renderReport(
     )
   }
   body += heading('图表快照')
+  if (experiment === 'COMPARISON') {
+    const points = data.points as ComparisonPoint[]
+    body += paragraph(
+      `比较状态：${statusLabels[String(data.status)] ?? String(data.status)}；已完成 ${points.length}/30 点，仅包含实际完成点。`,
+    )
+    body += table(
+      [
+        '调制',
+        'Eb/N0 (dB)',
+        '种子',
+        '比特数',
+        '误码数',
+        '实测 BER',
+        '理论 BER',
+        '参考辅助 RMS EVM (%)',
+      ],
+      points.map((point) =>
+        [
+          point.modulation,
+          point.ebN0Db,
+          point.seed,
+          point.bits,
+          point.errors,
+          point.ber,
+          point.theoretical,
+          point.evm.percent,
+        ].map(String),
+      ),
+    )
+    body += paragraph(
+      '64比特循环依次发送0000至1111。三种调制相同比特数与Eb/N0；第i个SNR种子=(基础种子+i) mod 2^32。BPSK/QPSK共用逐位噪声，因此实测BER完全重合。此比较不提供置信带，零误码不等于真实BER为零。',
+    )
+  }
   if (!snapshot.charts.length)
     body += paragraph('未捕获图表，请返回实验页面重试导出。')
   for (const chart of snapshot.charts) {
@@ -183,6 +227,13 @@ export function renderReport(
   }
   body += heading('模型与统计说明')
   body += paragraph(
+    'EVM RMS=√(Σ|r−s|²/Σ|s|²)，按全部输入、实际发送信号归一化，不采用判决后重建参考，不作增益/相位/频偏补偿。零EVM的dB为−∞。BPSK仅测实轴，不等同于二维RF EVM。',
+  )
+  if (experiment === '16QAM' || experiment === 'COMPARISON')
+    body += paragraph(
+      'Gray 16QAM：每四位前两位控制I、后两位控制Q，各轴00/01/11/10→−3a/−a/+a/+3a，a=√(2/5)；均匀星座平均Es=4、Eb=1。短输入不重新缩放。精确理论BER=3/4 Q(d)+1/2 Q(3d)−1/4 Q(5d)，d=√(0.8×10^(Eb/N0[dB]/10))。',
+    )
+  body += paragraph(
     '单位比特能量 Eb=1；BPSK：0→+1，1→−1。Gray QPSK：第一位控制I、第二位控制Q，Es=2；每轴以0为判决阈值。AWGN每轴方差=1/(2×10^(Eb/N0[dB]/10))。',
   )
   body += paragraph(
@@ -191,14 +242,16 @@ export function renderReport(
       : '相干检测、理想同步与 AWGN 条件下，BPSK 与 Gray QPSK 的理论 BER=½·erfc(√(10^(Eb/N0[dB]/10)))。',
   )
   body += paragraph(
-    '实测 BER=误码数/比特数。有限样本会波动；零误码不代表真实 BER 为零。扫描中零误码使用单侧95%上限 1−0.05^(1/N)，其他点使用双侧95% Wilson区间；它们是逐点区间，不是整条曲线的同时置信带。',
+    '实测 BER=误码数/比特数。有限样本会波动；零误码不代表真实 BER 为零。原BPSK扫描中零误码使用单侧95%上限 1−0.05^(1/N)，其他点使用双侧95% Wilson区间；它们是逐点区间，不是整条曲线的同时置信带。三调制比较不提供这些区间。',
   )
   body += paragraph(
-    experiment === 'QPSK'
+    experiment === 'QPSK' || experiment === '16QAM'
       ? '星座图仅显示前500个符号，等比例I/Q轴；蓝点为正确接收，红叉为误判，空心圆为理想点；BER按全部比特计算。'
       : experiment === 'BPSK'
         ? '波形仅显示前32比特；BER按全部比特计算。载波为无噪声示意，接收图为匹配滤波采样，不是射频时域噪声波形。'
-        : '曲线为对数纵轴；零误码三角形表示上限，不接入实测折线。',
+        : experiment === 'COMPARISON'
+          ? '曲线为对数纵轴，零误码在底部以叉号标记，不赋予对数BER值，也不代表置信上限。'
+          : '曲线为对数纵轴；零误码三角形表示上限，不接入实测折线。',
   )
   body += heading('AI 解释与历史快照')
   body += paragraph(

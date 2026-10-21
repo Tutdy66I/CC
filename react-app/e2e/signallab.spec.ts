@@ -58,7 +58,9 @@ test('real bundled Worker scans eight points, wraps seeds and reproduces array-c
   page,
 }) => {
   const sweep = page.getByRole('region', { name: 'BER 曲线实验', exact: true })
-  await page.getByLabel('每点比特数').selectOption('10000')
+  await page
+    .getByRole('combobox', { name: '每点比特数', exact: true })
+    .selectOption('10000')
   await page.getByLabel('扫描基础种子').fill('4294967295')
   await sweep.getByRole('button', { name: '开始 BER 扫描' }).click()
   await expect(sweep.getByRole('status').first()).toHaveText('扫描完成：8/8 点')
@@ -98,7 +100,9 @@ test('scan can be cancelled while its real Worker is waiting to start', async ({
   await expect(sweep.getByRole('status').first()).toContainText(
     '已取消：保留 0/8',
   )
-  await expect(page.getByLabel('每点比特数')).toBeEnabled()
+  await expect(
+    page.getByRole('combobox', { name: '每点比特数', exact: true }),
+  ).toBeEnabled()
   await page.evaluate(() =>
     window.dispatchEvent(new Event('e2e-dispatch-worker')),
   )

@@ -3,6 +3,10 @@ import { parseBits, simulateBpsk } from '../lib/signallab'
 import BerSweep from '../components/BerSweep'
 import QpskExperiment from '../components/QpskExperiment'
 import AiTutor from '../components/AiTutor'
+import EvmReadout from '../components/EvmReadout'
+import QamExperiment from '../components/QamExperiment'
+import ModulationComparison from '../components/ModulationComparison'
+import { measureEvm } from '../lib/evm'
 import './SignalLab.css'
 
 const MAX_BITS = 10000
@@ -97,9 +101,9 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v0.5</p>
+        <p className="signal-version">通信实验 · v0.6</p>
         <h1>SignalLab AI</h1>
-        <p>从比特到波形与星座图，观察 BPSK、QPSK 在高斯白噪声信道中的传输。</p>
+        <p>从比特到波形与星座图，观察 BPSK、QPSK、16QAM 的 BER 与 EVM。</p>
       </header>
       <section className="signal-controls" aria-label="实验参数">
         <label htmlFor="signal-bits">输入比特流</label>
@@ -160,6 +164,11 @@ export default function SignalLab() {
       {experiment.result && experiment.bits && (
         <>
           <section aria-label="实验结果" aria-live="polite">
+            <EvmReadout
+              modulation="BPSK"
+              reference={experiment.result.symbols}
+              received={experiment.result.received}
+            />
             <dl className="signal-metrics">
               <div>
                 <dt>传输比特</dt>
@@ -246,6 +255,10 @@ export default function SignalLab() {
                   noiseEnabled,
                   errors: experiment.result.errors,
                   ber: experiment.result.ber,
+                  evmPercent: measureEvm(
+                    experiment.result.symbols,
+                    experiment.result.received,
+                  ).percent,
                 },
               }
             : null
@@ -269,6 +282,8 @@ export default function SignalLab() {
         </p>
       </aside>
       <QpskExperiment />
+      <QamExperiment />
+      <ModulationComparison />
     </main>
   )
 }

@@ -1,0 +1,51 @@
+.qam-experiment {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #ddd);
+}
+.qam-constellation svg {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin: auto;
+}
+.qam-boundary {
+  stroke: #8592a8;
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+.qam-ideal {
+  fill: none;
+  stroke: #945de0;
+  stroke-width: 2;
+}
+.qam-received {
+  fill: #2585c6;
+}
+.qam-error {
+  fill: none;
+  stroke: #d64b55;
+  stroke-width: 1.5;
+}
+.qam-label {
+  font-size: 10px;
+  fill: currentColor;
+}
+.qam-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.qam-table-scroll table {
+  width: 100%;
+  min-width: 540px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.qam-table-scroll th,
+.qam-table-scroll td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccd2dc;
+  text-align: left;
+  white-space: nowrap;
+}

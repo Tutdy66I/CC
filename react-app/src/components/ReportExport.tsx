@@ -74,7 +74,11 @@ export default function ReportExport({
           ? '.signal-lab'
           : context.experiment === 'QPSK'
             ? '.qpsk-experiment'
-            : '.signal-sweep',
+            : context.experiment === '16QAM'
+              ? '.qam-experiment'
+              : context.experiment === 'COMPARISON'
+                ? '.modulation-comparison'
+                : '.signal-sweep',
       )
       if (!scope) throw new Error('找不到实验区域。')
       const snapshot: ReportSnapshot = structuredClone({

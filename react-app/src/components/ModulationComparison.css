@@ -1,0 +1,28 @@
+.modulation-comparison {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #ddd);
+  min-width: 0;
+}
+.comparison-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.comparison-scroll svg {
+  display: block;
+  min-width: 680px;
+  width: 100%;
+}
+.comparison-scroll table {
+  width: 100%;
+  min-width: 780px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.comparison-scroll th,
+.comparison-scroll td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccd2dc;
+  text-align: left;
+  white-space: nowrap;
+}

@@ -3,7 +3,7 @@ import './AiTutor.css'
 import ReportExport from './ReportExport'
 
 export interface ExperimentContext {
-  experiment: 'BPSK' | 'QPSK' | 'BER'
+  experiment: 'BPSK' | 'QPSK' | 'BER' | '16QAM' | 'COMPARISON'
   data: Record<string, unknown>
 }
 interface Message {

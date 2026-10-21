@@ -1,5 +1,27 @@
 import { expect, test } from '@playwright/test'
 
+test('v0.6 static edition supports 16QAM EVM and the three-modulation Worker', async ({
+  page,
+}) => {
+  await page.goto('./#/signallab')
+  await page.getByLabel('启用 16QAM AWGN 噪声', { exact: true }).uncheck()
+  await expect(
+    page.getByLabel('16QAM EVM 测量', { exact: true }),
+  ).toContainText('0.000%')
+  await page
+    .getByRole('combobox', { name: '对比每点比特数', exact: true })
+    .selectOption('16384')
+  const comparison = page.getByRole('region', {
+    name: '三调制 BER 与性能对比',
+    exact: true,
+  })
+  await comparison.getByRole('button', { name: '开始三调制对比' }).click()
+  await expect(comparison.getByRole('status').first()).toHaveText(
+    '对比完成：30/30 点',
+  )
+  await expect(comparison.locator('tbody tr')).toHaveCount(30)
+})
+
 test('repository subpath loads SignalLab, public icons and the static-host notice', async ({
   page,
   baseURL,
@@ -26,7 +48,9 @@ test('static deployment runs its bundled BER Worker and downloads a report', asy
   page,
 }) => {
   await page.goto('./#/signallab')
-  await page.getByLabel('每点比特数').selectOption('10000')
+  await page
+    .getByRole('combobox', { name: '每点比特数', exact: true })
+    .selectOption('10000')
   const sweep = page.getByRole('region', { name: 'BER 曲线实验', exact: true })
   await sweep.getByRole('button', { name: '开始 BER 扫描' }).click()
   await expect(sweep.getByRole('status').first()).toHaveText('扫描完成：8/8 点')
