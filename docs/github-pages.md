@@ -9,7 +9,7 @@ SignalLab 直达地址：`https://tutdy66i.github.io/CC/#/signallab`。
 推送 master 后，`.github/workflows/ci.yml` 依次运行：
 
 1. `verify`：全部单元/HTTP、Lint、TypeScript、生产构建、桌面/移动 E2E 和基准等价检查。
-2. `pages-build`：以 `/CC/` 路径重新构建静态版；运行六项桌面/移动 Pages 冒烟测试，然后仅上传 `react-app/dist`。
+2. `pages-build`：以 `/CC/` 路径重新构建静态版；运行八项桌面/移动 Pages 冒烟测试（包含 v0.6 16QAM 和三调制 Worker），然后仅上传 `react-app/dist`。
 3. `pages-deploy`：将通过验证的 artifact 发布到 github-pages 环境。PR 不部署。
 
 静态版不包含服务端源码、加密密钥文件、环境变量文件或开发缓存。
@@ -18,7 +18,7 @@ Pages 构建只设置公开的 `VITE_STATIC_HOST=true`、资源路径与站点�
 ## 功能边界
 
 GitHub Pages 是静态托管，不能运行 Node API。
-BPSK、QPSK、BER Worker 扫描、图表、报告下载、博客与本地待办可直接运行。
+BPSK、QPSK、16QAM、BER/三调制对比 Worker、EVM、图表、报告下载、博客与本地待办可直接运行。
 AI 助教与 RSS 外部订阅抓取需要独立 Node 后端；静态版显示说明，助教提问直接给出明确提示而不发送无效 API 请求。
 现有 Node 版本的 AI/RSS 实现保留，默认构建不启用静态标记，仍使用原先同源 API。
 不会将模型密钥嵌入前端来替代后端。
