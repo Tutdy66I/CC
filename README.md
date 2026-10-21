@@ -4,13 +4,13 @@ CC is a web application built with React, TypeScript, and Vite. The application 
 
 ## Requirements
 
-- Node.js and npm
+- Node.js 24 and npm (CI uses Node 24)
 
 ## Getting started
 
 ```bash
 cd react-app
-npm install
+npm ci
 npm run dev
 ```
 
@@ -20,13 +20,17 @@ Vite prints the local development URL in the terminal.
 
 Run these from `react-app/`:
 
-| Command           | Purpose                                                  |
-| ----------------- | -------------------------------------------------------- |
-| `npm run dev`     | Start the development server                             |
-| `npm run build`   | Check TypeScript, build the app, and generate RSS output |
-| `npm run lint`    | Run ESLint                                               |
-| `npm run preview` | Preview the production build locally                     |
-| `npm start`       | Serve the production build and RSS proxy on Node.js      |
+| Command                 | Purpose                                                  |
+| ----------------------- | -------------------------------------------------------- |
+| `npm run dev`           | Start the development server                             |
+| `npm run build`         | Check TypeScript, build the app, and generate RSS output |
+| `npm run lint`          | Run ESLint                                               |
+| `npm test`              | Run unit and local HTTP integration tests                |
+| `npm run typecheck`     | Check app, server, tests and E2E TypeScript              |
+| `npm run test:e2e`      | Test the production build in desktop/mobile Chromium     |
+| `npm run benchmark:ber` | Benchmark BER scans with exact reference parity          |
+| `npm run preview`       | Preview the production build locally                     |
+| `npm start`             | Serve the production build and RSS proxy on Node.js      |
 
 For production hosting, use a Node.js service: run `npm run build`, then `npm start`.
 The server listens on `PORT` when provided, or port `4173` by default. It serves
@@ -40,6 +44,13 @@ See [AI tutor setup and validation](docs/signallab-ai-tutor.md).
 Each SignalLab experiment can export a self-contained HTML report or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).
+
+SignalLab v0.5 adds CI, bounded-memory BER scans, reproducible benchmarks and
+automated browser coverage. See the [developer guide](react-app/README.md),
+[implementation and validation report](docs/signallab-v0.5.md), and
+[AI tutor security review and proposal](docs/signallab-ai-security-v0.5.md).
+GitHub Actions runs tests, Lint, TypeScript checks, a production build, browser
+tests and benchmark parity on pushes and pull requests. It does not deploy.
 
 ## Project layout
 

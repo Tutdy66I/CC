@@ -97,7 +97,7 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v0.4</p>
+        <p className="signal-version">通信实验 · v0.5</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK 在高斯白噪声信道中的传输。</p>
       </header>
