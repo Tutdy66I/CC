@@ -46,3 +46,49 @@ jobs:
             react-app/test-results/
             react-app/benchmark-results.json
           retention-days: 7
+
+  pages-build:
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: react-app
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: react-app/package-lock.json
+      - uses: actions/configure-pages@v5
+      - run: npm ci
+      - name: Build the static Pages edition
+        run: npm run build
+        env:
+          DEPLOY_BASE_PATH: /CC/
+          VITE_STATIC_HOST: 'true'
+          SITE_DOMAIN: tutdy66i.github.io/CC
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:pages
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: react-app/dist
+
+  pages-deploy:
+    needs: pages-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the validated static artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

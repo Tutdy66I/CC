@@ -13,6 +13,7 @@
     "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.server.json --noEmit && tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.e2e.json --noEmit",
     "benchmark:ber": "tsc -p tsconfig.test.json && node scripts/benchmark-ber.mjs",
     "test:e2e": "playwright test",
+    "test:pages": "playwright test --config=playwright.pages.config.ts",
     "test:e2e:server": "node scripts/e2e-server.mjs",
     "preview": "vite preview",
     "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js"

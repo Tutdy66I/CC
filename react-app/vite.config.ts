@@ -28,5 +28,6 @@ function rssProxyPlugin(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: process.env.DEPLOY_BASE_PATH || '/',
   plugins: [react(), rssProxyPlugin()],
 })

@@ -50,7 +50,9 @@ automated browser coverage. See the [developer guide](react-app/README.md),
 [implementation and validation report](docs/signallab-v0.5.md), and
 [AI tutor security review and proposal](docs/signallab-ai-security-v0.5.md).
 GitHub Actions runs tests, Lint, TypeScript checks, a production build, browser
-tests and benchmark parity on pushes and pull requests. It does not deploy.
+tests and benchmark parity on pushes and pull requests. After all checks pass,
+`master` publishes the static edition to GitHub Pages. See [Pages deployment](docs/github-pages.md)
+for the URL, validation commands and backend limitations.
 
 ## Project layout
 

@@ -108,6 +108,13 @@ function App() {
   return (
     <>
       {nav}
+      {import.meta.env.VITE_STATIC_HOST === 'true' && (
+        <p className="app-loading" role="note">
+          此站点由 GitHub Pages 静态托管，通信实验与报告导出可直接使用。 AI
+          助教和 RSS 订阅抓取需要另行连接 Node 后端；本机完整运行方式见仓库
+          README。
+        </p>
+      )}
       <ErrorBoundary>
         <Suspense fallback={<p className="app-loading">Loading…</p>}>
           {content}

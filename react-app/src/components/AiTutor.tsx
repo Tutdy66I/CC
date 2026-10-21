@@ -41,6 +41,12 @@ export default function AiTutor({
   async function ask(text: string) {
     if (!context || !text.trim() || text.length > 4000 || pending.current)
       return
+    if (import.meta.env.VITE_STATIC_HOST === 'true') {
+      setError(
+        'GitHub Pages 不提供 AI 接口，请使用配置了模型服务的 Node 后端。',
+      )
+      return
+    }
     const controller = new AbortController()
     pending.current = controller
     setBusy(true)
