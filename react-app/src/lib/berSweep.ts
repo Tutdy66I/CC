@@ -1,4 +1,4 @@
-import { simulateBpsk } from './signallab.js'
+import { createAwgnSampler } from './signallab.js'
 
 export const SWEEP_DB = [-4, -2, 0, 2, 4, 6, 8, 10] as const
 export const MAX_SWEEP_BITS = 1000000
@@ -97,8 +97,16 @@ export function simulateBerPoint(
   validateSweepRequest({ bits, seed })
   const theoretical = theoreticalBpskBer(ebN0Db)
   // A deterministic balanced sequence; bit values do not change coherent BPSK error probability.
-  const transmitted = Array.from({ length: bits }, (_, index) => index % 2)
-  const { errors, ber } = simulateBpsk(transmitted, ebN0Db, seed)
+  // Stream the same symbol/noise/decision sequence without retaining O(bits) arrays.
+  const sample = createAwgnSampler(ebN0Db, seed)
+  let errors = 0
+  for (let index = 0; index < bits; index++) {
+    const bit = index % 2
+    const received = sample(bit === 0 ? 1 : -1)
+    const decoded = received >= 0 ? 0 : 1
+    errors += Number(bit !== decoded)
+  }
+  const ber = errors / bits
   return {
     ebN0Db,
     bits,

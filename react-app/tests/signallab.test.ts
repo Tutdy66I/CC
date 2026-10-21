@@ -41,6 +41,38 @@ test('AWGN is reproducible, does not mutate input, and changes with the seed', (
   assert.deepEqual(symbols, original)
 })
 
+test('AWGN retains pre-v0.5 samples at seed boundaries', () => {
+  const fixtures = [
+    [
+      0,
+      [
+        1.5566236110754974, -0.6949261211142364, 0.23795012786358227,
+        -1.5794863762774836,
+      ],
+    ],
+    [
+      42,
+      [
+        0.09148222601328992, -1.6684653825468891, 0.5677595655173076,
+        -1.4001040580202064,
+      ],
+    ],
+    [
+      0xffffffff,
+      [
+        1.5589089687606281, 0.05285028750038423, -0.32486565733811235,
+        -2.0556146361606817,
+      ],
+    ],
+  ] as const
+  for (const [seed, expected] of fixtures) {
+    const actual = addAwgn([1, -1, 1, -1], 0, seed)
+    actual.forEach((value, index) =>
+      assert.ok(Math.abs(value - expected[index]) < 1e-14),
+    )
+  }
+})
+
 test('AWGN has approximately zero mean and N0/2 variance at 0 dB', () => {
   const noise = addAwgn(Array<number>(100000).fill(0), 0, 123)
   const mean = noise.reduce((sum, value) => sum + value, 0) / noise.length

@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import { spawnSync } from 'node:child_process'
 import {
   berInterval,
   simulateBerPoint,
   theoreticalBpskBer,
+  SWEEP_DB,
+  MAX_SWEEP_BITS,
 } from '../src/lib/berSweep.js'
 import { simulateBpsk } from '../src/lib/signallab.js'
 
@@ -22,6 +25,64 @@ test('theoretical BPSK BER matches reference values across the scan range', () =
   assert.ok(theoreticalBpskBer(-4) > theoreticalBpskBer(0))
   for (const db of [NaN, Infinity, -Infinity, -11, 16])
     assert.throws(() => theoreticalBpskBer(db))
+})
+
+test('scan results exactly match the array channel across range, odd counts and boundary seeds', () => {
+  for (const count of [1, 2, 3, 31, 10000]) {
+    const input = Array.from({ length: count }, (_, index) => index % 2)
+    for (const seed of [0, 1, 42, 0xffffffff]) {
+      for (const db of [-10, ...SWEEP_DB, 15]) {
+        const expected = simulateBpsk(input, db, seed)
+        const point = simulateBerPoint(db, count, seed)
+        assert.equal(
+          point.errors,
+          expected.errors,
+          `N=${count}, seed=${seed}, db=${db}`,
+        )
+        assert.equal(point.ber, expected.ber)
+        assert.deepEqual(point.interval, berInterval(expected.errors, count))
+      }
+    }
+  }
+})
+
+test('maximum scan budget and wrapped seed retain exact counts', () => {
+  const input = Array.from({ length: MAX_SWEEP_BITS }, (_, index) => index % 2)
+  const seed = (0xffffffff + 1) >>> 0
+  const expected = simulateBpsk(input, -4, seed)
+  const point = simulateBerPoint(-4, MAX_SWEEP_BITS, seed)
+  assert.equal(point.errors, expected.errors)
+  assert.equal(point.ber, expected.ber)
+})
+
+test('million-bit scan fits a 32 MiB V8 old-space budget', () => {
+  const moduleUrl = new URL('../src/lib/berSweep.js', import.meta.url).href
+  const child = spawnSync(
+    process.execPath,
+    [
+      '--max-old-space-size=32',
+      '--input-type=module',
+      '-e',
+      `import { simulateBerPoint } from ${JSON.stringify(moduleUrl)}; const p = simulateBerPoint(0, 1000000, 42); if (p.bits !== 1000000) process.exit(2)`,
+    ],
+    { encoding: 'utf8', timeout: 15000 },
+  )
+  assert.equal(
+    child.status,
+    0,
+    `scan exceeded heap budget or failed: ${child.error?.message ?? child.signal ?? child.stderr.slice(-300)}`,
+  )
+})
+
+test('intervals are finite and bounded for a single bit and safe-integer sample limit', () => {
+  for (const bits of [1, Number.MAX_SAFE_INTEGER]) {
+    for (const errors of [0, 1, bits]) {
+      const { lower, upper } = berInterval(errors, bits)
+      assert.ok(Number.isFinite(lower) && Number.isFinite(upper))
+      assert.ok(lower >= 0 && upper <= 1 && lower <= upper)
+    }
+  }
+  assert.throws(() => berInterval(0, Number.MAX_SAFE_INTEGER + 1))
 })
 
 test('Wilson interval matches a known 50/100 example and stays inside [0,1]', () => {

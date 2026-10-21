@@ -2,11 +2,28 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { modulateQpsk, demodulateQpsk, simulateQpsk } from '../src/lib/qpsk.js'
 import { theoreticalBpskBer } from '../src/lib/berSweep.js'
+import { simulateBpsk } from '../src/lib/signallab.js'
 
 const bits = Array.from(
   { length: 200000 },
   (_, i) => [0, 0, 0, 1, 1, 1, 1, 0][i % 8],
 )
+
+test('QPSK uses exactly the BPSK axis stream at SNR and seed boundaries', () => {
+  const input = Object.freeze([0, 0, 0, 1, 1, 1, 1, 0])
+  for (const db of [-10, 0, 15]) {
+    for (const seed of [0, 42, 0xffffffff]) {
+      const bpsk = simulateBpsk(input, db, seed)
+      const qpsk = simulateQpsk(input, db, seed)
+      assert.deepEqual(
+        qpsk.received.flatMap(({ i, q }) => [i, q]),
+        bpsk.received,
+      )
+      assert.deepEqual(qpsk.decoded, bpsk.decoded)
+      assert.equal(qpsk.errors, bpsk.errors)
+    }
+  }
+})
 
 test('QPSK maps all Gray pairs with Eb=1 and Es=2', () => {
   const symbols = modulateQpsk([0, 0, 0, 1, 1, 1, 1, 0])

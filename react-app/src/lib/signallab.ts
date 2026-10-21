@@ -45,6 +45,15 @@ export function addAwgn(
   seed: number,
 ): number[] {
   validateSamples(symbols)
+  const sample = createAwgnSampler(ebN0Db, seed)
+  return symbols.map(sample)
+}
+
+/** Stateful per-stream sampler. Consume exactly once per axis, in input order. */
+export function createAwgnSampler(
+  ebN0Db: number,
+  seed: number,
+): (symbol: number) => number {
   // Eb = 1, real matched-filter noise variance = N0/2.
   const variance = 1 / (2 * 10 ** (ebN0Db / 10))
   if (!Number.isFinite(ebN0Db) || !Number.isFinite(variance) || variance <= 0) {
@@ -52,12 +61,12 @@ export function addAwgn(
   }
   const random = seededRandom(seed)
   const sigma = Math.sqrt(variance)
-  return symbols.map((symbol) => {
+  return (symbol) => {
     // 1-random() avoids log(0), including for seed 0.
     const gaussian =
       Math.sqrt(-2 * Math.log(1 - random())) * Math.cos(2 * Math.PI * random())
     return symbol + sigma * gaussian
-  })
+  }
 }
 
 export function demodulateBpsk(samples: readonly number[]): number[] {
