@@ -9,7 +9,7 @@ SignalLab 直达地址：`https://tutdy66i.github.io/CC/#/signallab`。
 推送 master 后，`.github/workflows/ci.yml` 依次运行：
 
 1. `verify`：全部单元/HTTP、Lint、TypeScript、生产构建、桌面/移动 E2E 和基准等价检查。
-2. `pages-build`：以 `/CC/` 路径重新构建静态版；运行八项桌面/移动 Pages 冒烟测试（包含 v0.6 16QAM 和三调制 Worker），然后仅上传 `react-app/dist`。
+2. `pages-build`：以 `/CC/` 路径重新构建静态版；运行十项桌面/移动 Pages 冒烟测试（包含 16QAM、三调制与 v0.7 多种子统计 Worker），然后仅上传 `react-app/dist`。
 3. `pages-deploy`：将通过验证的 artifact 发布到 github-pages 环境。PR 不部署。
 
 静态版不包含服务端源码、加密密钥文件、环境变量文件或开发缓存。

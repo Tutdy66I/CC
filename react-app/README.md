@@ -29,11 +29,11 @@ npm test
 npm run lint
 npm run typecheck
 npm run build
-npx playwright install chromium
+npx playwright install chromium firefox webkit
 npm run test:e2e
 ```
 
-Linux CI 安装浏览器时使用 `npx playwright install --with-deps chromium`。
+Linux CI 安装浏览器时使用 `npx playwright install --with-deps chromium firefox webkit`。
 `typecheck` 独立检查 app、Vite 配置、服务端、单元/HTTP 测试和 E2E。
 Node 24 test runner 自动发现 `.test-build/tests/*.test.js`；若移除或重命名单元测试，
 先清理对应旧编译产物，避免残留测试被再次执行。
@@ -41,8 +41,9 @@ Node 24 test runner 自动发现 `.test-build/tests/*.test.js`；若移除或重
 Playwright 使用已构建的生产资源和服务器（专用端口 4175，端口占用时失败，不复用已有服务）。
 每次 E2E 前先执行 build；修改产品源码后只重跑 E2E 不会自动构建。
 E2E 服务清除供应商配置，不读取本地加密密钥；成功/迟到回答为路由替身，缺少配置为真实 503。
-桌面 Chromium 与 Pixel 7 模拟视口覆盖实验、Worker、下载和助教。
-浏览器只允许测试服务器网络请求，不需要供应商账号或付费调用。
+桌面 Chromium、Pixel 7 模拟视口、Firefox 和 WebKit 覆盖实验、Worker、下载和助教。
+测试仅使用本地服务与本地路由替身，不需要供应商账号或付费调用。
+Worker 异常测试保留真实计算结果，再控制主线程消息投递或注入明确失败；不伪造数值样本。
 
 失败时查看 `playwright-report/`、`test-results/` 中的截图、trace 和页面快照：
 
@@ -71,7 +72,13 @@ heapUsed 差不是瞬时峰值，Node 数据不代表所有浏览器的收益。
 ## 算法约束
 
 v0.6 的 16QAM、对比序列、理论 BER 和 EVM 定义见 [v0.6 说明](../docs/signallab-v0.6.md)。
-新增实验沿用现有测试和发布命令；`npm run test:e2e` 自动包含新实验回归，`npm run test:pages` 覆盖静态版两个 Worker。
+新增实验沿用现有测试和发布命令；`npm run test:e2e` 自动包含新实验回归，`npm run test:pages` 覆盖静态版三个 Worker。
+v0.7 多种子统计的区间定义、固定重复约束、CSV 和剩余限制见 [v0.7 说明](../docs/signallab-v0.7.md)。
+
+依赖安全更新先执行 `npm audit` 和 `npm audit fix --dry-run`，再用不带 `--force` 的
+`npm audit fix` 更新声明范围内的版本。随后运行 `npm ci`，直接检查
+`node -p "require('./node_modules/vite/package.json').version"`，避免只验证更新后的锁文件。
+审计数据库随时间变化，修复当日为零告警不代表未来没有漏洞。
 
 - Eb=1、BPSK 0→+1/1→−1、Gray QPSK 两比特分别控制 I/Q、Es=2。
 - Gray 16QAM 每轴 00/01/11/10→−3a/−a/+a/+3a，a=√(2/5)，均匀星座平均 Es=4；每四比特一符号，不自动补位。

@@ -27,7 +27,7 @@ Run these from `react-app/`:
 | `npm run lint`          | Run ESLint                                               |
 | `npm test`              | Run unit and local HTTP integration tests                |
 | `npm run typecheck`     | Check app, server, tests and E2E TypeScript              |
-| `npm run test:e2e`      | Test the production build in desktop/mobile Chromium     |
+| `npm run test:e2e`      | Test Chromium desktop/mobile, Firefox and WebKit         |
 | `npm run benchmark:ber` | Benchmark BER scans with exact reference parity          |
 | `npm run preview`       | Preview the production build locally                     |
 | `npm start`             | Serve the production build and RSS proxy on Node.js      |
@@ -45,7 +45,11 @@ SignalLab v0.6 adds Gray 16QAM, its constellation and hard decisions, reference-
 RMS EVM for all three modulations, and a Worker-based BER/EVM comparison at equal
 Eb/N0. See [v0.6 definitions, validation and limitations](docs/signallab-v0.6.md).
 
-Each SignalLab experiment can export a self-contained HTML report or Markdown,
+SignalLab v0.7 adds reproducible multi-seed BER statistics, sample spread and
+conservative pointwise bounds in a separate Worker, with CSV export and worker
+failure/recovery coverage. See [v0.7 validation and limits](docs/signallab-v0.7.md).
+
+BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).
 
