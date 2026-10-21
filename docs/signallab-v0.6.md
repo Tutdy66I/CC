@@ -2,7 +2,8 @@
 
 2026-10-21，基线 9574d3c。[实施计划](signallab-v0.6-plan.md)。
 在既有 SignalLab 页面底部增加 16QAM 与三调制对比，保留原 BPSK、QPSK 和 BPSK 置信区间扫描。
-本轮已完成本地实现和验收，尚未推送或更新线上站点。推送 master 会自动部署；自动审批要求先取得 v0.6 明确发布确认。
+本地实现和验收已完成。首次提交时发布待确认；用户随后已明确确认 v0.6 推送和 Pages 更新。
+master 推送将依次执行验证、静态构建和部署；实际发布结果以 [GitHub Actions](https://github.com/Tutdy66I/CC/actions) 为准。
 
 ## 16QAM 定义
 
