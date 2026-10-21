@@ -307,16 +307,14 @@ export default function QamExperiment() {
             ? {
                 inputBits: experiment.bits!.join(''),
                 decodedBits: result.decoded.join(''),
-                samples: result.received
-                  .slice(0, 16)
-                  .map((p, index) => ({
-                    index: index + 1,
-                    i: p.i,
-                    q: p.q,
-                    decoded: result.decoded
-                      .slice(index * 4, index * 4 + 4)
-                      .join(''),
-                  })),
+                samples: result.received.slice(0, 16).map((p, index) => ({
+                  index: index + 1,
+                  i: p.i,
+                  q: p.q,
+                  decoded: result.decoded
+                    .slice(index * 4, index * 4 + 4)
+                    .join(''),
+                })),
               }
             : undefined
         }
