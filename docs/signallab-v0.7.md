@@ -2,7 +2,7 @@
 
 2026-10-21，基线 `d32fe50`；[先行计划](signallab-v0.7-plan.md)。
 本轮范围为多种子统计、Worker 异常恢复测试、跨浏览器回归与兼容依赖修复。
-实现先在本地验收，推送和 Pages 发布单独确认。原 BPSK/QPSK/16QAM 数学定义、Mulberry32、Box–Muller 和既有单次扫描种子协议保持不变。
+实现先在本地验收；用户随后明确授权推送和 Pages 发布。原 BPSK/QPSK/16QAM 数学定义、Mulberry32、Box–Muller 和既有单次扫描种子协议保持不变。
 
 ## 多种子统计
 
@@ -98,7 +98,8 @@ WebKit 首轮三项错误后重试失败，根因是故障注入响应继承生�
 
 运行命令在 `react-app/`，Windows 使用 `npm.cmd` / `npx.cmd`。Pages 本地验收构建设置
 `DEPLOY_BASE_PATH=/CC/`、`VITE_STATIC_HOST=true`、`SITE_DOMAIN=tutdy66i.github.io/CC`。
-本轮不触发远程 Actions，不推送或部署；上述结果全部是本地新安装依赖后的验收。
+上述结果全部是本地新安装依赖后的验收。用户已确认发布，推送 master 后由远程 Actions 再次验证并部署；
+实际发布结果以 [GitHub Actions](https://github.com/Tutdy66I/CC/actions) 为准。
 
 | 文件（相对仓库根）                               | 修改用途                                            |
 | ------------------------------------------------ | --------------------------------------------------- |
@@ -128,5 +129,5 @@ WebKit 首轮三项错误后重试失败，根因是故障注入响应继承生�
 - 多种子均值和离散程度不保证每次单调；保守区间对稀有误码较宽，未提供序贯/同时覆盖率。
 - 桌面三引擎及模拟手机不等于真实 Safari/iPhone/Android 设备的全面验收。
 - 公网 AI 助教认证、总预算和上游响应字节限制仍是 v0.5 待落实方案；本轮未改认证、未访问密钥、未调用付费模型。
-- 本地验证不能替代尚未执行的远程 GitHub Actions；未确认前不发布 v0.7。
+- 本地验证不能替代远程 GitHub Actions；只有 verify、pages-build、pages-deploy 全部成功才视为发布完成。
 - 用户原有 `.mcp.json` 与 `user-memory.local.md` 不纳入提交。
