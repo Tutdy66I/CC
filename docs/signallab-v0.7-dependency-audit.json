@@ -1,0 +1,52 @@
+{
+  "production": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 88,
+        "dev": 173,
+        "optional": 27,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 260
+      }
+    }
+  },
+  "before": {
+    "high": 6,
+    "moderate": 1,
+    "total": 7
+  },
+  "timestamp": "2026-10-21T11:26:20.3510485Z",
+  "after": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 88,
+        "dev": 173,
+        "optional": 27,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 260
+      }
+    }
+  }
+}
