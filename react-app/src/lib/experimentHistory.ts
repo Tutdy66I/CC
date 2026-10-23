@@ -1,6 +1,6 @@
 import { readGuidedHistory, type GuidedRecord } from './guidedExperiment'
 import { ExperimentStore } from './experimentStore'
-import { syncExperiments, SyncFailure } from './experimentCloud'
+import { syncExperiments, SyncFailure, QUOTA_NOTICE } from './experimentCloud'
 import {
   authRedirect,
   cloudNamespace,
@@ -62,6 +62,7 @@ export class ExperimentHistory {
   private timer?: ReturnType<typeof setTimeout>
   private retry = 0
   private again = false
+  private uploadsPaused = false
   private unsubscribe?: () => void
   snapshot = () => this.state
   subscribe = (listener: () => void) => {
@@ -112,6 +113,7 @@ export class ExperimentHistory {
     this.request = undefined
     clearTimeout(this.timer)
     this.retry = 0
+    this.uploadsPaused = false
     const generation = ++this.generation
     this.publish({
       owner,
@@ -384,6 +386,10 @@ export class ExperimentHistory {
       })
     }
   }
+  retrySync = async () => {
+    this.uploadsPaused = false
+    await this.sync()
+  }
   sync = async () => {
     const owner = this.state.owner
     if (!owner || !this.alive) return
@@ -410,25 +416,36 @@ export class ExperimentHistory {
     this.publish({ syncing: true })
     let delay: number | undefined
     try {
-      await syncExperiments(this.store, owner, controller.signal)
+      await syncExperiments(
+        this.store,
+        owner,
+        controller.signal,
+        this.uploadsPaused,
+      )
       if (!this.same(owner, generation)) return
       await this.load(owner, generation)
       this.retry = 0
       this.publish({
-        notice: [...this.volatile.keys()].some((key) =>
-          key.startsWith(`${owner}:`),
-        )
-          ? '部分结果尚未本地保存，请导出 JSON。'
-          : this.state.entries.some((e) => e.conflict)
-            ? '存在同步冲突，请选择要保留的分析。'
-            : this.state.entries.some(
-                  (e) => e.pending && !(e.deleted && e.revision === null),
-                )
-              ? '本地结果已保存，仍有记录等待同步。'
-              : '云端同步完成。',
+        notice: this.uploadsPaused
+          ? QUOTA_NOTICE
+          : [...this.volatile.keys()].some((key) => key.startsWith(`${owner}:`))
+            ? '部分结果尚未本地保存，请导出 JSON。'
+            : this.state.entries.some((e) => e.conflict)
+              ? '存在同步冲突，请选择要保留的分析。'
+              : this.state.entries.some(
+                    (e) => e.pending && !(e.deleted && e.revision === null),
+                  )
+                ? '本地结果已保存，仍有记录等待同步。'
+                : '云端同步完成。',
       })
     } catch (cause) {
       if (!this.same(owner, generation) || controller.signal.aborted) return
+      if (cause instanceof SyncFailure && cause.quota) {
+        this.uploadsPaused = true
+        this.again = false
+        await this.load(owner, generation).catch(() => undefined)
+        if (!this.same(owner, generation)) return
+      }
       this.publish({
         notice:
           cause instanceof SyncFailure || cause instanceof RecordValidationError

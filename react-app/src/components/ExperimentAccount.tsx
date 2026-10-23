@@ -47,7 +47,7 @@ export default function ExperimentAccount({
             <button
               type="button"
               disabled={busy || state.syncing}
-              onClick={() => void history.sync()}
+              onClick={() => void history.retrySync()}
             >
               刷新云端记录
             </button>

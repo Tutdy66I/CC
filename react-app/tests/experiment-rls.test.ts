@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readFile, readdir } from 'node:fs/promises'
 import test from 'node:test'
 import { PGlite } from '@electric-sql/pglite'
 
@@ -29,12 +29,10 @@ test('PostgreSQL migration enforces ownership, immutable snapshots, revisions an
       grant usage on schema auth to authenticated;
       grant execute on function auth.uid() to authenticated;
     `)
-    await db.exec(
-      await readFile(
-        'supabase/migrations/20261023082758_signallab_experiment_records.sql',
-        'utf8',
-      ),
-    )
+    for (const file of (await readdir('supabase/migrations'))
+      .filter((f) => f.endsWith('.sql'))
+      .sort())
+      await db.exec(await readFile(`supabase/migrations/${file}`, 'utf8'))
     const asUser = async (id: string) => {
       await db.exec('reset role; set role authenticated;')
       await db.query("select set_config('request.jwt.claim.sub', $1, false)", [
