@@ -357,6 +357,7 @@ test('analysis conflict preserves both versions; deletion propagates and account
     '尚无完成记录',
   ])
   await page.getByRole('button', { name: '退出登录' }).click()
+  await expect(page.getByText('未登录，实验仍在本地运行。')).toBeVisible()
   await page.evaluate(
     ({ key, data }) => localStorage.setItem(key, JSON.stringify(data)),
     { key: storageKey, data: session(other) },
