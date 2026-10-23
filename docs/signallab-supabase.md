@@ -60,7 +60,9 @@ RLS 与列授权共同生效：
 | DELETE / TRUNCATE | 不授予权限，没有 DELETE policy                           |
 
 非暴露 schema 中的 SECURITY INVOKER 触发器保护不可变列、递增 revision、
-设置服务端时间并防止墓碑恢复；不提供 SECURITY DEFINER 业务接口或视图。
+设置服务端时间并防止墓碑恢复。新增私有 SECURITY DEFINER 触发器仅维护配额计数；
+不提供可调用的业务 RPC 或视图，撤销 public/anon/authenticated 的 schema、表及函数权限，
+固定空 search_path 并核对 auth.uid() 所有者。原有记录 RLS 和列授权不变。
 表显式授权给 authenticated；还应核对项目当前 Data API 暴露设置。
 RLS 不能约束管理员或 BYPASSRLS 密钥，因此绝不向浏览器提供这些凭据。
 
@@ -84,8 +86,53 @@ RLS 不能约束管理员或 BYPASSRLS 密钥，因此绝不向浏览器提供�
 10. 本机缓存不是安全审计记录。退出会隐藏账号缓存并停止发送，pending 数据留在
     该账号分区供以后恢复；拥有本机浏览器访问权的人仍可能读取这些本地数据。
 
-云端容量配额、历史保留期和墓碑物理清理尚未设定，不能将 RLS 或载荷大小上限当作总量限制。
-公开注册前应确定配额并在数据库/受控服务端实施，而不能仅依靠前端计数。
+每账号最多 1,000 条记录（包括墓碑），参数、结果与分析的数据库文本载荷合计 20 MiB。
+原有单条 128 KiB 和分析 12,000 字符上限保留。私有 experiment_usage 计数器由同一事务的
+AFTER 触发器原子更新，账号计数行串行化并发写入；约束或事务失败同时回滚计数。
+墓碑不释放条数额度。超限仍可读取、导出、缩短分析及软删除；禁止新增和增加载荷。
+超限返回 P0001 / SIGNALLAB_QUOTA_EXCEEDED，前端保留 IndexedDB 队列、暂停自动上传；
+对账读取继续，处理额度后使用“刷新云端记录”明确重试。重新加载页面会重新尝试一次。
+额度是业务载荷，不能等同于包含索引、Auth、WAL 等开销的套餐物理容量；没有全库硬上限。
+
+活跃记录的服务端 created_at 超过 365 天只进入 `supabase/retention-preview.sql` 预览，
+不自动隐藏或删除。墓碑无限期保留。本地备份超过 30 天只提示待归档，不自动清理。
+公众注册继续关闭；双真实账号和第二台实体设备测试按用户决定暂缓，不能标记为通过。
+
+## 加密应用备份与恢复
+
+备份位于被 `*.local` 忽略的 `react-app/backups.local/`，使用 Windows CurrentUser DPAPI。
+只读导出 experiment_records（含墓碑、完整审计字段），并附带 Git 提交及已应用迁移源文件。
+不导出 Auth 表、邮箱、密码、会话、JWT、OAuth secret 或密钥；这是应用备份而非整库备份。
+同机同 Windows 身份可解密；电脑或用户身份丢失时无法保证恢复，不属于异地灾难备份。
+
+每日香港时间 20:00 由本会话 heartbeat 执行。依赖本机、Codex 和 Supabase 插件连接；
+成功静默，失败或需要处理时通知，使用 Codex 额度，不调用应用模型接口。
+本地加密文件不进入 Git、公开 CI artifacts 或聊天正文。
+
+导出协议（通过 Supabase 插件执行 SELECT，不能用浏览器 JWT 或新增 service_role 凭据）：
+
+1. 确认目标项目及已应用迁移，本地对应 SQL 必须存在。记录 `git rev-parse HEAD`。
+2. 执行 `supabase/backup-manifest.sql`，取得 count/digest。
+3. 逐行、逐段执行 `supabase/backup-row.sql`，仅将占位符换成非负整数。
+   每段最多 2,000 字符；校验每行字符数及 SHA-256，按 UTF-8/C 顺序重组原始 row JSON 文本。
+   导出上限 100,000 行或 200 MiB，超过即失败并通知，不能悄悄截断。
+4. 再读 manifest 和 migration list；前后及本地重组摘要必须相同。变化时重试整个导出，
+   最多两次，仍变化则失败保留上一份。仅备份对应已应用迁移源文件。
+5. 将 NDJSON 消息送入 `node scripts/signallab-backup.mjs create` 的 stdin：
+   start 含 project、commit、manifest、migrations 文件名数组；每个 row 含原始 JSON 字符串 value；
+   最后一条 finish 含重新读取的 manifest。不要打印记录或将明文写入文件。
+6. 工具不支持持久 stdin 时，可将完整 NDJSON 的 UTF-8 字节按不超过 6,000 字节切块，
+   每块 base64 作为 `node scripts/signallab-backup.mjs chunk <随机UUID> <从0递增序号> <base64>` 参数，
+   工具立即 DPAPI 加密到 staging.local，然后 `node scripts/signallab-backup.mjs seal <UUID>`。
+   仅在内存重组明文，摘要/恢复验证完成后原子发布 `.slbackup`；失败不覆盖上一份。
+   不输出 base64 载荷。加密 staging 不自动删除，计入 30 天归档预览。
+7. 验证已有快照：`node scripts/signallab-backup.mjs verify <绝对路径.slbackup>`。
+   只打印记录数、核对列数及 authRestored=false。
+
+工具解密并校验 SHA-256，在全新的内存 PGlite 加载快照附带的可信迁移，暂时禁用本地记录触发器，
+逐列恢复和比对 14 个字段（包括微秒时间戳、所有者、修订号、墓碑），随后关闭临时数据库。
+Auth 占位用户仅用于临时外键验证，不是 OAuth 身份恢复；工具没有生产连接或回灌功能。
+私有配额计数是可重建的派生数据，生产恢复时必须在写锁下重新统计，不从快照直接信任计数。
 
 ## GitHub OAuth 和 Pages 配置
 
@@ -147,9 +194,11 @@ PGlite 测试实际 PostgreSQL 策略和触发器，仅 Auth 用户及 JWT 上�
 不证明真实 Supabase JWT 验证或 PostgREST 配置正确。
 
 连接项目后，先核对目标项目、现有表结构和备份，再按已批准范围执行远端迁移；
-没有自动 db push。随后使用两个真实测试账号通过 Data API 做越权与列权限验收，
-并用正常/失效 OAuth 回跳验证正式 `/CC/` 地址。
+没有自动 db push。真实双账号 Data API 验收已按用户要求暂缓；现有 PGlite 和合成浏览器隔离测试
+不能代替真实双账号验收。正常/失效 OAuth 回跳另在正式 `/CC/` 地址验证。
 
 回滚先关闭 `SIGNALLAB_EXPERIMENT_SYNC` 并重新发布，或回退应用提交。
 保留数据库、RLS、IndexedDB 和游客历史；不得删除表、放宽权限或清空 outbox。
 远端数据清理或变更迁移需单独评审，不在回滚时自动执行。
+仅回滚新配额可人工执行 `supabase/rollback-experiment-quotas.sql`，保留原有 RLS 和全部记录。
+重新启用配额必须先在写锁下重算计数，不能复用停用期间失去更新的计数器。

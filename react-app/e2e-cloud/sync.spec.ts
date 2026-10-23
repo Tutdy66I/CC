@@ -71,6 +71,7 @@ async function fixture(page: Page, signedIn = true) {
   const service = {
     rows: [] as CloudRecord[],
     reject: false,
+    quota: false,
     loseResponse: false,
     tokenExchanges: 0,
     writes: 0,
@@ -123,6 +124,12 @@ async function fixture(page: Page, signedIn = true) {
     if (request.method() === 'POST') {
       service.writes++
       service.writeTimes.push(Date.now())
+      if (service.quota)
+        return route.fulfill({
+          status: 400,
+          headers: cors,
+          json: { code: 'P0001', message: 'SIGNALLAB_QUOTA_EXCEEDED' },
+        })
       if (service.throttle)
         return route.fulfill({
           status: 429,
@@ -213,6 +220,55 @@ async function fixture(page: Page, signedIn = true) {
 
 const section = (page: Page) =>
   page.getByRole('region', { name: 'AI 引导式实验', exact: true })
+
+test('quota pauses automatic uploads, preserves local history and permits manual retry', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  service.quota = true
+  await page.addInitScript(
+    (record) =>
+      localStorage.setItem('signallab-guided-v1', JSON.stringify([record])),
+    guest,
+  )
+  await page.goto('./#/signallab')
+  await page.getByRole('button', { name: '将游客历史导入此账号' }).click()
+  await expect(page.getByText(/云端配额已满/)).toBeVisible()
+  const writes = service.writes
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event('focus'))
+    window.dispatchEvent(new Event('online'))
+  })
+  await page.waitForTimeout(1500)
+  expect(service.writes).toBe(writes)
+  await expect(section(page).locator('#guided-history option')).toHaveCount(1)
+  service.quota = false
+  await page.getByRole('button', { name: '刷新云端记录' }).click()
+  await expect.poll(() => service.rows.length).toBe(1)
+  await expect(page.getByText('云端同步完成。')).toBeVisible()
+})
+
+test('quota-blocked new records cannot starve an existing record tombstone', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  service.rows = [cloudRecord({ ...guest, id: 'z-existing' })]
+  service.quota = true
+  await page.addInitScript(
+    (record) =>
+      localStorage.setItem('signallab-guided-v1', JSON.stringify([record])),
+    guest,
+  )
+  await page.goto('./#/signallab')
+  await expect(page.getByText('云端同步完成。')).toBeVisible()
+  await page.getByRole('button', { name: '将游客历史导入此账号' }).click()
+  await expect(page.getByText(/云端配额已满/)).toBeVisible()
+  await section(page).locator('#guided-history').selectOption('z-existing')
+  await page.getByRole('button', { name: '删除此云端记录' }).click()
+  await page.getByRole('button', { name: '刷新云端记录' }).click()
+  await expect.poll(() => service.rows[0].deleted_at).not.toBeNull()
+  await expect(section(page).locator('#guided-history option')).toHaveCount(1)
+})
 
 test('guest import requires explicit action, is idempotent and preserves the original history', async ({
   page,
