@@ -8,7 +8,16 @@ Pages AI 继续禁用；Node AI 服务、DSP、种子日程与 Workers 保持原
 
 本地实现可在没有 Supabase 项目的情况下验证。迁移文件的存在不代表远端已经
 执行；合成浏览器测试也不证明真实 GitHub OAuth、SMTP、JWT 或 Data API 配置正确。
-当前插件未列出已有项目，用户将连接已有项目；尚未创建项目或应用远端迁移。
+现已连接用户确认的已有 `quant-lab` 项目（`nxyryfuusponcwqptlic`），并经批准执行
+`20261023082758_signallab_experiment_records` 远端迁移。迁移前 public 无表、
+迁移历史为空；迁移后 RLS、列授权、触发器及安全顾问检查通过。
+本地迁移文件版本已与远端迁移历史对齐，避免后续重复执行相同建表 SQL。
+GitHub OAuth App、正式 Site URL 和精确回跳已配置；公众注册关闭，测试用户已预建。
+真实 GitHub 登录和一次 Worker 结果上传已在本地验收地址通过；另一个独立 origin
+（127.0.0.1 与 localhost，存储不共享）登录同账号后，恢复了同一记录 ID 和测量结果。
+远端 PostgreSQL 角色及模拟 JWT claims 的事务测试验证本人读写、跨用户读写隔离、
+匿名拒绝、快照列保护和修订号递增，测试记录全部回滚；此项不替代双账号 JWT 验收。
+正式 Pages 尚未发布，独立设备及两个真实账号的 Data API 越权验收仍需另行完成。
 
 云功能默认关闭。启用前需要核对目标项目 ID、现有表和授权、备份及迁移历史，
 确认注册范围、容量配额和保留期。首期建议限制为已批准的测试账号。
@@ -28,7 +37,7 @@ Pages AI 继续禁用；Node AI 服务、DSP、种子日程与 Workers 保持原
 
 ## 数据与权限
 
-`supabase/migrations/20261023073809_signallab_experiment_records.sql` 创建一张
+`supabase/migrations/20261023082758_signallab_experiment_records.sql` 创建一张
 `public.experiment_records`：复合主键 `(user_id,id)`、类型、模板、格式/算法版本、
 参数、测量结果、独立分析、客户端完成时间、服务端审计时间、修订号和墓碑。
 用户删除时按外键级联清理自己的记录。

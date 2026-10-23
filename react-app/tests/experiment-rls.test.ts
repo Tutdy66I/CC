@@ -31,7 +31,7 @@ test('PostgreSQL migration enforces ownership, immutable snapshots, revisions an
     `)
     await db.exec(
       await readFile(
-        'supabase/migrations/20261023073809_signallab_experiment_records.sql',
+        'supabase/migrations/20261023082758_signallab_experiment_records.sql',
         'utf8',
       ),
     )
