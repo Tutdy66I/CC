@@ -35,6 +35,8 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:e2e
+      - name: Account sync browser regression with synthetic Supabase responses
+        run: npm run test:cloud
       - name: BER benchmark and exact result parity
         run: npm run benchmark:ber -- --output benchmark-results.json
       - uses: actions/upload-artifact@v5
@@ -71,6 +73,9 @@ jobs:
         env:
           DEPLOY_BASE_PATH: /CC/
           VITE_STATIC_HOST: 'true'
+          VITE_EXPERIMENT_SYNC: ${{ vars.SIGNALLAB_EXPERIMENT_SYNC || 'false' }}
+          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           SITE_DOMAIN: tutdy66i.github.io/CC
       - run: npx playwright install --with-deps chromium
       - run: npm run test:pages

@@ -80,10 +80,12 @@ test('keeps the newest items within the per-feed cache limit', () => {
   )
 })
 
-test('expires feed items after the cache TTL', () => {
+test('expires feed items after the cache TTL', (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: Date.UTC(2026, 9, 23) })
   const url = 'https://feed.example/rss.xml'
   const now = Date.now()
   saveFeedItems(url, [item(1)])
 
+  assert.deepEqual(loadFeedItems(url, now + FEED_CACHE_TTL_MS), [item(1)])
   assert.deepEqual(loadFeedItems(url, now + FEED_CACHE_TTL_MS + 1), [])
 })

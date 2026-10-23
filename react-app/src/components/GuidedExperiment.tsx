@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { ExperimentHistory } from '../lib/experimentHistory'
+import ExperimentAccount from './ExperimentAccount'
 import { COMPARISON_DB } from '../lib/modulationComparison'
 import {
   GUIDED_TEMPLATES,
   defaultGuidedPlan,
   parseGuidedProposal,
-  readGuidedHistory,
   validateGuidedPlan,
   type GuidedPlan,
   type GuidedRecord,
@@ -13,37 +14,46 @@ import {
 } from '../lib/guidedExperiment'
 import './GuidedExperiment.css'
 
-const STORAGE_KEY = 'signallab-guided-v1'
 const seedRule =
   'seed=(baseSeed+trial*10+snrIndex) mod 2^32; indices start at 0; snrIndex uses [-4,-2,0,2,4,6,8,10,12,14]'
 const limitations =
   '理想 AWGN、硬判决、完整64比特星座周期。逐点95% Hoeffding保守区间假定块间理想噪声独立；PRNG近似，不是同时置信带。标准差描述种子波动。零误码不等于真实BER为零。BPSK/QPSK配对共用逐位噪声，sampling两种样本量共用前缀。EVM为参考辅助RMS值，不等同于BER。'
 const number = (value: number) => (value === 0 ? '0' : value.toExponential(4))
 
-function loadHistory(): GuidedRecord[] {
-  try {
-    return readGuidedHistory(localStorage.getItem(STORAGE_KEY))
-  } catch {
-    return []
-  }
-}
-
 export default function GuidedExperiment() {
   const [plan, setPlan] = useState(() => defaultGuidedPlan('equivalence'))
   const [seed, setSeed] = useState('42')
-  const [records, setRecords] = useState(loadHistory)
+  const [history] = useState(() => new ExperimentHistory())
+  const historyState = useSyncExternalStore(history.subscribe, history.snapshot)
+  const records = historyState.records
   const [selected, setSelected] = useState(() => records[0]?.id ?? '')
   const [status, setStatus] = useState('等待确认方案；尚未执行本轮实验。')
   const [running, setRunning] = useState(false)
   const [aiStage, setAiStage] = useState<'plan' | 'analysis' | null>(null)
   const [progress, setProgress] = useState({ completed: 0, total: 1 })
   const [error, setError] = useState('')
-  const [storageNotice, setStorageNotice] = useState('')
   const workerRef = useRef<Worker | null>(null)
   const pending = useRef<AbortController | null>(null)
   const busy = running || aiStage !== null
-  const record = records.find((r) => r.id === selected)
+  const record = records.find((r) => r.id === selected) ?? records[0]
   const staticHost = import.meta.env.VITE_STATIC_HOST === 'true'
+  useEffect(() => history.start(), [history])
+  useEffect(() => {
+    let owner = history.snapshot().owner
+    return history.subscribe(() => {
+      const next = history.snapshot().owner
+      if (next === owner) return
+      owner = next
+      workerRef.current?.terminate()
+      workerRef.current = null
+      pending.current?.abort()
+      pending.current = null
+      setRunning(false)
+      setAiStage(null)
+      setSelected('')
+      setStatus('账号已变化，未完成操作已取消；下一轮仍需确认。')
+    })
+  }, [history])
   useEffect(
     () => () => {
       workerRef.current?.terminate()
@@ -52,15 +62,6 @@ export default function GuidedExperiment() {
     [],
   )
 
-  function store(next: GuidedRecord[]) {
-    setRecords(next)
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-      setStorageNotice('')
-    } catch {
-      setStorageNotice('浏览器无法保存记录；本页仍可查看，请导出 JSON。')
-    }
-  }
   function edit(patch: Partial<GuidedPlan>) {
     setPlan((previous) => ({
       ...previous,
@@ -115,7 +116,7 @@ export default function GuidedExperiment() {
           rows: message.rows,
           analysis: '',
         }
-        store([completed, ...records].slice(0, 5))
+        void history.action(() => history.save(completed))
         setSelected(completed.id)
         setStatus('实验完成，真实结果已记录；可以请求 AI 分析。')
       }
@@ -209,10 +210,8 @@ export default function GuidedExperiment() {
         setSeed(String(proposal.seed))
         setStatus('AI 参数建议已校验，等待确认；尚未执行本轮实验。')
       } else if (record) {
-        store(
-          records.map((r) =>
-            r.id === record.id ? { ...r, analysis: reply.answer as string } : r,
-          ),
+        void history.action(() =>
+          history.save({ ...record, analysis: reply.answer as string }),
         )
         setStatus('AI 分析已绑定所选完成记录；下一轮仍需确认后执行。')
       }
@@ -265,6 +264,7 @@ export default function GuidedExperiment() {
       <p>
         选择目标 → 建议参数 → 确认运行 → 记录真实结果 → 分析偏差 → 下一轮验证
       </p>
+      <ExperimentAccount history={history} busy={busy} />
       <div className="signal-controls">
         <label htmlFor="guided-template">实验目标</label>
         <select
@@ -403,16 +403,20 @@ export default function GuidedExperiment() {
           {error}
         </p>
       )}
-      {storageNotice && <p>{storageNotice}</p>}
+      {!historyState.owner && historyState.notice && (
+        <p>{historyState.notice}</p>
+      )}
       <h3>已保存完成记录</h3>
       <p>
-        仅记录完整运行，浏览器本地保留最近五次。导出 JSON
-        可长期留存；本地存储可被修改，不是审计凭证。
+        {historyState.owner
+          ? '仅记录完整运行；登录记录保存在当前账号并跨设备同步。'
+          : '仅记录完整运行，浏览器本地保留最近五次。'}
+        导出 JSON 可长期留存；本地存储可被修改，不是审计凭证。
       </p>
       <label htmlFor="guided-history">选择完成记录</label>
       <select
         id="guided-history"
-        value={selected}
+        value={record?.id ?? ''}
         disabled={busy || !records.length}
         onChange={(e) => setSelected(e.target.value)}
       >
@@ -436,6 +440,17 @@ export default function GuidedExperiment() {
         <button type="button" disabled={!record} onClick={download}>
           导出实验记录 JSON
         </button>
+        {historyState.owner && (
+          <button
+            type="button"
+            disabled={busy || !record}
+            onClick={() =>
+              record && void history.action(() => history.remove(record.id))
+            }
+          >
+            删除此云端记录
+          </button>
+        )}
         <button
           type="button"
           disabled={busy || !record}
