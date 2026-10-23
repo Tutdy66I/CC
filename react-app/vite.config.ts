@@ -2,6 +2,7 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { createRssProxyResponse } from './server/rssProxyHandler'
 import { handleTutorRequest } from './server/aiTutorHandler'
+import { validatePublishableKey } from './server/publicConfig'
 
 function rssProxyPlugin(): Plugin {
   return {
@@ -29,5 +30,14 @@ function rssProxyPlugin(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   base: process.env.DEPLOY_BASE_PATH || '/',
-  plugins: [react(), rssProxyPlugin()],
+  plugins: [
+    react(),
+    rssProxyPlugin(),
+    {
+      name: 'validate-public-supabase-config',
+      configResolved(config) {
+        validatePublishableKey(config.env.VITE_SUPABASE_PUBLISHABLE_KEY)
+      },
+    },
+  ],
 })

@@ -14,16 +14,19 @@
     "benchmark:ber": "tsc -p tsconfig.test.json && node scripts/benchmark-ber.mjs",
     "test:e2e": "playwright test",
     "test:pages": "playwright test --config=playwright.pages.config.ts",
+    "test:cloud": "playwright test --config=playwright.cloud.config.ts",
     "test:e2e:server": "node scripts/e2e-server.mjs",
     "preview": "vite preview",
     "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.118.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-markdown": "^10.1.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.11",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "1.64.1",
     "@types/node": "^24.12.3",
@@ -33,6 +36,7 @@
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "fake-indexeddb": "6.2.6",
     "globals": "^17.6.0",
     "prettier": "^3.8.3",
     "typescript": "~6.0.2",

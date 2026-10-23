@@ -9,5 +9,10 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["e2e/**/*.ts", "e2e-pages/**/*.ts", "playwright*.config.ts"]
+  "include": [
+    "e2e/**/*.ts",
+    "e2e-pages/**/*.ts",
+    "e2e-cloud/**/*.ts",
+    "playwright*.config.ts"
+  ]
 }

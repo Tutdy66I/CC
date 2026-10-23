@@ -1,0 +1,15 @@
+.experiment-account {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+  overflow-wrap: anywhere;
+}
+.experiment-conflict {
+  margin-block-start: 1rem;
+  padding-block-start: 0.5rem;
+  border-block-start: 1px solid currentColor;
+}
+.experiment-conflict p {
+  white-space: pre-wrap;
+}

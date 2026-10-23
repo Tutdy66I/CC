@@ -3,6 +3,11 @@
 React 19、TypeScript 6、Vite 8；Node.js 24。以下命令在 `react-app/` 执行。
 Windows 使用 `npm.cmd` / `npx.cmd`，避免 PowerShell 的脚本执行策略影响 npm shim。
 
+可选 GitHub 登录、实验记录数据库与跨设备同步见
+[Supabase 接入说明](../docs/signallab-supabase.md)。云功能默认关闭；游客实验与
+Pages AI 禁用行为保持原样。`npm run test:cloud` 使用合成配置与网络替身，
+不访问真实 Supabase 项目；数据库权限测试使用内存 PostgreSQL，不启动 Docker。
+
 ## 安装与运行
 
 ```bash

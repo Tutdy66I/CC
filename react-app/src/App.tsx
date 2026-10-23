@@ -17,9 +17,17 @@ function App() {
   )
 
   useEffect(() => {
+    let active = true
     const syncView = () => setView(readViewFromHash(window.location.hash))
     window.addEventListener('hashchange', syncView)
-    return () => window.removeEventListener('hashchange', syncView)
+    // Auth may replace the hash between the initial render and listener setup.
+    queueMicrotask(() => {
+      if (active) syncView()
+    })
+    return () => {
+      active = false
+      window.removeEventListener('hashchange', syncView)
+    }
   }, [])
 
   function navigate(nextView: View) {
