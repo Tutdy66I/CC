@@ -221,6 +221,25 @@ async function fixture(page: Page, signedIn = true) {
 const section = (page: Page) =>
   page.getByRole('region', { name: 'AI 引导式实验', exact: true })
 
+test('signed-in ideal compensation snapshots never enter the cloud upload queue', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  await page.goto('./#/signallab')
+  await expect(page.getByText('已登录：', { exact: false })).toBeVisible()
+  const region = page.getByRole('region', {
+    name: '理想载波补偿对照实验',
+    exact: true,
+  })
+  await region.getByLabel('补偿扫描点').fill('0,60')
+  await region.getByRole('button', { name: '确认补偿方案并运行' }).click()
+  await expect(region.getByRole('status')).toContainText('对照实验完成')
+  await page.reload()
+  await expect(region.locator('tbody tr')).toHaveCount(4)
+  expect(service.writes).toBe(0)
+  expect(service.rows).toEqual([])
+})
+
 test('signed-in carrier experiments remain local and never enter the cloud upload queue', async ({
   page,
 }) => {

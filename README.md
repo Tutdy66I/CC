@@ -62,6 +62,11 @@ versioned local history/JSON export. Carrier experiments remain local even when 
 in; existing guided experiments and cloud sync keep their current formats.
 See [v0.9 model, reproducibility and validation](docs/signallab-v0.9.md).
 
+SignalLab v0.9.1 adds a paired known-truth carrier compensation baseline: inverse
+rotation of the same noisy samples, with before/after constellations, measured and
+theoretical BER/EVM, deviations, and independently versioned local snapshots.
+See [v0.9.1 compensation model and validation](docs/signallab-v0.9.1.md).
+
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).
