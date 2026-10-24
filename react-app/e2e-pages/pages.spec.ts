@@ -1,5 +1,31 @@
 import { expect, test } from '@playwright/test'
 
+test('v0.9 carrier Worker runs and exports locally under the static repository subpath', async ({
+  page,
+}) => {
+  let calls = 0
+  page.on('request', (r) => {
+    if (/supabase|\/api\//.test(r.url())) calls++
+  })
+  await page.goto('./#/signallab')
+  const region = page.getByRole('region', {
+    name: '相位与频率偏移实验',
+    exact: true,
+  })
+  await region.getByLabel('偏移扫描点').fill('0,30')
+  await region.getByRole('button', { name: '确认偏移方案并运行' }).click()
+  await expect(region.getByRole('status')).toContainText('实验完成')
+  await expect(region.locator('tbody tr')).toHaveCount(2)
+  const download = page.waitForEvent('download')
+  await region.getByRole('button', { name: '导出偏移记录 JSON' }).click()
+  expect((await download).suggestedFilename()).toMatch(
+    /^SignalLab-carrier-.*\.json$/,
+  )
+  await page.reload()
+  await expect(region.locator('tbody tr')).toHaveCount(2)
+  expect(calls).toBe(0)
+})
+
 test('v0.8 static guided experiment runs without an AI API and exports a completed snapshot', async ({
   page,
 }) => {

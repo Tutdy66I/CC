@@ -56,6 +56,12 @@ comparisons, with five local records and JSON export. Static Pages supports
 template experiments; AI requires the configured Node backend.
 See [v0.8 workflow and validation](docs/signallab-v0.8.md).
 
+SignalLab v0.9 adds reproducible symbol-sampled phase and frequency offset scans,
+finite-frame BER predictions, I/Q EVM, constellation/phase previews, and separately
+versioned local history/JSON export. Carrier experiments remain local even when signed
+in; existing guided experiments and cloud sync keep their current formats.
+See [v0.9 model, reproducibility and validation](docs/signallab-v0.9.md).
+
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).
