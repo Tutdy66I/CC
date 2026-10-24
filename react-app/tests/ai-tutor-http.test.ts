@@ -27,6 +27,7 @@ test(
       calls++
       const body = JSON.parse(Buffer.concat(chunks).toString('utf8'))
       const question = body.messages.at(-1).content
+      res.setHeader('Content-Type', 'application/json')
       if (question === 'hold' || question === 'disconnect') {
         held.push(res)
         res.on('close', onDisconnect)
@@ -42,7 +43,7 @@ test(
       void handleTutorRequest(req, res)
     })
     const previous = Object.fromEntries(
-      ['AI_API_KEY', 'AI_BASE_URL', 'AI_MODEL'].map((key) => [
+      ['AI_API_KEY', 'AI_BASE_URL', 'AI_MODEL', 'AI_ACCESS_MODE'].map((key) => [
         key,
         process.env[key],
       ]),
@@ -59,6 +60,7 @@ test(
     })
     process.env.AI_BASE_URL = await listen(upstream)
     process.env.AI_MODEL = 'fixture'
+    process.env.AI_ACCESS_MODE = 'local'
     process.env.AI_API_KEY = 'synthetic-http-test-key'
     const url = `${await listen(server)}/api/ai-tutor`
     const send = (question?: string, signal?: AbortSignal) =>

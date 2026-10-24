@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './AiTutor.css'
 import ReportExport from './ReportExport'
+import { tutorHeaders } from '../lib/aiTutorClient'
 
 export interface ExperimentContext {
   experiment: 'BPSK' | 'QPSK' | 'BER' | '16QAM' | 'COMPARISON'
@@ -78,7 +79,7 @@ export default function AiTutor({
       }
       const response = await fetch('/api/ai-tutor', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await tutorHeaders(),
         body: JSON.stringify(payload),
         signal: AbortSignal.any([
           controller.signal,

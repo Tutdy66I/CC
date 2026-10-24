@@ -111,12 +111,36 @@ export default function SignalLab() {
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK、16QAM 的 BER 与 EVM。</p>
       </header>
+      <nav className="signal-section-nav" aria-label="实验章节">
+        {[
+          ['引导实验', 'guided-title'],
+          ['载波研究', 'research-title'],
+          ['比特与波形', 'bpsk-controls'],
+        ].map(([label, id]) => (
+          <button
+            type="button"
+            key={id}
+            onClick={() => {
+              document.getElementById(id)?.scrollIntoView({ block: 'start' })
+            }}
+          >
+            {label}
+          </button>
+        ))}
+        <button type="button" onClick={() => window.scrollTo({ top: 0 })}>
+          回到顶部
+        </button>
+      </nav>
       <GuidedExperiment />
       <CarrierOffsetExperiment />
       <CarrierCompensationExperiment />
       <CarrierEstimationExperiment />
       <CarrierResearchExperiment />
-      <section className="signal-controls" aria-label="实验参数">
+      <section
+        id="bpsk-controls"
+        className="signal-controls"
+        aria-label="实验参数"
+      >
         <label htmlFor="signal-bits">输入比特流</label>
         <textarea
           id="signal-bits"

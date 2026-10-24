@@ -35,6 +35,9 @@ function App() {
     const nextHash = hashForView(nextView)
     if (window.location.hash !== nextHash) window.location.hash = nextHash
   }
+  useEffect(() => {
+    document.title = view.page === 'signallab' ? 'SignalLab AI · v1.1' : 'Blog'
+  }, [view.page])
 
   const isBlogSection = view.page === 'blog' || view.page === 'detail'
 
@@ -68,6 +71,7 @@ function App() {
         Todos
       </button>
       <button
+        aria-current={view.page === 'signallab' ? 'page' : undefined}
         className={
           view.page === 'signallab' ? 'app-nav-btn active' : 'app-nav-btn'
         }

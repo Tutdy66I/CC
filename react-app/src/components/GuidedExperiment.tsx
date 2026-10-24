@@ -13,6 +13,7 @@ import {
   type GuidedMessage,
 } from '../lib/guidedExperiment'
 import './GuidedExperiment.css'
+import { tutorHeaders } from '../lib/aiTutorClient'
 
 const seedRule =
   'seed=(baseSeed+trial*10+snrIndex) mod 2^32; indices start at 0; snrIndex uses [-4,-2,0,2,4,6,8,10,12,14]'
@@ -177,7 +178,7 @@ export default function GuidedExperiment() {
     try {
       const response = await fetch('/api/ai-tutor', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await tutorHeaders(),
         body: JSON.stringify({
           context: { experiment: 'GUIDED', data },
           messages: [
@@ -402,9 +403,6 @@ export default function GuidedExperiment() {
         <p role="alert" className="signal-error">
           {error}
         </p>
-      )}
-      {!historyState.owner && historyState.notice && (
-        <p>{historyState.notice}</p>
       )}
       <h3>已保存完成记录</h3>
       <p>

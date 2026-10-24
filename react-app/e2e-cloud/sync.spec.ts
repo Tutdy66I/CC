@@ -221,6 +221,94 @@ async function fixture(page: Page, signedIn = true) {
 const section = (page: Page) =>
   page.getByRole('region', { name: 'AI 引导式实验', exact: true })
 
+test('bad cloud rows are isolated while later valid rows and tombstones reconcile', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  service.rows = [
+    { ...cloudRecord(), id: 'a-bad', results: [{}] } as CloudRecord,
+    { ...cloudRecord(), id: 'b-valid' },
+    {
+      ...cloudRecord(),
+      id: 'c-deleted',
+      revision: 2,
+      deleted_at: guest.completedAt,
+    },
+  ]
+  await page.goto('./#/signallab')
+  await expect(section(page).locator('#guided-history option')).toHaveCount(1)
+  await expect(section(page).getByText(/以下数据来自该完成记录/)).toContainText(
+    'b-valid',
+  )
+  await expect(page.getByText(/已隔离 1 条云端记录/)).toBeVisible()
+  const downloaded = page.waitForEvent('download')
+  await page.getByRole('button', { name: '导出同步诊断 JSON' }).click()
+  const { readFile } = await import('node:fs/promises')
+  const diagnostics = JSON.parse(
+    await readFile((await (await downloaded).path())!, 'utf8'),
+  )
+  expect(diagnostics.rows[0].id).toBe('a-bad')
+  expect(service.writes).toBe(0)
+})
+
+test('failed OAuth callback is visible while signed out', async ({ page }) => {
+  await fixture(page, false)
+  await page.goto('./?error=access_denied#/signallab')
+  await expect(
+    page.getByLabel('实验账号与同步').getByRole('status'),
+  ).toHaveText('GitHub 登录未完成，请重试。')
+})
+
+test('a delayed response in one tab cannot resurrect a tombstone saved by another tab', async ({
+  page,
+  context,
+}) => {
+  const service = await fixture(page)
+  service.rows = [cloudRecord()]
+  await page.goto('./#/signallab')
+  await expect(page.getByText('云端同步完成。')).toBeVisible()
+  const device = await context.newPage()
+  const second = await fixture(device)
+  second.rows = service.rows
+  await device.goto('http://127.0.0.1:4177/CC/#/signallab')
+  await expect(device.getByText('云端同步完成。')).toBeVisible()
+  let release!: () => void, observed!: () => void
+  const gate = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  const started = new Promise<void>((resolve) => {
+    observed = resolve
+  })
+  let held = false
+  await page.route('**/rest/v1/experiment_records*', async (route) => {
+    if (held || route.request().method() !== 'GET') return route.fallback()
+    held = true
+    const old = structuredClone(service.rows)
+    observed()
+    await gate
+    await route.fulfill({
+      json: old,
+      headers: { 'Access-Control-Allow-Origin': 'http://127.0.0.1:4177' },
+    })
+  })
+  try {
+    await page.evaluate(() => dispatchEvent(new Event('online')))
+    await started
+    await device.getByRole('button', { name: '删除此云端记录' }).click()
+    await expect.poll(() => service.rows[0].deleted_at).not.toBeNull()
+    await expect(section(device).locator('#guided-history option')).toHaveText([
+      '尚无完成记录',
+    ])
+    release()
+    await expect(section(page).locator('#guided-history option')).toHaveText([
+      '尚无完成记录',
+    ])
+  } finally {
+    release()
+    await device.close()
+  }
+})
+
 test('signed-in v1.1 research never enters the cloud upload queue', async ({
   page,
 }) => {

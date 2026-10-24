@@ -73,7 +73,19 @@ export default function ExperimentAccount({
           条。{state.syncing ? '同步中…' : ''}
         </p>
       )}
-      {state.owner && state.notice && <p>{state.notice}</p>}
+      {state.notice && <p role="status">{state.notice}</p>}
+      {state.owner && state.rejected.length > 0 && (
+        <div role="status">
+          <p>
+            已隔离 {state.rejected.length}{' '}
+            条云端记录，其他有效记录继续同步。原始记录未删除。
+          </p>
+          <p>诊断包含当前账号的原始实验数据，请妥善保存。</p>
+          <button type="button" onClick={history.exportDiagnostics}>
+            导出同步诊断 JSON
+          </button>
+        </div>
+      )}
       {state.owner && state.importReport && <p>{state.importReport}</p>}
       {state.owner && state.persistenceNotice && (
         <p>{state.persistenceNotice}</p>

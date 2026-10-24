@@ -1,0 +1,13 @@
+{
+  "method": "in-process parser microbenchmark; previous whole-prefix pattern vs incremental; not UI latency",
+  "node": "v24.16.0",
+  "frameSymbols": 257,
+  "frames": 220,
+  "layouts": 2,
+  "warmups": 1,
+  "measurements": 5,
+  "previousMedianMs": 1665.9260000000004,
+  "incrementalMedianMs": 23.15259999999944,
+  "ratio": 71.95416497499377,
+  "fullCheckpointStillValidated": true
+}

@@ -10,7 +10,21 @@ import {
   readResearchHistory,
   parseResearchCheckpoint,
   RESEARCH_HISTORY_KEY,
+  parseResearchTrial,
 } from '../src/lib/carrierResearchRecord.js'
+
+test('incremental trial parsing validates its absolute position without rereading earlier trials', () => {
+  const plan = { ...defaultResearchPlan(), frameSymbols: 257 }
+  const result = runCarrierResearch(plan, () => {})
+  const trials = [...result.calibration, ...result.evaluation]
+  for (const [index, trial] of trials.entries()) {
+    assert.deepEqual(parseResearchTrial(plan, trial, index), trial)
+  }
+  assert.throws(() => parseResearchTrial(plan, trials[0], 1))
+  const bad = structuredClone(trials[25])
+  bad.arms[0].ml.phaseRms = 3
+  assert.throws(() => parseResearchTrial(plan, bad, 25))
+})
 
 test('research history projects bounded versioned snapshots and does not share legacy keys', () => {
   const p = { ...defaultResearchPlan(), frameSymbols: 257 },

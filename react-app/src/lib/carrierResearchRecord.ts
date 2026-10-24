@@ -144,6 +144,21 @@ export function makeResearchRecord(
 ): ResearchRecord {
   return parseResearchRecord({ version: 1, id, completedAt, result })
 }
+
+/** Validate one incoming frame; persisted checkpoints still validate the full prefix. */
+export function parseResearchTrial(
+  plan: ResearchPlan,
+  value: unknown,
+  index: number,
+): ResearchTrial {
+  try {
+    const trial = [value]
+    validateResearchPrefix(plan, trial, index)
+    return projectTrial(trial[0])
+  } catch {
+    return fail()
+  }
+}
 export function parseResearchRecord(value: unknown): ResearchRecord {
   try {
     if (!value || typeof value !== 'object') return fail()
