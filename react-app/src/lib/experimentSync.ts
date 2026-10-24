@@ -50,6 +50,7 @@ export function parseRecord(value: unknown): GuidedRecord {
 
 export function fromCloud(row: CloudRecord, owner: string): GuidedRecord {
   if (
+    !row ||
     row.user_id !== owner ||
     row.experiment_type !== 'guided' ||
     row.schema_version !== 1 ||
@@ -120,6 +121,11 @@ export function mergeRemote(
   if (local.owner !== owner || local.id !== row.id)
     throw new Error('同步账号不匹配。')
   if (
+    (local.revision !== null && local.revision > row.revision) ||
+    (local.deleted && !local.pending && !remote.deleted)
+  )
+    return local
+  if (
     !sameSnapshot(local.record, remote.record) ||
     local.engineVersion !== remote.engineVersion
   ) {
@@ -145,6 +151,26 @@ export function mergeRemote(
       reason: '另一台设备已更新此记录，请选择要保留的分析。',
     },
   }
+}
+
+/** An acknowledgement may arrive after another tab has reconciled a newer row. */
+export function acknowledgeRemote(
+  current: LocalExperiment | undefined,
+  sent: LocalExperiment,
+  row: CloudRecord,
+): LocalExperiment {
+  const remote = cleanEntry(row, sent.owner)
+  if (!current) return remote
+  if (current.owner !== sent.owner || current.id !== row.id)
+    throw new Error('同步账号不匹配。')
+  if (
+    (current.revision !== null && current.revision > row.revision) ||
+    (current.deleted && !current.pending && !remote.deleted)
+  )
+    return current
+  if (current.token === sent.token || remote.deleted)
+    return mergeRemote({ ...current, pending: false }, row, sent.owner)
+  return { ...current, revision: row.revision, pending: true }
 }
 
 export function insertPayload(entry: LocalExperiment) {

@@ -1,7 +1,7 @@
 import { supabase } from './supabaseClient'
 import {
-  cleanEntry,
-  fromCloud,
+  acknowledgeRemote,
+  RecordValidationError,
   insertPayload,
   mergeRemote,
   type CloudRecord,
@@ -21,6 +21,10 @@ export class SyncFailure extends Error {
 
 export const QUOTA_NOTICE =
   '云端配额已满（每账号 1,000 条，含删除记录；载荷 20 MiB）；自动上传已暂停，本地记录已保留。请导出记录，处理额度后点击“刷新云端记录”重试。删除记录不会释放条数额度。'
+
+export interface SyncReport {
+  rejected: { id: string; reason: string; row: CloudRecord }[]
+}
 
 function fail(
   error: { code?: string; message?: string },
@@ -47,6 +51,7 @@ export async function syncExperiments(
   owner: string,
   signal: AbortSignal,
   uploadsPaused = false,
+  report: SyncReport = { rejected: [] },
 ): Promise<void> {
   const client = supabase
   if (!client) return
@@ -58,14 +63,20 @@ export async function syncExperiments(
     signal.throwIfAborted()
   }
   const acknowledge = async (sent: LocalExperiment, row: CloudRecord) => {
-    fromCloud(row, owner)
-    await store.change(owner, sent.id, (current) => {
-      if (!current) return cleanEntry(row, owner)
-      if (current.token === sent.token || row.deleted_at)
-        return cleanEntry(row, owner)
-      // A new local edit happened while the request was in flight.
-      return { ...current, revision: row.revision, pending: true }
-    })
+    try {
+      await store.change(owner, sent.id, (current) =>
+        acknowledgeRemote(current, sent, row),
+      )
+    } catch (cause) {
+      isolate(cause, row)
+    }
+  }
+  const isolate = (cause: unknown, row: CloudRecord) => {
+    // Never retain or export a row claiming another account, even on a broken API.
+    if (!(cause instanceof RecordValidationError) || row?.user_id !== owner)
+      throw cause
+    if (!report.rejected.some((item) => item.id === row.id))
+      report.rejected.push({ id: row.id, reason: cause.message, row })
   }
 
   let quotaFailure: SyncFailure | undefined
@@ -124,9 +135,13 @@ export async function syncExperiments(
           '云端记录已移除或不可访问，已停止重试，请导出本地记录。',
           false,
         )
-      await store.change(owner, entry.id, (current) =>
-        mergeRemote(current, data, owner),
-      )
+      try {
+        await store.change(owner, entry.id, (current) =>
+          mergeRemote(current, data, owner),
+        )
+      } catch (cause) {
+        isolate(cause, data)
+      }
     } catch (cause) {
       // A rejected new/increasing payload must not starve deletions or shrinking
       // existing analyses. Complete reconciliation before reporting the quota.
@@ -151,9 +166,13 @@ export async function syncExperiments(
     if (!data?.length) break
     for (const row of data) {
       signal.throwIfAborted()
-      await store.change(owner, row.id, (current) =>
-        mergeRemote(current, row, owner),
-      )
+      try {
+        await store.change(owner, row.id, (current) =>
+          mergeRemote(current, row, owner),
+        )
+      } catch (cause) {
+        isolate(cause, row)
+      }
     }
     lastId = data[data.length - 1].id
     if (data.length < 100) break

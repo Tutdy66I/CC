@@ -1,6 +1,11 @@
 import { readGuidedHistory, type GuidedRecord } from './guidedExperiment'
 import { ExperimentStore } from './experimentStore'
-import { syncExperiments, SyncFailure, QUOTA_NOTICE } from './experimentCloud'
+import {
+  syncExperiments,
+  SyncFailure,
+  QUOTA_NOTICE,
+  type SyncReport,
+} from './experimentCloud'
 import {
   authRedirect,
   cloudNamespace,
@@ -29,6 +34,7 @@ interface HistoryState {
   persistenceNotice: string
   records: GuidedRecord[]
   entries: LocalExperiment[]
+  rejected: SyncReport['rejected']
 }
 
 function guestHistory(): GuidedRecord[] {
@@ -53,6 +59,7 @@ export class ExperimentHistory {
     persistenceNotice: '',
     records: guestHistory(),
     entries: [],
+    rejected: [],
   }
   private alive = false
   private generation = 0
@@ -125,6 +132,7 @@ export class ExperimentHistory {
       importReport: '',
       persistenceNotice: '',
       entries: [],
+      rejected: [],
       records: owner ? [] : guestHistory(),
     })
     if (owner) {
@@ -390,6 +398,29 @@ export class ExperimentHistory {
     this.uploadsPaused = false
     await this.sync()
   }
+  exportDiagnostics = () => {
+    const url = URL.createObjectURL(
+      new Blob(
+        [
+          JSON.stringify(
+            {
+              version: 1,
+              owner: this.state.owner,
+              rows: this.state.rejected,
+            },
+            null,
+            2,
+          ),
+        ],
+        { type: 'application/json' },
+      ),
+    )
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = 'SignalLab-sync-diagnostics.json'
+    anchor.click()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  }
   sync = async () => {
     const owner = this.state.owner
     if (!owner || !this.alive) return
@@ -415,17 +446,20 @@ export class ExperimentHistory {
     clearTimeout(this.timer)
     this.publish({ syncing: true })
     let delay: number | undefined
+    const report: SyncReport = { rejected: [] }
     try {
       await syncExperiments(
         this.store,
         owner,
         controller.signal,
         this.uploadsPaused,
+        report,
       )
       if (!this.same(owner, generation)) return
       await this.load(owner, generation)
       this.retry = 0
       this.publish({
+        rejected: report.rejected,
         notice: this.uploadsPaused
           ? QUOTA_NOTICE
           : [...this.volatile.keys()].some((key) => key.startsWith(`${owner}:`))
@@ -440,6 +474,9 @@ export class ExperimentHistory {
       })
     } catch (cause) {
       if (!this.same(owner, generation) || controller.signal.aborted) return
+      await this.load(owner, generation).catch(() => undefined)
+      if (!this.same(owner, generation)) return
+      this.publish({ rejected: report.rejected })
       if (cause instanceof SyncFailure && cause.quota) {
         this.uploadsPaused = true
         this.again = false

@@ -12,6 +12,7 @@ import {
   fromCloud,
   mergeRemote,
   parseRecord,
+  acknowledgeRemote,
   type CloudRecord,
 } from '../src/lib/experimentSync.js'
 import { ExperimentStore } from '../src/lib/experimentStore.js'
@@ -52,6 +53,49 @@ test('cloud validation rejects account mismatch, unsupported versions and corrup
   const invalid = structuredClone(record)
   invalid.rows[0].totalErrors++
   assert.throws(() => parseRecord(invalid))
+})
+
+test('late cloud responses cannot roll back a newer clean revision or confirmed tombstone', () => {
+  const newer = cleanEntry({ ...cloud, revision: 3, analysis: 'newer' }, 'A')
+  assert.deepEqual(mergeRemote(newer, { ...cloud, revision: 2 }, 'A'), newer)
+  const tombstone = cleanEntry(
+    { ...cloud, revision: 4, deleted_at: cloud.updated_at },
+    'A',
+  )
+  assert.deepEqual(
+    mergeRemote(tombstone, { ...cloud, revision: 3 }, 'A'),
+    tombstone,
+  )
+  const pending = {
+    ...newer,
+    pending: true,
+    record: { ...newer.record, analysis: 'unsent' },
+  }
+  assert.deepEqual(
+    mergeRemote(pending, { ...cloud, revision: 2 }, 'A'),
+    pending,
+  )
+})
+
+test('late acknowledgements preserve newer revisions and edits made while sending', () => {
+  const sent = { ...cleanEntry(cloud, 'A'), pending: true }
+  const newer = cleanEntry({ ...cloud, revision: 3, analysis: 'newer' }, 'A')
+  assert.deepEqual(
+    acknowledgeRemote(newer, sent, { ...cloud, revision: 2 }),
+    newer,
+  )
+  const editing = {
+    ...sent,
+    token: 'new-edit',
+    record: { ...record, analysis: 'unsent' },
+  }
+  const acknowledged = acknowledgeRemote(editing, sent, {
+    ...cloud,
+    revision: 2,
+  })
+  assert.equal(acknowledged.record.analysis, 'unsent')
+  assert.equal(acknowledged.pending, true)
+  assert.equal(acknowledged.revision, 2)
 })
 
 test('JSONB key order and equivalent timestamp formatting do not cause conflicts', () => {
