@@ -16,6 +16,20 @@ test.beforeEach(async ({ page }) => {
   ).toBeVisible()
 })
 
+test('SignalLab exposes a route title and section navigation without changing the hash route', async ({
+  page,
+}) => {
+  await expect(page).toHaveTitle('SignalLab AI · v1.1')
+  await page
+    .getByRole('navigation', { name: '实验章节' })
+    .getByRole('button', { name: '载波研究' })
+    .click()
+  await expect(
+    page.getByRole('heading', { name: '载波恢复可靠性研究', exact: true }),
+  ).toBeInViewport()
+  await expect(page).toHaveURL(/#\/signallab$/)
+})
+
 test('BPSK and QPSK validate inputs, restore noiseless bits and reproduce seeded samples', async ({
   page,
 }) => {

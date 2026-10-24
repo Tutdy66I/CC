@@ -553,8 +553,14 @@ export function summarizeResearch(
 export function validateResearchPrefix(
   p: ResearchPlan,
   value: unknown,
+  startIndex = 0,
 ): asserts value is ResearchTrial[] {
-  if (!Array.isArray(value) || value.length > 20 + p.trials)
+  if (
+    !Number.isInteger(startIndex) ||
+    startIndex < 0 ||
+    !Array.isArray(value) ||
+    startIndex + value.length > 20 + p.trials
+  )
     throw new Error('研究检查点长度无效。')
   const masks = p.layouts.map((l) =>
       buildPilotLayout(p.frameSymbols, l.spacing, l.kind),
@@ -568,7 +574,8 @@ export function validateResearchPrefix(
       const tx = estimationDataSymbol(p.modulation, n)
       commonEnergy += tx.i ** 2 + tx.q ** 2
     }
-  for (const [m, trial] of value.entries()) {
+  for (const [offset, trial] of value.entries()) {
+    const m = startIndex + offset
     const stage = m < 20 ? 'calibration' : 'evaluation',
       index = m < 20 ? m : m - 20
     if (

@@ -85,7 +85,7 @@ export function renderReport(
   }).format(new Date(snapshot.generatedAt))
   let body = html ? `<h1>${title}</h1>` : `# ${title}\n`
   body += paragraph(
-    `SignalLab v0.6 · 生成时间：${time}（Asia/Hong_Kong，UTC+08:00）`,
+    `SignalLab v1.1 · 生成时间：${time}（Asia/Hong_Kong，UTC+08:00）`,
   )
   body += heading('实验参数与结果')
   const rows = Object.entries(data)

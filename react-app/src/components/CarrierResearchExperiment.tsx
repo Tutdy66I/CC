@@ -17,6 +17,7 @@ import {
   makeResearchRecord,
   readResearchHistory,
   parseResearchCheckpoint,
+  parseResearchTrial,
   type ResearchCheckpoint,
   type ResearchRecord,
 } from '../lib/carrierResearchRecord'
@@ -247,13 +248,12 @@ export default function CarrierResearchExperiment() {
               m.total !== 20 + frozen.trials
             )
               throw new Error('研究Worker进度无效。')
-            const next = parseResearchCheckpoint({
+            prefix.push(parseResearchTrial(frozen, m.trial, prefix.length))
+            active.current = {
               engineVersion: RESEARCH_ENGINE,
               plan: frozen,
-              trials: [...prefix, m.trial],
-            })
-            prefix.push(next.trials.at(-1)!)
-            active.current = next
+              trials: prefix,
+            }
             setStatus(
               `研究计算中：${prefix.length}/${20 + frozen.trials}；${prefix.length <= 20 ? '校准' : '评估'}阶段。`,
             )
