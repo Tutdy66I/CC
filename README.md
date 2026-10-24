@@ -73,6 +73,11 @@ phase unwrapping and least squares, with an explicit pilot-spacing ambiguity
 range, noisy-fit diagnostics, data-only BER/EVM and independent local history.
 See [v1.0 mathematics, reproducible studies and validation](docs/signallab-v1.0.md).
 
+SignalLab v1.1 adds pilot-layout and low-SNR reliability research: paired OLS/complex
+pilot search, separate calibration/evaluation seeds, frame-level failure intervals,
+diagnostic ROC, resumable checkpoints, and frozen offline confirmation studies.
+See [v1.1 research protocol, results and limitations](docs/signallab-v1.1.md).
+
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).
