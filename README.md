@@ -38,7 +38,10 @@ the built site and `/api/rss-proxy` from the same origin. Static-only hosting
 requires a platform-specific serverless adapter for the RSS proxy.
 
 SignalLab includes BPSK, QPSK, BER scans, and an AI experiment tutor. To enable
-the tutor, configure server-side `AI_BASE_URL`, `AI_MODEL`, and `AI_API_KEY`.
+the tutor, configure server-side `AI_BASE_URL`, `AI_MODEL`, and `AI_API_KEY`, then
+follow the [AI authentication and budget setup](docs/signallab-ai-security.md).
+The production endpoint requires an approved Supabase identity and persistent
+budget configuration; Pages AI remains disabled.
 See [AI tutor setup and validation](docs/signallab-ai-tutor.md).
 
 SignalLab v0.6 adds Gray 16QAM, its constellation and hard decisions, reference-aided

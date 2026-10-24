@@ -97,6 +97,7 @@ test('HTTP handler reaches a local model and validates method, origin and JSON',
   })
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
   const previous = {
+    AI_ACCESS_MODE: process.env.AI_ACCESS_MODE,
     AI_BASE_URL: process.env.AI_BASE_URL,
     AI_MODEL: process.env.AI_MODEL,
     AI_API_KEY: process.env.AI_API_KEY,
@@ -113,6 +114,7 @@ test('HTTP handler reaches a local model and validates method, origin and JSON',
   })
   process.env.AI_BASE_URL = `http://127.0.0.1:${(upstream.address() as import('node:net').AddressInfo).port}/v1`
   process.env.AI_MODEL = 'local-test'
+  process.env.AI_ACCESS_MODE = 'local'
   process.env.AI_API_KEY = 'test-secret'
   const url = `http://127.0.0.1:${(server.address() as import('node:net').AddressInfo).port}/api/ai-tutor`
   const response = await fetch(url, {
@@ -209,6 +211,16 @@ test('upstream failures never expose credentials or vendor error bodies', async 
     assert.equal(result.status, 502)
     assert.doesNotMatch(JSON.stringify(result), /secret/)
   }
+})
+
+test('provider response bytes are bounded even when its answer is short', async () => {
+  const result = await createTutorReply(request, config, async () =>
+    Response.json({
+      choices: [{ message: { content: 'short' } }],
+      ignored: 'x'.repeat(140000),
+    }),
+  )
+  assert.equal(result.status, 502)
 })
 
 test('already cancelled requests never call model', async () => {

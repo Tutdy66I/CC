@@ -1,5 +1,10 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { createTutorReply } from './aiTutor.js'
+import { createTutorReply, validateTutorRequest } from './aiTutor.js'
+import {
+  authorizeTutor,
+  reserveTutorBudget,
+  TutorAccessError,
+} from './aiTutorAccess.js'
 
 let active = 0
 const clients = new Map<string, { start: number; count: number }>()
@@ -44,7 +49,7 @@ export async function handleTutorRequest(
   const entry = clients.get(address) ?? { start: now, count: 0 }
   if (
     active >= 2 ||
-    entry.count >= 10 ||
+    entry.count >= (process.env.AI_ACCESS_MODE === 'local' ? 10 : 60) ||
     (!clients.has(address) && clients.size >= 1000)
   ) {
     res.setHeader('Retry-After', '60')
@@ -80,6 +85,44 @@ export async function handleTutorRequest(
     } catch {
       send(400, { error: 'JSON 格式无效。' })
       return
+    }
+    try {
+      validateTutorRequest(body)
+    } catch {
+      send(400, { error: '实验快照或问题格式无效。' })
+      return
+    }
+    // Unconfigured installations retain their explicit 503 without contacting Auth.
+    if (
+      process.env.AI_API_KEY &&
+      process.env.AI_MODEL &&
+      process.env.AI_BASE_URL
+    ) {
+      try {
+        if (process.env.AI_ACCESS_MODE === 'local') {
+          const host = new URL(`http://${req.headers.host ?? ''}`).hostname
+          if (
+            !['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(address) ||
+            !['localhost', '127.0.0.1', '[::1]'].includes(host)
+          )
+            throw new TutorAccessError(403, '本地 AI 仅允许回环访问。')
+        } else {
+          const user = await authorizeTutor(
+            req.headers.authorization,
+            process.env,
+          )
+          controller.signal.throwIfAborted()
+          reserveTutorBudget(user, address, process.env)
+        }
+      } catch (cause) {
+        const failure =
+          cause instanceof TutorAccessError
+            ? cause
+            : new TutorAccessError(503, 'AI 安全检查暂时不可用。')
+        if (failure.status === 429) res.setHeader('Retry-After', '60')
+        send(failure.status, { error: failure.message })
+        return
+      }
     }
     const result = await createTutorReply(
       body,

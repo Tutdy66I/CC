@@ -5,11 +5,12 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $taskPrevious = @{}
-foreach ($taskName in @('AI_BASE_URL', 'AI_MODEL', 'AI_THINKING', 'AI_API_KEY')) {
+foreach ($taskName in @('AI_BASE_URL', 'AI_MODEL', 'AI_THINKING', 'AI_API_KEY', 'AI_ACCESS_MODE')) {
   $taskPrevious[$taskName] = [Environment]::GetEnvironmentVariable($taskName, 'Process')
 }
 
 try {
+  if (-not $Production) { $env:AI_ACCESS_MODE = 'local' }
   $env:AI_BASE_URL = 'https://api.deepseek.com'
   $env:AI_MODEL = 'deepseek-flash'
   $env:AI_THINKING = 'disabled'

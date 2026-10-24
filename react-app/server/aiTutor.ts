@@ -1,3 +1,5 @@
+import { boundedJson } from './boundedJson.js'
+
 export interface TutorRequest {
   messages: { role: 'user' | 'assistant'; content: string }[]
   context: {
@@ -125,7 +127,7 @@ export async function createTutorReply(
       await response.body?.cancel()
       throw new Error('Upstream rejected')
     }
-    const data: unknown = await response.json()
+    const data: unknown = await boundedJson(response)
     const answer = (data as { choices?: { message?: { content?: unknown } }[] })
       ?.choices?.[0]?.message?.content
     if (typeof answer !== 'string' || !answer.trim() || answer.length > 12000)
