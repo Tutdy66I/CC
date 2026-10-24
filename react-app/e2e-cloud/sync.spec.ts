@@ -221,6 +221,30 @@ async function fixture(page: Page, signedIn = true) {
 const section = (page: Page) =>
   page.getByRole('region', { name: 'AI 引导式实验', exact: true })
 
+test('signed-in carrier experiments remain local and never enter the cloud upload queue', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  await page.goto('./#/signallab')
+  await expect(
+    section(page).getByText(
+      '仅记录完整运行；登录记录保存在当前账号并跨设备同步。',
+      { exact: false },
+    ),
+  ).toBeVisible()
+  const region = page.getByRole('region', {
+    name: '相位与频率偏移实验',
+    exact: true,
+  })
+  await region.getByLabel('偏移扫描点').fill('0')
+  await region.getByRole('button', { name: '确认偏移方案并运行' }).click()
+  await expect(region.getByRole('status')).toContainText('实验完成')
+  await page.reload()
+  await expect(region.locator('tbody tr')).toHaveCount(1)
+  expect(service.writes).toBe(0)
+  expect(service.rows).toEqual([])
+})
+
 test('quota pauses automatic uploads, preserves local history and permits manual retry', async ({
   page,
 }) => {

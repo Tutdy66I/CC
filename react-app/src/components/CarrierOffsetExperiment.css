@@ -1,0 +1,85 @@
+.carrier-experiment {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--signal-border);
+  min-width: 0;
+}
+.carrier-experiment select,
+.carrier-experiment input[type='text'] {
+  max-width: 100%;
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--bg, transparent);
+  color: inherit;
+  border: 1px solid var(--signal-border);
+  border-radius: 4px;
+  font: inherit;
+  box-sizing: border-box;
+}
+.carrier-experiment select option {
+  background: var(--bg, Canvas);
+  color: var(--text, CanvasText);
+}
+.carrier-table {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.carrier-table table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.carrier-table th,
+.carrier-table td {
+  padding: 0.5rem;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--signal-border);
+}
+.carrier-experiment caption {
+  text-align: left;
+  padding: 0.5rem;
+}
+.carrier-plots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.carrier-plots figure {
+  margin: 1rem 0;
+  min-width: 0;
+}
+.carrier-plots svg {
+  display: block;
+  width: 100%;
+}
+.carrier-plots line {
+  stroke: var(--signal-muted);
+  stroke-width: 0.6;
+}
+.carrier-plots text {
+  fill: currentColor;
+  font-size: 10px;
+}
+.carrier-plots polyline {
+  stroke: var(--signal-accent);
+  stroke-width: 1.5;
+  fill: none;
+}
+.carrier-reference {
+  fill: #438ad2;
+}
+.carrier-received {
+  fill: #d95d5d;
+}
+.carrier-notice {
+  border-left: 3px solid #b27716;
+  padding-left: 1rem;
+}
+@media (max-width: 600px) {
+  .carrier-plots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
