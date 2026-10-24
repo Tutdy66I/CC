@@ -1,0 +1,36 @@
+.research-experiment {
+  overflow-wrap: anywhere;
+}
+.research-experiment input[type='number'] {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.research-layouts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.research-layouts label {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.research-experiment .research-ols {
+  fill: #438ad2;
+}
+.research-experiment .research-ml {
+  fill: #d95d5d;
+}
+.research-experiment .research-line-ols {
+  stroke: #438ad2;
+}
+.research-experiment .research-line-ml {
+  stroke: #d95d5d;
+}
+@media (max-width: 600px) {
+  .research-layouts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

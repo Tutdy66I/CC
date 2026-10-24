@@ -1,5 +1,37 @@
 import { expect, test } from '@playwright/test'
 
+test('v1.1 research runs and persists independently in the static Pages build', async ({
+  page,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('baseURL required')
+  const origin = new URL(baseURL).origin,
+    calls: string[] = []
+  const service = (url: URL) =>
+    url.origin !== origin || url.pathname.includes('/api/')
+  page.on('request', (r) => {
+    if (service(new URL(r.url()))) calls.push(r.url())
+  })
+  await page.route('**/*', (route) =>
+    service(new URL(route.request().url())) ? route.abort() : route.continue(),
+  )
+  await page.goto('./#/signallab')
+  const r = page.getByRole('region', {
+    name: '载波恢复可靠性研究',
+    exact: true,
+  })
+  await r.getByRole('button', { name: '确认研究方案并运行' }).click()
+  await expect(r.getByRole('status')).toContainText('研究完成')
+  const pending = page.waitForEvent('download')
+  await r.getByRole('button', { name: '导出研究记录 JSON' }).click()
+  expect((await pending).suggestedFilename()).toMatch(
+    /^SignalLab-research-.*\.json$/,
+  )
+  await page.reload()
+  await expect(r.getByLabel('研究实验历史').locator('option')).toHaveCount(1)
+  expect(calls).toEqual([])
+})
+
 test('v1 pilot estimation runs offline under the static repository subpath', async ({
   page,
   baseURL,

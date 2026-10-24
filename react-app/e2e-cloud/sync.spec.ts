@@ -221,6 +221,24 @@ async function fixture(page: Page, signedIn = true) {
 const section = (page: Page) =>
   page.getByRole('region', { name: 'AI 引导式实验', exact: true })
 
+test('signed-in v1.1 research never enters the cloud upload queue', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  await page.goto('./#/signallab')
+  await expect(page.getByText('已登录：', { exact: false })).toBeVisible()
+  const r = page.getByRole('region', {
+    name: '载波恢复可靠性研究',
+    exact: true,
+  })
+  await r.getByRole('button', { name: '确认研究方案并运行' }).click()
+  await expect(r.getByRole('status')).toContainText('研究完成')
+  await page.reload()
+  await expect(r.getByLabel('研究实验历史').locator('option')).toHaveCount(1)
+  expect(service.writes).toBe(0)
+  expect(service.rows).toEqual([])
+})
+
 test('signed-in pilot estimation remains local and never enters the cloud upload queue', async ({
   page,
 }) => {
