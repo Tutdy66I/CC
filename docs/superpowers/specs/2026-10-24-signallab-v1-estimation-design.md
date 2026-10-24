@@ -1,7 +1,7 @@
 # SignalLab AI v1.0：导频辅助载波估计与恢复设计
 
 日期：2026-10-24。基线：远端 master `98ebf22`（已 fetch 核对）。
-开发分支：`codex/signallab-v1-estimation`。本文待用户审阅后实施。
+开发分支：`codex/signallab-v1-estimation`。用户已于2026-10-24确认按此设计实施。
 
 ## 范围与方案选择
 

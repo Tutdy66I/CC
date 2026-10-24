@@ -1,0 +1,6073 @@
+{
+  "node": "v24.16.0",
+  "platform": "win32",
+  "cpu": "AMD Ryzen 9 6900HX with Radeon Graphics        ",
+  "timestamp": "2026-10-24T08:32:44.252Z",
+  "method": "20 fixed seeds per modulation/SNR; frequency drift diagnostic is posthoc, not a cycle-slip detector; single-frame measurements, no universal guarantee; memoryUsage is sampled process memory, not peak allocation",
+  "summaries": [
+    {
+      "modulation": "BPSK",
+      "ebN0Db": -4,
+      "trials": 20,
+      "failed": 0,
+      "warned": 20,
+      "halfCycleDrift": 16,
+      "frequencyRmse": 0.0011463925422316324,
+      "phaseRmseDeg": 106.40456893784723,
+      "raw": {
+        "meanBer": 0.4971128608923884,
+        "meanEvm": 2.126538638749326
+      },
+      "estimated": {
+        "meanBer": 0.46619422572178476,
+        "meanEvm": 2.082151739477081
+      },
+      "ideal": {
+        "meanBer": 0.18522309711286095,
+        "meanEvm": 1.5867071193269107
+      }
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 8,
+      "trials": 20,
+      "failed": 0,
+      "warned": 1,
+      "halfCycleDrift": 0,
+      "frequencyRmse": 0.000006308517170053053,
+      "phaseRmseDeg": 2.28640082792923,
+      "raw": {
+        "meanBer": 0.4923884514435695,
+        "meanEvm": 1.459495360925204
+      },
+      "estimated": {
+        "meanBer": 0.00013123359580052493,
+        "meanEvm": 0.39903628864440155
+      },
+      "ideal": {
+        "meanBer": 0.00013123359580052493,
+        "meanEvm": 0.39769991074183497
+      }
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 14,
+      "trials": 20,
+      "failed": 0,
+      "warned": 0,
+      "halfCycleDrift": 0,
+      "frequencyRmse": 0.0000038101905413842885,
+      "phaseRmseDeg": 1.5556839495284427,
+      "raw": {
+        "meanBer": 0.4922309711286089,
+        "meanEvm": 1.420202832561702
+      },
+      "estimated": {
+        "meanBer": 0,
+        "meanEvm": 0.20014691203974663
+      },
+      "ideal": {
+        "meanBer": 0,
+        "meanEvm": 0.199511677988926
+      }
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": -4,
+      "trials": 20,
+      "failed": 0,
+      "warned": 20,
+      "halfCycleDrift": 14,
+      "frequencyRmse": 0.0009990472481313313,
+      "phaseRmseDeg": 93.10646949554382,
+      "raw": {
+        "meanBer": 0.5000787401574802,
+        "meanEvm": 1.800509674642853
+      },
+      "estimated": {
+        "meanBer": 0.46027559055118106,
+        "meanEvm": 1.7125477698817348
+      },
+      "ideal": {
+        "meanBer": 0.18418635170603675,
+        "meanEvm": 1.119817383546017
+      }
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 8,
+      "trials": 20,
+      "failed": 0,
+      "warned": 0,
+      "halfCycleDrift": 0,
+      "frequencyRmse": 0.00000420702767682234,
+      "phaseRmseDeg": 1.7352279383567424,
+      "raw": {
+        "meanBer": 0.49561679790026253,
+        "meanEvm": 1.4343486520280333
+      },
+      "estimated": {
+        "meanBer": 0.0001968503937007874,
+        "meanEvm": 0.2817748366707444
+      },
+      "ideal": {
+        "meanBer": 0.00017060367454068242,
+        "meanEvm": 0.2810182043633074
+      }
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 14,
+      "trials": 20,
+      "failed": 0,
+      "warned": 0,
+      "halfCycleDrift": 0,
+      "frequencyRmse": 0.0000021117804274817607,
+      "phaseRmseDeg": 1.0194753333501292,
+      "raw": {
+        "meanBer": 0.49488188976377956,
+        "meanEvm": 1.4132679236608452
+      },
+      "estimated": {
+        "meanBer": 0,
+        "meanEvm": 0.14111497861215327
+      },
+      "ideal": {
+        "meanBer": 0,
+        "meanEvm": 0.14057665107146486
+      }
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": -4,
+      "trials": 20,
+      "failed": 0,
+      "warned": 20,
+      "halfCycleDrift": 7,
+      "frequencyRmse": 0.0004553784692316995,
+      "phaseRmseDeg": 64.4498506552909,
+      "raw": {
+        "meanBer": 0.45766404199475064,
+        "meanEvm": 1.6157165810629437
+      },
+      "estimated": {
+        "meanBer": 0.33001968503937007,
+        "meanEvm": 1.1270944429028753
+      },
+      "ideal": {
+        "meanBer": 0.23552493438320207,
+        "meanEvm": 0.7916642543293158
+      }
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 8,
+      "trials": 20,
+      "failed": 0,
+      "warned": 0,
+      "halfCycleDrift": 0,
+      "frequencyRmse": 0.0000029435546359127597,
+      "phaseRmseDeg": 1.2006737086092112,
+      "raw": {
+        "meanBer": 0.4160761154855643,
+        "meanEvm": 1.4216789271580028
+      },
+      "estimated": {
+        "meanBer": 0.00893044619422572,
+        "meanEvm": 0.1991168083945035
+      },
+      "ideal": {
+        "meanBer": 0.008845144356955383,
+        "meanEvm": 0.1986681672200518
+      }
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 14,
+      "trials": 20,
+      "failed": 0,
+      "warned": 0,
+      "halfCycleDrift": 0,
+      "frequencyRmse": 0.000001493059894837784,
+      "phaseRmseDeg": 0.7214019539867939,
+      "raw": {
+        "meanBer": 0.4121719160104987,
+        "meanEvm": 1.4090764790011627
+      },
+      "estimated": {
+        "meanBer": 0,
+        "meanEvm": 0.09978826695758805
+      },
+      "ideal": {
+        "meanBer": 0,
+        "meanEvm": 0.09938183786198598
+      }
+    }
+  ],
+  "trials": [
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 42,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": -0.000046708629089962646,
+      "phaseErrorDeg": -39.32449795530764,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.751391255862481,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49711286089238843,
+        "evm": 2.1231033506407426
+      },
+      "estimated": {
+        "ber": 0.31496062992125984,
+        "evm": 1.841967355024693
+      },
+      "ideal": {
+        "ber": 0.194750656167979,
+        "evm": 1.5826374629267328
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 52,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": -0.0011595878567850458,
+      "phaseErrorDeg": -96.69298113229975,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.565217771863484,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5081364829396325,
+        "evm": 2.1043084384464446
+      },
+      "estimated": {
+        "ber": 0.5406824146981627,
+        "evm": 2.1500136632277607
+      },
+      "ideal": {
+        "ber": 0.18425196850393702,
+        "evm": 1.5623362470967743
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 62,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": -0.00023102592389818196,
+      "phaseErrorDeg": -179.70313006378368,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.958546413820021,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5128608923884515,
+        "evm": 2.1128012152816704
+      },
+      "estimated": {
+        "ber": 0.5133858267716536,
+        "evm": 2.140256971309501
+      },
+      "ideal": {
+        "ber": 0.18005249343832022,
+        "evm": 1.5523834100708889
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 72,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": -0.000681686742105464,
+      "phaseErrorDeg": -96.39122775131204,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.6471805969646485,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4860892388451444,
+        "evm": 2.124606114425432
+      },
+      "estimated": {
+        "ber": 0.5711286089238845,
+        "evm": 2.231693232339181
+      },
+      "ideal": {
+        "ber": 0.1900262467191601,
+        "evm": 1.6005626358457634
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 82,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": -0.001412838727100198,
+      "phaseErrorDeg": 101.67969431231701,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 2.6601195354126714,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.494488188976378,
+        "evm": 2.1103213394939457
+      },
+      "estimated": {
+        "ber": 0.5002624671916011,
+        "evm": 2.121550901949199
+      },
+      "ideal": {
+        "ber": 0.17585301837270342,
+        "evm": 1.5760027191575963
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 92,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": 0.0026356527648546753,
+      "phaseErrorDeg": 154.0729562421385,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 3.2072575684455664,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49816272965879266,
+        "evm": 2.1515367948982855
+      },
+      "estimated": {
+        "ber": 0.5191601049868766,
+        "evm": 2.180110585586488
+      },
+      "ideal": {
+        "ber": 0.1963254593175853,
+        "evm": 1.617124569378335
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 102,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": -0.002287452251686633,
+      "phaseErrorDeg": 163.4866806311843,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 4.676706662009164,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49816272965879266,
+        "evm": 2.082334825767803
+      },
+      "estimated": {
+        "ber": 0.47611548556430444,
+        "evm": 2.049996062649443
+      },
+      "ideal": {
+        "ber": 0.1774278215223097,
+        "evm": 1.5384286082792702
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 112,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.0005837549482609738,
+      "phaseErrorDeg": -19.97974693858017,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.7449384341553635,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.483989501312336,
+        "evm": 2.1015493742601468
+      },
+      "estimated": {
+        "ber": 0.46614173228346456,
+        "evm": 2.0714044773473397
+      },
+      "ideal": {
+        "ber": 0.19370078740157481,
+        "evm": 1.5909782211455765
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 122,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -0.0013439368890093514,
+      "phaseErrorDeg": 69.60977608111004,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.4269489481687683,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49133858267716535,
+        "evm": 2.147953143639154
+      },
+      "estimated": {
+        "ber": 0.4881889763779528,
+        "evm": 2.1486036869377454
+      },
+      "ideal": {
+        "ber": 0.18740157480314962,
+        "evm": 1.6335392368447401
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 132,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": -0.0008859554677773246,
+      "phaseErrorDeg": -78.61822245564218,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.6647965171366397,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49501312335958003,
+        "evm": 2.102716955222751
+      },
+      "estimated": {
+        "ber": 0.5249343832020997,
+        "evm": 2.148969665311006
+      },
+      "ideal": {
+        "ber": 0.18425196850393702,
+        "evm": 1.5597050030897075
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 142,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": -0.0009292096913685497,
+      "phaseErrorDeg": -64.81814571798452,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 6.692196208702149,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5039370078740157,
+        "evm": 2.1701033992429632
+      },
+      "estimated": {
+        "ber": 0.5244094488188976,
+        "evm": 2.2013591126786167
+      },
+      "ideal": {
+        "ber": 0.194750656167979,
+        "evm": 1.6102107609700982
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 152,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": 0.0008545313558996005,
+      "phaseErrorDeg": -136.40816906919252,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.61295160827748,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49973753280839894,
+        "evm": 2.136050018384483
+      },
+      "estimated": {
+        "ber": 0.4398950131233596,
+        "evm": 2.0677857585264325
+      },
+      "ideal": {
+        "ber": 0.17585301837270342,
+        "evm": 1.5932674722437863
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 162,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": -0.00030295323609040483,
+      "phaseErrorDeg": 156.7535925793922,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 2.062081312273308,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5070866141732283,
+        "evm": 2.1592242514610684
+      },
+      "estimated": {
+        "ber": 0.3879265091863517,
+        "evm": 2.0123564492658197
+      },
+      "ideal": {
+        "ber": 0.194750656167979,
+        "evm": 1.6332011004918978
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 172,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.00036446695271003004,
+      "phaseErrorDeg": 142.45283988568403,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.1119057700253836,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5097112860892389,
+        "evm": 2.1537942533591967
+      },
+      "estimated": {
+        "ber": 0.384251968503937,
+        "evm": 1.9917410217930869
+      },
+      "ideal": {
+        "ber": 0.18320209973753282,
+        "evm": 1.6065606671114772
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 182,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": 0.0005263905551993857,
+      "phaseErrorDeg": 27.730246743815417,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.182433287453784,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49606299212598426,
+        "evm": 2.1542055736211596
+      },
+      "estimated": {
+        "ber": 0.49553805774278215,
+        "evm": 2.1597541518888397
+      },
+      "ideal": {
+        "ber": 0.1816272965879265,
+        "evm": 1.6028003145071164
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 192,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": -0.001502508917695938,
+      "phaseErrorDeg": -108.82889302579625,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 3.671768750578952,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49921259842519683,
+        "evm": 2.079243703019006
+      },
+      "estimated": {
+        "ber": 0.483989501312336,
+        "evm": 2.0625996076351916
+      },
+      "ideal": {
+        "ber": 0.1989501312335958,
+        "evm": 1.5633882634171101
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 202,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": 0.0011067485178719184,
+      "phaseErrorDeg": 28.486614841484634,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 2.3628325108191635,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49081364829396323,
+        "evm": 2.103189331786866
+      },
+      "estimated": {
+        "ber": 0.48083989501312335,
+        "evm": 2.0642473776212795
+      },
+      "ideal": {
+        "ber": 0.1816272965879265,
+        "evm": 1.5609290665083995
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 212,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": 0.0012978217821461796,
+      "phaseErrorDeg": -34.3285679984448,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 6.264128462464694,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.47821522309711284,
+        "evm": 2.105036162947881
+      },
+      "estimated": {
+        "ber": 0.49553805774278215,
+        "evm": 2.1040900732701857
+      },
+      "ideal": {
+        "ber": 0.1879265091863517,
+        "evm": 1.5740195490487736
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 222,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": -0.0002230060931534834,
+      "phaseErrorDeg": 123.13800515807615,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 2.0868946646933852,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5018372703412074,
+        "evm": 2.1826852875446243
+      },
+      "estimated": {
+        "ber": 0.32440944881889766,
+        "evm": 1.9177422894136449
+      },
+      "ideal": {
+        "ber": 0.15853018372703412,
+        "evm": 1.6081075979223254
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 232,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": 0.00002225122500247828,
+      "phaseErrorDeg": 65.4894247319748,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 4.888630773730052,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4902887139107612,
+        "evm": 2.126009241542897
+      },
+      "estimated": {
+        "ber": 0.3921259842519685,
+        "evm": 1.9767923457661603
+      },
+      "ideal": {
+        "ber": 0.18320209973753282,
+        "evm": 1.5679594804818358
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 48,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": 1.932689340869171e-7,
+      "phaseErrorDeg": 0.721930183856662,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.3283820104182782,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5002624671916011,
+        "evm": 1.4470291778793576
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.3957656548015133
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.3956618636300959
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 58,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": -0.000008520606297680389,
+      "phaseErrorDeg": 4.15058418685408,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.30292897972026306,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4902887139107612,
+        "evm": 1.448556479486263
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.39976172535266286
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.3982230661253533
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 68,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": 0.0000040912053960468625,
+      "phaseErrorDeg": -0.43694348505248587,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.2946212385165838,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48923884514435695,
+        "evm": 1.4593143512604136
+      },
+      "estimated": {
+        "ber": 0.0010498687664041995,
+        "evm": 0.3950885993836556
+      },
+      "ideal": {
+        "ber": 0.0010498687664041995,
+        "evm": 0.39460179680766955
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 78,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": 4.647330136974166e-7,
+      "phaseErrorDeg": -0.5207846703883354,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.26903090903843796,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48451443569553804,
+        "evm": 1.4641425759327615
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.3971245499891367
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.39705186325282793
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 88,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": 8.538100767978372e-7,
+      "phaseErrorDeg": 1.4880536217793647,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.28997089981057483,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5028871391076115,
+        "evm": 1.4660363917868766
+      },
+      "estimated": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.400983974271334
+      },
+      "ideal": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.39966129161769826
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 98,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": -0.0000044921740431443005,
+      "phaseErrorDeg": 0.6908155711132089,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.2805136697688145,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4923884514435696,
+        "evm": 1.4541950968563528
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.396285531486115
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.39491175515435806
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 108,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": -2.76707935479778e-8,
+      "phaseErrorDeg": -3.0169940137591236,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.30145845409721317,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49606299212598426,
+        "evm": 1.4568633729150209
+      },
+      "estimated": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.3970036152314257
+      },
+      "ideal": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.3935225774587978
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 118,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.0000036597399198853853,
+      "phaseErrorDeg": 1.7159277704211642,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.27098520183724595,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49291338582677163,
+        "evm": 1.4605094896556723
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.3970786889062187
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.39712580446195206
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 128,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": 0.000003191234078719126,
+      "phaseErrorDeg": -1.3396430426146682,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.2870334482956091,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4965879265091864,
+        "evm": 1.4585371491514447
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.397880510787849
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.39766865010548325
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 138,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": 0.000005225118638963865,
+      "phaseErrorDeg": -3.354054658933281,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.2723411608447022,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4965879265091864,
+        "evm": 1.4564822127982793
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.3927465421493604
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.3923916324004559
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 148,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": -0.000012111023653710263,
+      "phaseErrorDeg": 1.5668496809179038,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.25674919971131305,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4881889763779528,
+        "evm": 1.4609213182984446
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.4023210475285478
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.39844289064105515
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 158,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": 0.000007215465830391274,
+      "phaseErrorDeg": -1.4900120420444065,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.2962015931627548,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.483989501312336,
+        "evm": 1.4578609633565338
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.3998525683783999
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.39741806189307444
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 168,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": 0.0000074205530870550575,
+      "phaseErrorDeg": -0.3363799162156691,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.2985907830550909,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48976377952755906,
+        "evm": 1.4582352160496108
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.40281939494126245
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.40104919954113466
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 178,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.00001112795121209118,
+      "phaseErrorDeg": 3.4882852687533905,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.26797597660236877,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49343832020997375,
+        "evm": 1.457736017779234
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.4036073070795513
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.3998331561921661
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 188,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": 0.000005882589895414006,
+      "phaseErrorDeg": -0.19053803804486993,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.33217170570048726,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48661417322834644,
+        "evm": 1.464636656206825
+      },
+      "estimated": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.4086549375154544
+      },
+      "ideal": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.4071312643468287
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 198,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": -0.000011598867668372731,
+      "phaseErrorDeg": 4.104494833370969,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.30767648537273734,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49291338582677163,
+        "evm": 1.4578799945959606
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.3971418085104537
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.3949825165965147
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 208,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": -0.000006688998544199286,
+      "phaseErrorDeg": 2.194215582427248,
+      "fitStatus": "ok",
+      "warnings": [
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 0.36759390211856596,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48661417322834644,
+        "evm": 1.4631472072731242
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.3981122093562191
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.3970802022259874
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 218,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": -0.000005677249868767109,
+      "phaseErrorDeg": 3.6378296753800554,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.29218929877938354,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5002624671916011,
+        "evm": 1.4752587998479327
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.40597904208145985
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.4047541886804054
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 228,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": -9.230597548468e-9,
+      "phaseErrorDeg": 0.39022497966278297,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.29467804646641954,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49081364829396323,
+        "evm": 1.4610261306553132
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.39248420171575005
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.3924416868370251
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 238,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": 0.0000032891546853906512,
+      "phaseErrorDeg": -2.553253852144051,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.31860451600056144,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49343832020997375,
+        "evm": 1.4615386167186584
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.40003386342166186
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.4000447468678149
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 51,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": 0.000002427757846133879,
+      "phaseErrorDeg": -0.7654365311099202,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.15840104911809622,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5002624671916011,
+        "evm": 1.4139716598126792
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20227925772244962
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.20239919325602376
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 61,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": 0.0000025481248604297246,
+      "phaseErrorDeg": -0.5550914453929005,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13355194466784867,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4923884514435696,
+        "evm": 1.4185288443512825
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.19856530850483706
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.19821425646968954
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 71,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": 0.000003768521383740132,
+      "phaseErrorDeg": -1.3477539870413051,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1359110258726065,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49396325459317586,
+        "evm": 1.420818164539402
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.19775765382296806
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1977313019515293
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 81,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": 0.0000025875835857067445,
+      "phaseErrorDeg": -0.15658844099621896,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1477744037778863,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49553805774278215,
+        "evm": 1.418199669777469
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.2017338458894144
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2007338497140276
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 91,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": 1.464150096732418e-7,
+      "phaseErrorDeg": -0.8372938381893045,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13279027478163352,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49343832020997375,
+        "evm": 1.41701972200386
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20249039353562065
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2024559275839561
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 101,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": 3.162163918195987e-7,
+      "phaseErrorDeg": -0.1571833968861865,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.16072967151485948,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49133858267716535,
+        "evm": 1.4182973154017904
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.1974809887712894
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.19752188608571014
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 111,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": -0.0000020119487265113107,
+      "phaseErrorDeg": 1.8723755079430047,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1390515332749209,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4923884514435696,
+        "evm": 1.4185854937033626
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.1995046206155485
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.19814556581807408
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 121,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": 0.0000015651300215356687,
+      "phaseErrorDeg": 0.0925899042769515,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.15073457927507938,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48713910761154855,
+        "evm": 1.4181836485591157
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20212535517901373
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.201576589152128
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 131,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -0.000004167770429502329,
+      "phaseErrorDeg": 1.5263504971158761,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14169260611052084,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49501312335958003,
+        "evm": 1.4211312817821866
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.19654769634404484
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.19625085469403783
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 141,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": -0.000005488870045332762,
+      "phaseErrorDeg": 1.8991606940701673,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.12895356498995972,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4902887139107612,
+        "evm": 1.4230249903494243
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.2017931158421863
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.20088063999355116
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 151,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": -0.000003619596707429189,
+      "phaseErrorDeg": 1.9414456324787506,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13499700793380975,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48976377952755906,
+        "evm": 1.4176340568997725
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.19599042868604116
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1950976741759232
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 161,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": -0.000004198496749707086,
+      "phaseErrorDeg": 0.9842385102584149,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14042497035104062,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48976377952755906,
+        "evm": 1.4279111925871781
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20321131583552426
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.20258256074698575
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 171,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": -0.000005195238076236182,
+      "phaseErrorDeg": 2.189216525885743,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13776218666987117,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49501312335958003,
+        "evm": 1.4184966936272114
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.19708632832399095
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.19680851425065782
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 181,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.0000036173104646579184,
+      "phaseErrorDeg": 1.6880039306887722,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14536602980680863,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48556430446194226,
+        "evm": 1.4162796933631403
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.2003735895052449
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.19984301753464245
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 191,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": -0.000005669984335032567,
+      "phaseErrorDeg": 2.6070263544338634,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13398736836334665,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49606299212598426,
+        "evm": 1.4270024945712867
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20250969594111448
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2014432642128164
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 201,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": 0.000006779300366444117,
+      "phaseErrorDeg": -2.558037190338086,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14098348463831586,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48556430446194226,
+        "evm": 1.419927134051157
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20171971303007047
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2005467562892537
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 211,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": -0.00000631500079284952,
+      "phaseErrorDeg": 2.8738505714940943,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13454708873477794,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49343832020997375,
+        "evm": 1.420781254311491
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20461040341378275
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.20262486925744586
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 221,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": 0.000002028926807144107,
+      "phaseErrorDeg": 0.3091550024824721,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1317345049793415,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4923884514435696,
+        "evm": 1.4223988088407682
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.20192769634565277
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.20074824876311817
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 231,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": 9.805116852716622e-7,
+      "phaseErrorDeg": -0.048027088448243056,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1512057451215326,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.494488188976378,
+        "evm": 1.4203435455899507
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.19880200442570128
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1986850343892252
+      }
+    },
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 241,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": 0.000003013409539280587,
+      "phaseErrorDeg": -1.1892766306309954,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.145063481936121,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49081364829396323,
+        "evm": 1.425520987111511
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.19642882906043768
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.19594355543972367
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 42,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": 0.00006388031525672686,
+      "phaseErrorDeg": -21.735982713925186,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 1.1971457492405841,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5013123359580053,
+        "evm": 1.8091526535200178
+      },
+      "estimated": {
+        "ber": 0.20078740157480315,
+        "evm": 1.1467695046964834
+      },
+      "ideal": {
+        "ber": 0.19501312335958004,
+        "evm": 1.1232231231552046
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 52,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": -0.00018511948726194106,
+      "phaseErrorDeg": 130.74141778145392,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.4963487877998034,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5005249343832021,
+        "evm": 1.7981351538725987
+      },
+      "estimated": {
+        "ber": 0.3910761154855643,
+        "evm": 1.5827713406584387
+      },
+      "ideal": {
+        "ber": 0.18241469816272965,
+        "evm": 1.1190571034399377
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 62,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": -0.0017836810493523808,
+      "phaseErrorDeg": 117.20765770013267,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.508538256386765,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5173228346456693,
+        "evm": 1.7891201645940713
+      },
+      "estimated": {
+        "ber": 0.4753280839895013,
+        "evm": 1.7361119581323523
+      },
+      "ideal": {
+        "ber": 0.18713910761154856,
+        "evm": 1.1041341267530331
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 72,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": 0.0003301685688990412,
+      "phaseErrorDeg": -67.93561619788484,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.9247138847321212,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4863517060367454,
+        "evm": 1.7774489496841344
+      },
+      "estimated": {
+        "ber": 0.4238845144356955,
+        "evm": 1.6491907157413679
+      },
+      "ideal": {
+        "ber": 0.19028871391076116,
+        "evm": 1.1346870531080728
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 82,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": -0.000029082101681193132,
+      "phaseErrorDeg": 7.199800308074552,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 0.9026611785627979,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.48661417322834644,
+        "evm": 1.8079141463261768
+      },
+      "estimated": {
+        "ber": 0.19028871391076116,
+        "evm": 1.1401476153895673
+      },
+      "ideal": {
+        "ber": 0.18530183727034122,
+        "evm": 1.1326722907892615
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 92,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": -0.00043902719890040996,
+      "phaseErrorDeg": -114.44470364990171,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.4331778438216785,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.49816272965879266,
+        "evm": 1.8172353874386757
+      },
+      "estimated": {
+        "ber": 0.4902887139107612,
+        "evm": 1.8114217989644636
+      },
+      "ideal": {
+        "ber": 0.17296587926509185,
+        "evm": 1.1231064822232846
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 102,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": -0.0007600761898396133,
+      "phaseErrorDeg": 78.01536603689924,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.8286003630564778,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4984251968503937,
+        "evm": 1.7609860738221446
+      },
+      "estimated": {
+        "ber": 0.4496062992125984,
+        "evm": 1.667922816758853
+      },
+      "ideal": {
+        "ber": 0.1826771653543307,
+        "evm": 1.0793993378866213
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 112,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.0007866343036059104,
+      "phaseErrorDeg": 68.15923127077406,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 2.7292149637614607,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.48293963254593175,
+        "evm": 1.7878042604199604
+      },
+      "estimated": {
+        "ber": 0.45853018372703414,
+        "evm": 1.7395878552028434
+      },
+      "ideal": {
+        "ber": 0.1837270341207349,
+        "evm": 1.1182738582888017
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 122,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -0.0006782978283162947,
+      "phaseErrorDeg": -154.88291479679327,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.326775854958758,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5099737532808399,
+        "evm": 1.8462427709493228
+      },
+      "estimated": {
+        "ber": 0.552755905511811,
+        "evm": 1.9412306981072744
+      },
+      "ideal": {
+        "ber": 0.18241469816272965,
+        "evm": 1.151810624573279
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 132,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": 0.0016628943102551092,
+      "phaseErrorDeg": 129.26041683011925,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.9979017854414034,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5078740157480315,
+        "evm": 1.8216645918945449
+      },
+      "estimated": {
+        "ber": 0.5254593175853018,
+        "evm": 1.8522100095225218
+      },
+      "ideal": {
+        "ber": 0.17375328083989502,
+        "evm": 1.1127133998123075
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 142,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": 0.0002717820757343729,
+      "phaseErrorDeg": 32.05483966289412,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.9141265531017213,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.50498687664042,
+        "evm": 1.7903620784186884
+      },
+      "estimated": {
+        "ber": 0.6110236220472441,
+        "evm": 1.9709415281965357
+      },
+      "ideal": {
+        "ber": 0.1868766404199475,
+        "evm": 1.1122807898275482
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 152,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": -0.0013076313401155538,
+      "phaseErrorDeg": -118.42422049699667,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.223609794620136,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4994750656167979,
+        "evm": 1.7959475353692174
+      },
+      "estimated": {
+        "ber": 0.5170603674540682,
+        "evm": 1.8508356379871382
+      },
+      "ideal": {
+        "ber": 0.18188976377952756,
+        "evm": 1.1343607528535207
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 162,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": 0.0007570566362007404,
+      "phaseErrorDeg": 0.7357695291456116,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.2354170251072296,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.489501312335958,
+        "evm": 1.8063081741939049
+      },
+      "estimated": {
+        "ber": 0.5120734908136483,
+        "evm": 1.830597545773145
+      },
+      "ideal": {
+        "ber": 0.18608923884514436,
+        "evm": 1.1380649963828808
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 172,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": 0.0001963532447913051,
+      "phaseErrorDeg": -77.84918924486504,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 2.278962193750055,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5005249343832021,
+        "evm": 1.8118959591056993
+      },
+      "estimated": {
+        "ber": 0.2732283464566929,
+        "evm": 1.3206051226611422
+      },
+      "ideal": {
+        "ber": 0.18398950131233596,
+        "evm": 1.1194745670091601
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 182,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": 0.000060578227364949284,
+      "phaseErrorDeg": 98.3350502138214,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.0667246395832395,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5020997375328085,
+        "evm": 1.8009981331435132
+      },
+      "estimated": {
+        "ber": 0.6325459317585301,
+        "evm": 2.0390920913977317
+      },
+      "ideal": {
+        "ber": 0.18766404199475065,
+        "evm": 1.1203026159989429
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 192,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": -0.0018265374139128628,
+      "phaseErrorDeg": -172.3225603555675,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 3.077030313744084,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5005249343832021,
+        "evm": 1.7861420501200742
+      },
+      "estimated": {
+        "ber": 0.4916010498687664,
+        "evm": 1.7849698610074023
+      },
+      "ideal": {
+        "ber": 0.18556430446194225,
+        "evm": 1.1170223373882624
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 202,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": 0.001124462703786357,
+      "phaseErrorDeg": 6.847524785648251,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 3.4370226253124594,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5062992125984253,
+        "evm": 1.8054951199648381
+      },
+      "estimated": {
+        "ber": 0.48766404199475066,
+        "evm": 1.767286424270818
+      },
+      "ideal": {
+        "ber": 0.18293963254593176,
+        "evm": 1.112197889984341
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 212,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": -0.0010721826922215861,
+      "phaseErrorDeg": -45.96633235115006,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.765335854858008,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.5023622047244094,
+        "evm": 1.7799353900339114
+      },
+      "estimated": {
+        "ber": 0.4958005249343832,
+        "evm": 1.7688856699612363
+      },
+      "ideal": {
+        "ber": 0.18503937007874016,
+        "evm": 1.103853192609718
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 222,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": 0.000019327931979622572,
+      "phaseErrorDeg": -100.90394170290413,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.772027421301231,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5073490813648294,
+        "evm": 1.8350420123252837
+      },
+      "estimated": {
+        "ber": 0.5196850393700787,
+        "evm": 1.8568628000952832
+      },
+      "ideal": {
+        "ber": 0.1816272965879265,
+        "evm": 1.1305587745869388
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 232,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": -0.0019666963390042366,
+      "phaseErrorDeg": 7.7504739608947935,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 4.079166159447023,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4989501312335958,
+        "evm": 1.7823628876602886
+      },
+      "estimated": {
+        "ber": 0.5068241469816273,
+        "evm": 1.7935144031101051
+      },
+      "ideal": {
+        "ber": 0.18635170603674542,
+        "evm": 1.1091543542492228
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 48,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": -0.000006417972045039827,
+      "phaseErrorDeg": 2.796140028795033,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.21067801060898883,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4952755905511811,
+        "evm": 1.4309047158750028
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.28332150847588217
+      },
+      "ideal": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2826932245474387
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 58,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": 5.383189794990785e-7,
+      "phaseErrorDeg": 0.028275716195836704,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.18128128809344946,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.5007874015748032,
+        "evm": 1.4353515892314943
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.27986015171614015
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.27979729338663895
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 68,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": 0.000009522045802440272,
+      "phaseErrorDeg": -3.827812964461559,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1853346566027155,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4889763779527559,
+        "evm": 1.4234130058876375
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.2818629915292962
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2792615268798227
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 78,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": -0.000004657354767813359,
+      "phaseErrorDeg": 1.0234162503115323,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1755577334540771,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4942257217847769,
+        "evm": 1.4329251089142383
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2816416994440435
+      },
+      "ideal": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.28075356347323055
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 88,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": 0.000008170627726869018,
+      "phaseErrorDeg": -3.891689409403605,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1901441848182424,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49553805774278215,
+        "evm": 1.4316292123918997
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.2809301697255396
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.278554934279526
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 98,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": 0.0000033000467164106054,
+      "phaseErrorDeg": -0.0776514469056993,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.19861458911749355,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4965879265091864,
+        "evm": 1.4412875775409517
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.28068065165306
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.28072366491262474
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 108,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": 0.0000018758412565400475,
+      "phaseErrorDeg": -1.9015175563612143,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.20053058394197443,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4963254593175853,
+        "evm": 1.4352582203434763
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.27837069294733746
+      },
+      "ideal": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.27777135021476046
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 118,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.000003028205150086777,
+      "phaseErrorDeg": 0.07227421231822553,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.19704036811542658,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4923884514435696,
+        "evm": 1.428763808158236
+      },
+      "estimated": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.28153489541440985
+      },
+      "ideal": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.2806241860094374
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 128,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -7.388533028232763e-7,
+      "phaseErrorDeg": -0.890701036129791,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.20655765701829182,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4968503937007874,
+        "evm": 1.4332997103760992
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.28148181916596976
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2808807486145407
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 138,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": -0.0000024751860499252955,
+      "phaseErrorDeg": 0.8781215311533026,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1953487407941796,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49763779527559054,
+        "evm": 1.4338760268773127
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2831782977175647
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2831740253115232
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 148,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": -2.6678685335771238e-8,
+      "phaseErrorDeg": -0.6273510035033508,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1787552344626553,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49291338582677163,
+        "evm": 1.436874748841765
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.2802172643831043
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2801166885673922
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 158,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": 0.000002920196552115735,
+      "phaseErrorDeg": -2.092134404632177,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.19660714663575857,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4979002624671916,
+        "evm": 1.441230984101684
+      },
+      "estimated": {
+        "ber": 0.0007874015748031496,
+        "evm": 0.2815291696854425
+      },
+      "ideal": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.28020086885948897
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 168,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": -2.1107799398818218e-7,
+      "phaseErrorDeg": 0.5876209264506492,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1999807769876846,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4963254593175853,
+        "evm": 1.4400239335807852
+      },
+      "estimated": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.28231998656217355
+      },
+      "ideal": {
+        "ber": 0.0005249343832020997,
+        "evm": 0.28223007807001077
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 178,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.0000033414923101939345,
+      "phaseErrorDeg": 1.5858982205853134,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.20458012616765936,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.494750656167979,
+        "evm": 1.4328465480595045
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.284058302406673
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2838493702956536
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 188,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": 0.0000029824216003237775,
+      "phaseErrorDeg": -0.7455785171978716,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.21698982709083708,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4942257217847769,
+        "evm": 1.4338513856861685
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.28746236034883405
+      },
+      "ideal": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2870914673822427
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 198,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": -6.770412727204102e-7,
+      "phaseErrorDeg": 1.0079700685061346,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.18698711279054903,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4968503937007874,
+        "evm": 1.4359413042165
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2818679333506901
+      },
+      "ideal": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.28185197233468395
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 208,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": -0.0000019587171294626216,
+      "phaseErrorDeg": 1.0518842283932832,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.2135920951120508,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49396325459317586,
+        "evm": 1.4294777892533492
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2780224084122684
+      },
+      "ideal": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.27781710026592576
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 218,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": 0.000003053565143910659,
+      "phaseErrorDeg": -1.3617917522051641,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1928378888894228,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4994750656167979,
+        "evm": 1.4370814192479198
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.2805876301478022
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.28014644235588043
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 228,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": -0.000007752690425651739,
+      "phaseErrorDeg": 1.8426936334709358,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.18050419990840974,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.494750656167979,
+        "evm": 1.4375871784834664
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.28199998834890716
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.2795135959619095
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 238,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": -8.796606299661669e-7,
+      "phaseErrorDeg": -0.8975292429946145,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.20705664705142196,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4965879265091864,
+        "evm": 1.4353487734931734
+      },
+      "estimated": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2845688119797492
+      },
+      "ideal": {
+        "ber": 0.00026246719160104987,
+        "evm": 0.2833119855434155
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 51,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": 0.0000041031680541002424,
+      "phaseErrorDeg": -1.2462791249588592,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09863679504973095,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4958005249343832,
+        "evm": 1.411429015621983
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14329177331183068
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1421084451852191
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 61,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": 1.3091462866066453e-7,
+      "phaseErrorDeg": -0.20394361255350268,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09387244087669441,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4926509186351706,
+        "evm": 1.411257765856141
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.139089196214161
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1390790048286476
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 71,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": -0.000002412753158321547,
+      "phaseErrorDeg": 0.21669513538126095,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09956126422367391,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4921259842519685,
+        "evm": 1.4117507252220627
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14141195801405523
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14004630485414535
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 81,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": -0.00000256189462359167,
+      "phaseErrorDeg": 1.7120105776140135,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09199623514822632,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49711286089238843,
+        "evm": 1.4120893579401526
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14257878846227173
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1419022660863844
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 91,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": 0.000003845887718298977,
+      "phaseErrorDeg": -1.175711244423951,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10433917789566384,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4958005249343832,
+        "evm": 1.4128842602033065
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14198999312329133
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14106942574092565
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 101,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": 2.2707777388390055e-7,
+      "phaseErrorDeg": -0.257029936758419,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09947151843434408,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49396325459317586,
+        "evm": 1.4148878127393947
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.13954627242248296
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.139579116152917
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 111,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": -0.0000012640004539963851,
+      "phaseErrorDeg": 0.2714486766653457,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10613722785552433,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4937007874015748,
+        "evm": 1.413042229299625
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14048553600584016
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14030866258637337
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 121,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.0000018078612612913887,
+      "phaseErrorDeg": 1.2714811233905485,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09754709241863552,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4931758530183727,
+        "evm": 1.413076313477363
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.1413218988508822
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14084281541425553
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 131,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -0.0000014210048995579039,
+      "phaseErrorDeg": 1.1536605137476046,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09268375090863688,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49606299212598426,
+        "evm": 1.4097571933509778
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14202819492652488
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1413397397267036
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 141,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": -6.087474715545192e-7,
+      "phaseErrorDeg": 0.3378844230621641,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09345873468431816,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4994750656167979,
+        "evm": 1.4149826299784942
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.13842700262539565
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1384945675484882
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 151,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": -0.0000018895740405014752,
+      "phaseErrorDeg": 0.1630585450096296,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10601395146414129,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49501312335958003,
+        "evm": 1.4137937988374256
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14022993381611615
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14013873978675617
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 161,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": -8.660409449772009e-7,
+      "phaseErrorDeg": 0.7993962665211618,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09382821573200004,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.494488188976378,
+        "evm": 1.416513219873763
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.1420637533076787
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14160762928888296
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 171,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": 8.89568077069771e-7,
+      "phaseErrorDeg": -0.08780321433508315,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10473852890075824,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4984251968503937,
+        "evm": 1.4122563865982922
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.1390786273283112
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1387904439241491
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 181,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.0000017210274729697467,
+      "phaseErrorDeg": 1.037120806652874,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10025500683368102,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49763779527559054,
+        "evm": 1.4104785929893244
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14068534469353502
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14016445288281265
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 191,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": -0.000002244719080389838,
+      "phaseErrorDeg": 1.2611888916488372,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09600044554015541,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49553805774278215,
+        "evm": 1.416677688019163
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14005356805640612
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.13934157900266578
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 201,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": -0.0000024460890700923627,
+      "phaseErrorDeg": 0.9047291948522088,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10114297217957978,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49291338582677163,
+        "evm": 1.4118478403415038
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14304088993992575
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14251278725373984
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 211,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": -0.000003859196319969983,
+      "phaseErrorDeg": 2.575161072509941,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10143420975688248,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.494488188976378,
+        "evm": 1.4159130701988225
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.1454991622926044
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1433860611632716
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 221,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": -1.27616101425242e-7,
+      "phaseErrorDeg": -0.649260764172839,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.09229732887116852,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.49133858267716535,
+        "evm": 1.4129434908295362
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14111595806618135
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14069355629195818
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 231,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": -0.0000018735611645307512,
+      "phaseErrorDeg": 0.6195736094100684,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.10626567597399225,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4963254593175853,
+        "evm": 1.4147008930270424
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14019899063057567
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.14023859935856908
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 241,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": -5.834427204054384e-7,
+      "phaseErrorDeg": -0.1873491467421184,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.100607533903856,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4916010498687664,
+        "evm": 1.4150761888125276
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.14016273015499567
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1398888243524316
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 42,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": 0.0000571869267371513,
+      "phaseErrorDeg": -17.28913125762896,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.0205322692860155,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4520997375328084,
+        "evm": 1.6253416188611947
+      },
+      "estimated": {
+        "ber": 0.24671916010498687,
+        "evm": 0.8211529031933229
+      },
+      "ideal": {
+        "ber": 0.22965879265091863,
+        "evm": 0.794071970397814
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 52,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": 0.000006182078823786883,
+      "phaseErrorDeg": -3.920085273112217,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 0.6779854894037389,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4570866141732283,
+        "evm": 1.6300846530244428
+      },
+      "estimated": {
+        "ber": 0.23175853018372702,
+        "evm": 0.7912326575749765
+      },
+      "ideal": {
+        "ber": 0.2316272965879265,
+        "evm": 0.7911267679568909
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 62,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": -0.00019465639319065275,
+      "phaseErrorDeg": 94.27057747161467,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.5285195302008405,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.46194225721784776,
+        "evm": 1.6098067122294761
+      },
+      "estimated": {
+        "ber": 0.33818897637795275,
+        "evm": 1.0901690889592963
+      },
+      "ideal": {
+        "ber": 0.23280839895013122,
+        "evm": 0.7805768449205098
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 72,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": 0.0000020373344347005082,
+      "phaseErrorDeg": 3.2307085583115063,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。"
+      ],
+      "residualRms": 0.584258109281042,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4528871391076115,
+        "evm": 1.6091926885002616
+      },
+      "estimated": {
+        "ber": 0.2377952755905512,
+        "evm": 0.8068405879340779
+      },
+      "ideal": {
+        "ber": 0.2363517060367454,
+        "evm": 0.8021764914484537
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 82,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": -0.00001528662914999316,
+      "phaseErrorDeg": 1.1558077450571496,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。"
+      ],
+      "residualRms": 0.6243219738808057,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4578740157480315,
+        "evm": 1.5992817512620858
+      },
+      "estimated": {
+        "ber": 0.24383202099737533,
+        "evm": 0.8063468146793462
+      },
+      "ideal": {
+        "ber": 0.24278215223097113,
+        "evm": 0.800752138395707
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 92,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": 0.00014670642654725187,
+      "phaseErrorDeg": -4.092269426372657,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 3.240091863088748,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.45813648293963255,
+        "evm": 1.6113451366645903
+      },
+      "estimated": {
+        "ber": 0.38241469816272966,
+        "evm": 1.2264280841418786
+      },
+      "ideal": {
+        "ber": 0.23517060367454068,
+        "evm": 0.7939895101165668
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 102,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": 0.000017396357146023077,
+      "phaseErrorDeg": -4.251202022274389,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。"
+      ],
+      "residualRms": 0.7375992471528711,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4587926509186352,
+        "evm": 1.5844123297140609
+      },
+      "estimated": {
+        "ber": 0.23293963254593175,
+        "evm": 0.7678404673886436
+      },
+      "ideal": {
+        "ber": 0.23412073490813648,
+        "evm": 0.7630903792952721
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 112,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.0009888483195875167,
+      "phaseErrorDeg": -107.41269036528155,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。"
+      ],
+      "residualRms": 1.933588320997773,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4624671916010499,
+        "evm": 1.6114823300015844
+      },
+      "estimated": {
+        "ber": 0.4666666666666667,
+        "evm": 1.61656288082715
+      },
+      "ideal": {
+        "ber": 0.24015748031496062,
+        "evm": 0.7905730462540113
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 122,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -0.000007999397591502543,
+      "phaseErrorDeg": 4.872185428417666,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 0.6459802635464876,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4559055118110236,
+        "evm": 1.6308012380495633
+      },
+      "estimated": {
+        "ber": 0.24146981627296588,
+        "evm": 0.8147275538563317
+      },
+      "ideal": {
+        "ber": 0.2430446194225722,
+        "evm": 0.8142821433472753
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 132,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": 0.00010247231654674058,
+      "phaseErrorDeg": -19.846798289024445,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.4064310729877945,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.45984251968503936,
+        "evm": 1.5967717849525562
+      },
+      "estimated": {
+        "ber": 0.2832020997375328,
+        "evm": 0.9180944309538361
+      },
+      "ideal": {
+        "ber": 0.2335958005249344,
+        "evm": 0.7866420336816012
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 142,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": -0.000008613719678825845,
+      "phaseErrorDeg": 2.8251567105745807,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 0.7372930133739987,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4562992125984252,
+        "evm": 1.6215592524632523
+      },
+      "estimated": {
+        "ber": 0.23412073490813648,
+        "evm": 0.787639585148433
+      },
+      "ideal": {
+        "ber": 0.23307086614173228,
+        "evm": 0.786336196438822
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 152,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": -0.00047267375061094965,
+      "phaseErrorDeg": 100.72660490125512,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.8317416344000392,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.45301837270341205,
+        "evm": 1.6075677804763808
+      },
+      "estimated": {
+        "ber": 0.46443569553805775,
+        "evm": 1.632926063700517
+      },
+      "ideal": {
+        "ber": 0.23753280839895013,
+        "evm": 0.8019458107575632
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 162,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": 0.000008353111757697504,
+      "phaseErrorDeg": -1.2891218897145693,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。"
+      ],
+      "residualRms": 0.6813042567257086,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4643044619422572,
+        "evm": 1.6262521868897848
+      },
+      "estimated": {
+        "ber": 0.239501312335958,
+        "evm": 0.8051815117370525
+      },
+      "ideal": {
+        "ber": 0.23976377952755906,
+        "evm": 0.8045645566661497
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 172,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.000007690026202114997,
+      "phaseErrorDeg": -2.624387133255542,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 0.6580159834233549,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4573490813648294,
+        "evm": 1.618442704845508
+      },
+      "estimated": {
+        "ber": 0.24278215223097113,
+        "evm": 0.7987902658885837
+      },
+      "ideal": {
+        "ber": 0.2409448818897638,
+        "evm": 0.7914218973146719
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 182,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": -0.0009723739960235248,
+      "phaseErrorDeg": 120.4766262281408,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 2.9170899582811214,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.44724409448818897,
+        "evm": 1.6201409541924934
+      },
+      "estimated": {
+        "ber": 0.4666666666666667,
+        "evm": 1.6324915699357312
+      },
+      "ideal": {
+        "ber": 0.2356955380577428,
+        "evm": 0.7920072934655772
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 192,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": 0.000009512171349406167,
+      "phaseErrorDeg": -0.5067208887190761,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。"
+      ],
+      "residualRms": 0.5911272754925093,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4561679790026247,
+        "evm": 1.6245191583669631
+      },
+      "estimated": {
+        "ber": 0.23228346456692914,
+        "evm": 0.7926492486789212
+      },
+      "ideal": {
+        "ber": 0.23188976377952755,
+        "evm": 0.7896882730980834
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 202,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": 0.000617849451608316,
+      "phaseErrorDeg": 26.916496502855953,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 1.8475391056193717,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4616797900262467,
+        "evm": 1.6244829466607618
+      },
+      "estimated": {
+        "ber": 0.452755905511811,
+        "evm": 1.5858823460675084
+      },
+      "ideal": {
+        "ber": 0.23622047244094488,
+        "evm": 0.7862775897021157
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 212,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": -0.0005362946923641176,
+      "phaseErrorDeg": -83.83501240667708,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。",
+        "存在低幅度导频，相位观测不稳定。"
+      ],
+      "residualRms": 2.1873669642233824,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4583989501312336,
+        "evm": 1.6142009296321829
+      },
+      "estimated": {
+        "ber": 0.45643044619422574,
+        "evm": 1.612881708122376
+      },
+      "ideal": {
+        "ber": 0.22782152230971128,
+        "evm": 0.7803782361809499
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 222,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": 0.001038775039923041,
+      "phaseErrorDeg": 101.23484562973314,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.9361875898001513,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4570866141732283,
+        "evm": 1.63193141247792
+      },
+      "estimated": {
+        "ber": 0.462992125984252,
+        "evm": 1.657557389935816
+      },
+      "ideal": {
+        "ber": 0.23280839895013122,
+        "evm": 0.7992579704600151
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": -4,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 232,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": -0.00042203524526436174,
+      "phaseErrorDeg": -138.54304277857196,
+      "fitStatus": "ok",
+      "warnings": [
+        "导频相位拟合残差较大，可能存在噪声或周跳。",
+        "相邻导频相位接近展开边界，估计可能不可靠。"
+      ],
+      "residualRms": 1.8533730116834564,
+      "halfCycleDrift": true,
+      "raw": {
+        "ber": 0.4646981627296588,
+        "evm": 1.61671405199381
+      },
+      "estimated": {
+        "ber": 0.44343832020997376,
+        "evm": 1.5764936993337084
+      },
+      "ideal": {
+        "ber": 0.23543307086614174,
+        "evm": 0.784125936688267
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 48,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": -0.000004474698177368321,
+      "phaseErrorDeg": 1.9274370378039074,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14859655043689496,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4152230971128609,
+        "evm": 1.4203753880743397
+      },
+      "estimated": {
+        "ber": 0.01010498687664042,
+        "evm": 0.20041455964898763
+      },
+      "ideal": {
+        "ber": 0.010236220472440945,
+        "evm": 0.19985233673245734
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 58,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": 4.659545966825742e-7,
+      "phaseErrorDeg": -0.0011479174637128245,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1276511362634206,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4178477690288714,
+        "evm": 1.4185998664045953
+      },
+      "estimated": {
+        "ber": 0.00826771653543307,
+        "evm": 0.19779654738853908
+      },
+      "ideal": {
+        "ber": 0.00853018372703412,
+        "evm": 0.1978050340055218
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 68,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": 0.000006624416837040358,
+      "phaseErrorDeg": -2.712948801607307,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1306744486414774,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41758530183727033,
+        "evm": 1.422812278620889
+      },
+      "estimated": {
+        "ber": 0.008661417322834646,
+        "evm": 0.19950682442429543
+      },
+      "ideal": {
+        "ber": 0.007874015748031496,
+        "evm": 0.19742626939769786
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 78,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": -0.000003397028497866862,
+      "phaseErrorDeg": 0.7292608390412335,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.12388502282913223,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.415748031496063,
+        "evm": 1.4233786149842325
+      },
+      "estimated": {
+        "ber": 0.00905511811023622,
+        "evm": 0.19917612979182817
+      },
+      "ideal": {
+        "ber": 0.00931758530183727,
+        "evm": 0.19848107713198385
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 88,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": 0.0000059190159797880854,
+      "phaseErrorDeg": -2.784466476256759,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13293079391612228,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41561679790026246,
+        "evm": 1.4255147580560605
+      },
+      "estimated": {
+        "ber": 0.00931758530183727,
+        "evm": 0.19879917583890053
+      },
+      "ideal": {
+        "ber": 0.008398950131233596,
+        "evm": 0.19692673785599485
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 98,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": 0.0000025403156452918994,
+      "phaseErrorDeg": -0.14214737816049122,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13952405992442365,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.413254593175853,
+        "evm": 1.4188712697926245
+      },
+      "estimated": {
+        "ber": 0.00905511811023622,
+        "evm": 0.19870904406050371
+      },
+      "ideal": {
+        "ber": 0.009186351706036745,
+        "evm": 0.19845994009478893
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 108,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": 0.0000011292507277290472,
+      "phaseErrorDeg": -1.3410152179539454,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14178004676663594,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41351706036745406,
+        "evm": 1.4132563112979382
+      },
+      "estimated": {
+        "ber": 0.008136482939632546,
+        "evm": 0.19678262291539833
+      },
+      "ideal": {
+        "ber": 0.008136482939632546,
+        "evm": 0.19637277655529364
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 118,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.0000017278427573868584,
+      "phaseErrorDeg": -0.09606153069705281,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13971218015811762,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4166666666666667,
+        "evm": 1.4254166953194545
+      },
+      "estimated": {
+        "ber": 0.00826771653543307,
+        "evm": 0.19891487072278788
+      },
+      "ideal": {
+        "ber": 0.007874015748031496,
+        "evm": 0.19838961265312705
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 128,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -5.904360027883093e-7,
+      "phaseErrorDeg": -0.5293382247095044,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14307896546723786,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4153543307086614,
+        "evm": 1.4241320077930182
+      },
+      "estimated": {
+        "ber": 0.00905511811023622,
+        "evm": 0.19900008929255658
+      },
+      "ideal": {
+        "ber": 0.00905511811023622,
+        "evm": 0.19857099173014642
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 138,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": -0.0000017152517865289159,
+      "phaseErrorDeg": 0.5707729680771347,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13709861361922243,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4195538057742782,
+        "evm": 1.418366594865888
+      },
+      "estimated": {
+        "ber": 0.007742782152230971,
+        "evm": 0.20021739981258282
+      },
+      "ideal": {
+        "ber": 0.007611548556430446,
+        "evm": 0.20019224284926954
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 148,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": 2.999784752284046e-8,
+      "phaseErrorDeg": -0.39288312120825597,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1286225665559744,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4178477690288714,
+        "evm": 1.417830646639134
+      },
+      "estimated": {
+        "ber": 0.010761154855643044,
+        "evm": 0.19821532901795882
+      },
+      "ideal": {
+        "ber": 0.01062992125984252,
+        "evm": 0.19803083309680464
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 158,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": 0.000001969869526681229,
+      "phaseErrorDeg": -1.322846587085193,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1373787480428562,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.413254593175853,
+        "evm": 1.4250762903021248
+      },
+      "estimated": {
+        "ber": 0.007480314960629921,
+        "evm": 0.19826737233814773
+      },
+      "ideal": {
+        "ber": 0.007874015748031496,
+        "evm": 0.19809034505755038
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 168,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": -2.8026757298424063e-8,
+      "phaseErrorDeg": 0.33939472590981384,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14183855380101212,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4158792650918635,
+        "evm": 1.418780932468217
+      },
+      "estimated": {
+        "ber": 0.00958005249343832,
+        "evm": 0.19976049589777425
+      },
+      "ideal": {
+        "ber": 0.01010498687664042,
+        "evm": 0.19952491146108214
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 178,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.000002504610156035033,
+      "phaseErrorDeg": 1.1262660500383306,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14179937989900296,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4167979002624672,
+        "evm": 1.4271034303602392
+      },
+      "estimated": {
+        "ber": 0.010236220472440945,
+        "evm": 0.20091306980755427
+      },
+      "ideal": {
+        "ber": 0.009973753280839895,
+        "evm": 0.20066968362767904
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 188,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": 0.000002417011745741316,
+      "phaseErrorDeg": -0.7121679922763771,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14917799003301854,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4206036745406824,
+        "evm": 1.4223194687026854
+      },
+      "estimated": {
+        "ber": 0.00984251968503937,
+        "evm": 0.20300048365737944
+      },
+      "ideal": {
+        "ber": 0.010498687664041995,
+        "evm": 0.20296171124774526
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 198,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": -4.022629740301799e-7,
+      "phaseErrorDeg": 0.6722283376457027,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.13115254418270111,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41509186351706034,
+        "evm": 1.4244312739748437
+      },
+      "estimated": {
+        "ber": 0.00905511811023622,
+        "evm": 0.19941350040252145
+      },
+      "ideal": {
+        "ber": 0.008661417322834646,
+        "evm": 0.19925760645277152
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 208,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": -0.000001054805007403084,
+      "phaseErrorDeg": 0.6196506514857782,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.15149526506296088,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4146981627296588,
+        "evm": 1.4224547592519274
+      },
+      "estimated": {
+        "ber": 0.008398950131233596,
+        "evm": 0.19645054800126557
+      },
+      "ideal": {
+        "ber": 0.008136482939632546,
+        "evm": 0.19640511993616408
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 218,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": 0.0000016372530349713105,
+      "phaseErrorDeg": -0.79725329283639,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.1335319664980298,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.415748031496063,
+        "evm": 1.4221127210860205
+      },
+      "estimated": {
+        "ber": 0.007217847769028871,
+        "evm": 0.19820166205196518
+      },
+      "ideal": {
+        "ber": 0.0068241469816272965,
+        "evm": 0.1980518677861416
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 228,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": -0.0000052680650307387195,
+      "phaseErrorDeg": 1.2429888208482083,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.12626838910770896,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4166666666666667,
+        "evm": 1.4187250998952687
+      },
+      "estimated": {
+        "ber": 0.00905511811023622,
+        "evm": 0.19788373084159244
+      },
+      "ideal": {
+        "ber": 0.00879265091863517,
+        "evm": 0.19760447174108148
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 238,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": -9.400050862285857e-7,
+      "phaseErrorDeg": -0.47624624797934917,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.14475205261745563,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4145669291338583,
+        "evm": 1.4240201352705595
+      },
+      "estimated": {
+        "ber": 0.00931758530183727,
+        "evm": 0.2009127119775302
+      },
+      "ideal": {
+        "ber": 0.009186351706036745,
+        "evm": 0.20028977498773506
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 51,
+        "noiseEnabled": true
+      },
+      "trial": 0,
+      "frequencyError": 0.000002929168054987717,
+      "phaseErrorDeg": -0.8961620420018932,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06916951875087793,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41141732283464566,
+        "evm": 1.409560784741113
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.10120622555598494
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.10046475250741795
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 61,
+        "noiseEnabled": true
+      },
+      "trial": 1,
+      "frequencyError": 4.224492168190472e-8,
+      "phaseErrorDeg": -0.11689096252656037,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06615677249097947,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4152230971128609,
+        "evm": 1.4084065724729913
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09836202615888506
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09832306433918661
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 71,
+        "noiseEnabled": true
+      },
+      "trial": 2,
+      "frequencyError": -0.0000017538524281397478,
+      "phaseErrorDeg": 0.1470569908529995,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07069084321966118,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4136482939632546,
+        "evm": 1.4085055950101524
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09964494583015356
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09900690517310316
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 81,
+        "noiseEnabled": true
+      },
+      "trial": 3,
+      "frequencyError": -0.0000018144483383791647,
+      "phaseErrorDeg": 1.2040009733893755,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06544349421230378,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41233595800524936,
+        "evm": 1.4120957715127516
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.10127822438154784
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.1003189924710624
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 91,
+        "noiseEnabled": true
+      },
+      "trial": 4,
+      "frequencyError": 0.000002669406868342685,
+      "phaseErrorDeg": -0.8108336911462611,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07315589923557349,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.413254593175853,
+        "evm": 1.4086371180371398
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.10025107011619588
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09973020903123483
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 101,
+        "noiseEnabled": true
+      },
+      "trial": 5,
+      "frequencyError": 1.6896009722203696e-7,
+      "phaseErrorDeg": -0.20405958050913506,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07018998167276404,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4120734908136483,
+        "evm": 1.4073863821482002
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.0986972146791697
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09867662221784325
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 111,
+        "noiseEnabled": true
+      },
+      "trial": 6,
+      "frequencyError": -9.048352878169175e-7,
+      "phaseErrorDeg": 0.1875930198572968,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07445111890980019,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4090551181102362,
+        "evm": 1.4092194453142808
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09930027967699395
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09919238116365633
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 121,
+        "noiseEnabled": true
+      },
+      "trial": 7,
+      "frequencyError": -0.0000013258476376405703,
+      "phaseErrorDeg": 0.9298632108098344,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06881970335676282,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4131233595800525,
+        "evm": 1.410687310023165
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09998835985026683
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.0995700049676771
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 131,
+        "noiseEnabled": true
+      },
+      "trial": 8,
+      "frequencyError": -9.549614174424615e-7,
+      "phaseErrorDeg": 0.8197413588599555,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06563216485208752,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41272965879265094,
+        "evm": 1.408966779399744
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.10040653435103537
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09992130976170216
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 141,
+        "noiseEnabled": true
+      },
+      "trial": 9,
+      "frequencyError": -4.686950513315899e-7,
+      "phaseErrorDeg": 0.260950905479351,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06542927601079163,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4110236220472441,
+        "evm": 1.4083205611451608
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09801660814553934
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.0979098915215487
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 151,
+        "noiseEnabled": true
+      },
+      "trial": 10,
+      "frequencyError": -0.0000013428415796062302,
+      "phaseErrorDeg": 0.12487716088126798,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07458591645133755,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41141732283464566,
+        "evm": 1.4104311109589596
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09946102154848514
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09907225282092018
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 161,
+        "noiseEnabled": true
+      },
+      "trial": 11,
+      "frequencyError": -6.589206819050154e-7,
+      "phaseErrorDeg": 0.5728998236785153,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06607990781787103,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4120734908136483,
+        "evm": 1.4089667425938737
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.10037430281356248
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.10011069652565271
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 171,
+        "noiseEnabled": true
+      },
+      "trial": 12,
+      "frequencyError": 6.747194101664085e-7,
+      "phaseErrorDeg": -0.0823349610554605,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07414101455763356,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41089238845144355,
+        "evm": 1.4102911501302509
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09824007084358143
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09811906379709376
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 181,
+        "noiseEnabled": true
+      },
+      "trial": 13,
+      "frequencyError": -0.0000011829372340561688,
+      "phaseErrorDeg": 0.727425863502952,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.0705004753583068,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41482939632545934,
+        "evm": 1.4091943596866268
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09927176067022386
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09909043090898631
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 191,
+        "noiseEnabled": true
+      },
+      "trial": 14,
+      "frequencyError": -0.00000163993290371099,
+      "phaseErrorDeg": 0.9153499590629701,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.06793886219265352,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41023622047244096,
+        "evm": 1.4097326828866026
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09876446083568041
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09850869334507147
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 201,
+        "noiseEnabled": true
+      },
+      "trial": 15,
+      "frequencyError": -0.0000016886677879229556,
+      "phaseErrorDeg": 0.62569168354729,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07154889969872821,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4111548556430446,
+        "evm": 1.4099670676985452
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.1009450393488512
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.10075060551066016
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 211,
+        "noiseEnabled": true
+      },
+      "trial": 16,
+      "frequencyError": -0.00000269651900726745,
+      "phaseErrorDeg": 1.804451500194474,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07145544590245553,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41181102362204725,
+        "evm": 1.4100392120376048
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.10345868610412766
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.10136797379639396
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 221,
+        "noiseEnabled": true
+      },
+      "trial": 17,
+      "frequencyError": -1.5995700992769459e-7,
+      "phaseErrorDeg": -0.4302671413632881,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.0649265407077841,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41220472440944883,
+        "evm": 1.4056958030684812
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09978902859001908
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.099464484984248
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 231,
+        "noiseEnabled": true
+      },
+      "trial": 18,
+      "frequencyError": -0.0000012999302007638165,
+      "phaseErrorDeg": 0.4663207545472226,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07452662955604947,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.4119422572178478,
+        "evm": 1.4081260140465937
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.0993818117698941
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09914284937944708
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 14,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 16,
+        "pilots": 128,
+        "seed": 241,
+        "noiseEnabled": true
+      },
+      "trial": 19,
+      "frequencyError": -3.904290994140563e-7,
+      "phaseErrorDeg": -0.11696297563479509,
+      "fitStatus": "ok",
+      "warnings": [],
+      "residualRms": 0.07060078576127336,
+      "halfCycleDrift": false,
+      "raw": {
+        "ber": 0.41299212598425195,
+        "evm": 1.4072991171110134
+      },
+      "estimated": {
+        "ber": 0,
+        "evm": 0.09892766788156347
+      },
+      "ideal": {
+        "ber": 0,
+        "evm": 0.09889557301681376
+      }
+    }
+  ],
+  "maximumFrames": [
+    {
+      "plan": {
+        "modulation": "BPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 128,
+        "pilots": 1024,
+        "seed": 42,
+        "noiseEnabled": true
+      },
+      "totalSymbols": 130945,
+      "durationsMs": [
+        82.14680000000004,
+        68.59530000000001,
+        67.71100000000001,
+        68.74099999999999,
+        65.93790000000001,
+        65.7471999999999,
+        72.5666
+      ],
+      "medianMs": 68.59530000000001,
+      "sampledProcessMemory": {
+        "rss": 80220160,
+        "heapTotal": 26681344,
+        "heapUsed": 12983248,
+        "external": 3783406,
+        "arrayBuffers": 2101515
+      }
+    },
+    {
+      "plan": {
+        "modulation": "QPSK",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 128,
+        "pilots": 1024,
+        "seed": 42,
+        "noiseEnabled": true
+      },
+      "totalSymbols": 130945,
+      "durationsMs": [
+        73.0972999999999,
+        77.04369999999994,
+        75.55310000000009,
+        90.2688999999998,
+        72.44160000000011,
+        85.11109999999985,
+        78.65970000000016
+      ],
+      "medianMs": 77.04369999999994,
+      "sampledProcessMemory": {
+        "rss": 116641792,
+        "heapTotal": 43458560,
+        "heapUsed": 15718696,
+        "external": 22492070,
+        "arrayBuffers": 20810139
+      }
+    },
+    {
+      "plan": {
+        "modulation": "16QAM",
+        "ebN0Db": 8,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "spacing": 128,
+        "pilots": 1024,
+        "seed": 42,
+        "noiseEnabled": true
+      },
+      "totalSymbols": 130945,
+      "durationsMs": [
+        81.43820000000005,
+        109.20450000000005,
+        77.4855,
+        83.36259999999993,
+        76.73750000000018,
+        78.64350000000013,
+        81.63310000000001
+      ],
+      "medianMs": 81.43820000000005,
+      "sampledProcessMemory": {
+        "rss": 112353280,
+        "heapTotal": 42672128,
+        "heapUsed": 21944408,
+        "external": 18334598,
+        "arrayBuffers": 16652667
+      }
+    }
+  ]
+}

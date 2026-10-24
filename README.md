@@ -67,6 +67,12 @@ rotation of the same noisy samples, with before/after constellations, measured a
 theoretical BER/EVM, deviations, and independently versioned local snapshots.
 See [v0.9.1 compensation model and validation](docs/signallab-v0.9.1.md).
 
+SignalLab v1.0 adds pilot-assisted carrier phase/frequency estimation and paired
+raw/estimated/ideal recovery for BPSK, QPSK and 16QAM. The truth-free estimator uses
+phase unwrapping and least squares, with an explicit pilot-spacing ambiguity
+range, noisy-fit diagnostics, data-only BER/EVM and independent local history.
+See [v1.0 mathematics, reproducible studies and validation](docs/signallab-v1.0.md).
+
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).
