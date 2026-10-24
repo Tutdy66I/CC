@@ -1,0 +1,758 @@
+{
+  "node": "v24.16.0",
+  "platform": "win32",
+  "arch": "x64",
+  "cpu": "AMD Ryzen 9 6900HX with Radeon Graphics        ",
+  "timestamp": "2026-10-24T08:32:57.138Z",
+  "seed": 4294967292,
+  "warmups": 2,
+  "repetitions": 5,
+  "pointsPerScan": 8,
+  "exactParity": true,
+  "cases": [
+    {
+      "bits": 10000,
+      "reference": {
+        "variant": "reference",
+        "bits": 10000,
+        "durationsMs": [
+          21.07799999999999,
+          16.248099999999994,
+          15.493099999999998,
+          16.753299999999996,
+          18.632300000000015
+        ],
+        "medianMs": 16.753299999999996,
+        "minMs": 15.493099999999998,
+        "maxMs": 21.07799999999999,
+        "maxHeapDeltaBytes": 2206616,
+        "peakRssBytes": 67493888,
+        "output": [
+          {
+            "ebN0Db": -4,
+            "bits": 10000,
+            "seed": 4294967292,
+            "errors": 1931,
+            "ber": 0.1931,
+            "theoretical": 0.18611381961797893,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.1854818558022911,
+              "upper": 0.20095384239763014
+            }
+          },
+          {
+            "ebN0Db": -2,
+            "bits": 10000,
+            "seed": 4294967293,
+            "errors": 1312,
+            "ber": 0.1312,
+            "theoretical": 0.13064449731125513,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.12472416371473778,
+              "upper": 0.13795907348347328
+            }
+          },
+          {
+            "ebN0Db": 0,
+            "bits": 10000,
+            "seed": 4294967294,
+            "errors": 757,
+            "ber": 0.0757,
+            "theoretical": 0.07864960611999666,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.07067691814967836,
+              "upper": 0.0810489428676778
+            }
+          },
+          {
+            "ebN0Db": 2,
+            "bits": 10000,
+            "seed": 4294967295,
+            "errors": 339,
+            "ber": 0.0339,
+            "theoretical": 0.03750612607218898,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.030528167026144658,
+              "upper": 0.03762979625500005
+            }
+          },
+          {
+            "ebN0Db": 4,
+            "bits": 10000,
+            "seed": 0,
+            "errors": 136,
+            "ber": 0.0136,
+            "theoretical": 0.012500816934088927,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.01150944523779097,
+              "upper": 0.01606410837720322
+            }
+          },
+          {
+            "ebN0Db": 6,
+            "bits": 10000,
+            "seed": 1,
+            "errors": 15,
+            "ber": 0.0015,
+            "theoretical": 0.0023882907822990337,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0009092618255931228,
+              "upper": 0.002473584549971443
+            }
+          },
+          {
+            "ebN0Db": 8,
+            "bits": 10000,
+            "seed": 2,
+            "errors": 1,
+            "ber": 0.0001,
+            "theoretical": 0.00019090779042889633,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.00001765267360112231,
+              "upper": 0.0005662688974013381
+            }
+          },
+          {
+            "ebN0Db": 10,
+            "bits": 10000,
+            "seed": 3,
+            "errors": 0,
+            "ber": 0,
+            "theoretical": 0.000003872108384139574,
+            "interval": {
+              "kind": "zero-upper",
+              "lower": 0,
+              "upper": 0.000299528359776612
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "variant": "candidate",
+        "bits": 10000,
+        "durationsMs": [
+          4.158500000000004,
+          4.184200000000004,
+          4.175899999999999,
+          4.186999999999998,
+          4.3104999999999905
+        ],
+        "medianMs": 4.184200000000004,
+        "minMs": 4.158500000000004,
+        "maxMs": 4.3104999999999905,
+        "maxHeapDeltaBytes": 253008,
+        "peakRssBytes": 60178432,
+        "output": [
+          {
+            "ebN0Db": -4,
+            "bits": 10000,
+            "seed": 4294967292,
+            "errors": 1931,
+            "ber": 0.1931,
+            "theoretical": 0.18611381961797893,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.1854818558022911,
+              "upper": 0.20095384239763014
+            }
+          },
+          {
+            "ebN0Db": -2,
+            "bits": 10000,
+            "seed": 4294967293,
+            "errors": 1312,
+            "ber": 0.1312,
+            "theoretical": 0.13064449731125513,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.12472416371473778,
+              "upper": 0.13795907348347328
+            }
+          },
+          {
+            "ebN0Db": 0,
+            "bits": 10000,
+            "seed": 4294967294,
+            "errors": 757,
+            "ber": 0.0757,
+            "theoretical": 0.07864960611999666,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.07067691814967836,
+              "upper": 0.0810489428676778
+            }
+          },
+          {
+            "ebN0Db": 2,
+            "bits": 10000,
+            "seed": 4294967295,
+            "errors": 339,
+            "ber": 0.0339,
+            "theoretical": 0.03750612607218898,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.030528167026144658,
+              "upper": 0.03762979625500005
+            }
+          },
+          {
+            "ebN0Db": 4,
+            "bits": 10000,
+            "seed": 0,
+            "errors": 136,
+            "ber": 0.0136,
+            "theoretical": 0.012500816934088927,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.01150944523779097,
+              "upper": 0.01606410837720322
+            }
+          },
+          {
+            "ebN0Db": 6,
+            "bits": 10000,
+            "seed": 1,
+            "errors": 15,
+            "ber": 0.0015,
+            "theoretical": 0.0023882907822990337,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0009092618255931228,
+              "upper": 0.002473584549971443
+            }
+          },
+          {
+            "ebN0Db": 8,
+            "bits": 10000,
+            "seed": 2,
+            "errors": 1,
+            "ber": 0.0001,
+            "theoretical": 0.00019090779042889633,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.00001765267360112231,
+              "upper": 0.0005662688974013381
+            }
+          },
+          {
+            "ebN0Db": 10,
+            "bits": 10000,
+            "seed": 3,
+            "errors": 0,
+            "ber": 0,
+            "theoretical": 0.000003872108384139574,
+            "interval": {
+              "kind": "zero-upper",
+              "lower": 0,
+              "upper": 0.000299528359776612
+            }
+          }
+        ]
+      },
+      "speedup": 4.003943406146929
+    },
+    {
+      "bits": 100000,
+      "reference": {
+        "variant": "reference",
+        "bits": 100000,
+        "durationsMs": [
+          153.76200000000006,
+          156.42780000000005,
+          163.1957,
+          155.2183,
+          144.35530000000006
+        ],
+        "medianMs": 155.2183,
+        "minMs": 144.35530000000006,
+        "maxMs": 163.1957,
+        "maxHeapDeltaBytes": 31261704,
+        "peakRssBytes": 141156352,
+        "output": [
+          {
+            "ebN0Db": -4,
+            "bits": 100000,
+            "seed": 4294967292,
+            "errors": 18713,
+            "ber": 0.18713,
+            "theoretical": 0.18611381961797893,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.18472473599999983,
+              "upper": 0.18955930062106785
+            }
+          },
+          {
+            "ebN0Db": -2,
+            "bits": 100000,
+            "seed": 4294967293,
+            "errors": 12958,
+            "ber": 0.12958,
+            "theoretical": 0.13064449731125513,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.12751269591415582,
+              "upper": 0.1316757620561702
+            }
+          },
+          {
+            "ebN0Db": 0,
+            "bits": 100000,
+            "seed": 4294967294,
+            "errors": 7858,
+            "ber": 0.07858,
+            "theoretical": 0.07864960611999666,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.07692838395200559,
+              "upper": 0.08026399215580392
+            }
+          },
+          {
+            "ebN0Db": 2,
+            "bits": 100000,
+            "seed": 4294967295,
+            "errors": 3755,
+            "ber": 0.03755,
+            "theoretical": 0.03750612607218898,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0363893901126628,
+              "upper": 0.03874613817516526
+            }
+          },
+          {
+            "ebN0Db": 4,
+            "bits": 100000,
+            "seed": 0,
+            "errors": 1314,
+            "ber": 0.01314,
+            "theoretical": 0.012500816934088927,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.01245268079958664,
+              "upper": 0.01386472281639772
+            }
+          },
+          {
+            "ebN0Db": 6,
+            "bits": 100000,
+            "seed": 1,
+            "errors": 243,
+            "ber": 0.00243,
+            "theoretical": 0.0023882907822990337,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0021433643728919435,
+              "upper": 0.0027548620519639425
+            }
+          },
+          {
+            "ebN0Db": 8,
+            "bits": 100000,
+            "seed": 2,
+            "errors": 15,
+            "ber": 0.00015,
+            "theoretical": 0.00019090779042889633,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0000909079268645651,
+              "upper": 0.00024749366178469963
+            }
+          },
+          {
+            "ebN0Db": 10,
+            "bits": 100000,
+            "seed": 3,
+            "errors": 3,
+            "ber": 0.00003,
+            "theoretical": 0.000003872108384139574,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.000010202758544517341,
+              "upper": 0.00008820804925176732
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "variant": "candidate",
+        "bits": 100000,
+        "durationsMs": [
+          47.441599999999994,
+          50.08529999999999,
+          49.13209999999998,
+          47.606899999999996,
+          46.41310000000004
+        ],
+        "medianMs": 47.606899999999996,
+        "minMs": 46.41310000000004,
+        "maxMs": 50.08529999999999,
+        "maxHeapDeltaBytes": 988416,
+        "peakRssBytes": 61054976,
+        "output": [
+          {
+            "ebN0Db": -4,
+            "bits": 100000,
+            "seed": 4294967292,
+            "errors": 18713,
+            "ber": 0.18713,
+            "theoretical": 0.18611381961797893,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.18472473599999983,
+              "upper": 0.18955930062106785
+            }
+          },
+          {
+            "ebN0Db": -2,
+            "bits": 100000,
+            "seed": 4294967293,
+            "errors": 12958,
+            "ber": 0.12958,
+            "theoretical": 0.13064449731125513,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.12751269591415582,
+              "upper": 0.1316757620561702
+            }
+          },
+          {
+            "ebN0Db": 0,
+            "bits": 100000,
+            "seed": 4294967294,
+            "errors": 7858,
+            "ber": 0.07858,
+            "theoretical": 0.07864960611999666,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.07692838395200559,
+              "upper": 0.08026399215580392
+            }
+          },
+          {
+            "ebN0Db": 2,
+            "bits": 100000,
+            "seed": 4294967295,
+            "errors": 3755,
+            "ber": 0.03755,
+            "theoretical": 0.03750612607218898,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0363893901126628,
+              "upper": 0.03874613817516526
+            }
+          },
+          {
+            "ebN0Db": 4,
+            "bits": 100000,
+            "seed": 0,
+            "errors": 1314,
+            "ber": 0.01314,
+            "theoretical": 0.012500816934088927,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.01245268079958664,
+              "upper": 0.01386472281639772
+            }
+          },
+          {
+            "ebN0Db": 6,
+            "bits": 100000,
+            "seed": 1,
+            "errors": 243,
+            "ber": 0.00243,
+            "theoretical": 0.0023882907822990337,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0021433643728919435,
+              "upper": 0.0027548620519639425
+            }
+          },
+          {
+            "ebN0Db": 8,
+            "bits": 100000,
+            "seed": 2,
+            "errors": 15,
+            "ber": 0.00015,
+            "theoretical": 0.00019090779042889633,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0000909079268645651,
+              "upper": 0.00024749366178469963
+            }
+          },
+          {
+            "ebN0Db": 10,
+            "bits": 100000,
+            "seed": 3,
+            "errors": 3,
+            "ber": 0.00003,
+            "theoretical": 0.000003872108384139574,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.000010202758544517341,
+              "upper": 0.00008820804925176732
+            }
+          }
+        ]
+      },
+      "speedup": 3.2604160321297964
+    },
+    {
+      "bits": 1000000,
+      "reference": {
+        "variant": "reference",
+        "bits": 1000000,
+        "durationsMs": [
+          1490.007,
+          1495.7447000000002,
+          1491.9846000000007,
+          1459.3723999999993,
+          1507.6067999999996
+        ],
+        "medianMs": 1491.9846000000007,
+        "minMs": 1459.3723999999993,
+        "maxMs": 1507.6067999999996,
+        "maxHeapDeltaBytes": 231274400,
+        "peakRssBytes": 461754368,
+        "output": [
+          {
+            "ebN0Db": -4,
+            "bits": 1000000,
+            "seed": 4294967292,
+            "errors": 186816,
+            "ber": 0.186816,
+            "theoretical": 0.18611381961797893,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.18605328068293236,
+              "upper": 0.18758112547470313
+            }
+          },
+          {
+            "ebN0Db": -2,
+            "bits": 1000000,
+            "seed": 4294967293,
+            "errors": 130619,
+            "ber": 0.130619,
+            "theoretical": 0.13064449731125513,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.12995994376611641,
+              "upper": 0.13128089414678323
+            }
+          },
+          {
+            "ebN0Db": 0,
+            "bits": 1000000,
+            "seed": 4294967294,
+            "errors": 78685,
+            "ber": 0.078685,
+            "theoretical": 0.07864960611999666,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.07815890357222133,
+              "upper": 0.07921433334379027
+            }
+          },
+          {
+            "ebN0Db": 2,
+            "bits": 1000000,
+            "seed": 4294967295,
+            "errors": 37296,
+            "ber": 0.037296,
+            "theoretical": 0.03750612607218898,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.03692638784390282,
+              "upper": 0.037669167059165516
+            }
+          },
+          {
+            "ebN0Db": 4,
+            "bits": 1000000,
+            "seed": 0,
+            "errors": 12677,
+            "ber": 0.012677,
+            "theoretical": 0.012500816934088927,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.012459591047900625,
+              "upper": 0.012898153000190525
+            }
+          },
+          {
+            "ebN0Db": 6,
+            "bits": 1000000,
+            "seed": 1,
+            "errors": 2341,
+            "ber": 0.002341,
+            "theoretical": 0.0023882907822990337,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0022481730197555865,
+              "upper": 0.002437650438667252
+            }
+          },
+          {
+            "ebN0Db": 8,
+            "bits": 1000000,
+            "seed": 2,
+            "errors": 209,
+            "ber": 0.000209,
+            "theoretical": 0.00019090779042889633,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.00018252308658506141,
+              "upper": 0.00023931675175526486
+            }
+          },
+          {
+            "ebN0Db": 10,
+            "bits": 1000000,
+            "seed": 3,
+            "errors": 8,
+            "ber": 0.000008,
+            "theoretical": 0.000003872108384139574,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0000040538044146304985,
+              "upper": 0.00001578757818620942
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "variant": "candidate",
+        "bits": 1000000,
+        "durationsMs": [
+          452.4646,
+          436.2147,
+          462.6102000000001,
+          433.5453000000002,
+          455.1423
+        ],
+        "medianMs": 452.4646,
+        "minMs": 433.5453000000002,
+        "maxMs": 462.6102000000001,
+        "maxHeapDeltaBytes": 1042696,
+        "peakRssBytes": 60887040,
+        "output": [
+          {
+            "ebN0Db": -4,
+            "bits": 1000000,
+            "seed": 4294967292,
+            "errors": 186816,
+            "ber": 0.186816,
+            "theoretical": 0.18611381961797893,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.18605328068293236,
+              "upper": 0.18758112547470313
+            }
+          },
+          {
+            "ebN0Db": -2,
+            "bits": 1000000,
+            "seed": 4294967293,
+            "errors": 130619,
+            "ber": 0.130619,
+            "theoretical": 0.13064449731125513,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.12995994376611641,
+              "upper": 0.13128089414678323
+            }
+          },
+          {
+            "ebN0Db": 0,
+            "bits": 1000000,
+            "seed": 4294967294,
+            "errors": 78685,
+            "ber": 0.078685,
+            "theoretical": 0.07864960611999666,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.07815890357222133,
+              "upper": 0.07921433334379027
+            }
+          },
+          {
+            "ebN0Db": 2,
+            "bits": 1000000,
+            "seed": 4294967295,
+            "errors": 37296,
+            "ber": 0.037296,
+            "theoretical": 0.03750612607218898,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.03692638784390282,
+              "upper": 0.037669167059165516
+            }
+          },
+          {
+            "ebN0Db": 4,
+            "bits": 1000000,
+            "seed": 0,
+            "errors": 12677,
+            "ber": 0.012677,
+            "theoretical": 0.012500816934088927,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.012459591047900625,
+              "upper": 0.012898153000190525
+            }
+          },
+          {
+            "ebN0Db": 6,
+            "bits": 1000000,
+            "seed": 1,
+            "errors": 2341,
+            "ber": 0.002341,
+            "theoretical": 0.0023882907822990337,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0022481730197555865,
+              "upper": 0.002437650438667252
+            }
+          },
+          {
+            "ebN0Db": 8,
+            "bits": 1000000,
+            "seed": 2,
+            "errors": 209,
+            "ber": 0.000209,
+            "theoretical": 0.00019090779042889633,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.00018252308658506141,
+              "upper": 0.00023931675175526486
+            }
+          },
+          {
+            "ebN0Db": 10,
+            "bits": 1000000,
+            "seed": 3,
+            "errors": 8,
+            "ber": 0.000008,
+            "theoretical": 0.000003872108384139574,
+            "interval": {
+              "kind": "wilson",
+              "lower": 0.0000040538044146304985,
+              "upper": 0.00001578757818620942
+            }
+          }
+        ]
+      },
+      "speedup": 3.2974615030656556
+    }
+  ]
+}
