@@ -1,0 +1,19 @@
+.estimation-experiment {
+  overflow-wrap: anywhere;
+}
+.estimation-experiment input[type='number'] {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.estimation-experiment .estimation-constellations {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.estimation-experiment .estimation-fit {
+  stroke: #d95d5d;
+}
+@media (max-width: 700px) {
+  .estimation-experiment .estimation-constellations {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

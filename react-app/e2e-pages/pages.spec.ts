@@ -1,5 +1,40 @@
 import { expect, test } from '@playwright/test'
 
+test('v1 pilot estimation runs offline under the static repository subpath', async ({
+  page,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('baseURL required')
+  const origin = new URL(baseURL).origin,
+    calls: string[] = []
+  const service = (url: URL) =>
+    url.origin !== origin || url.pathname.includes('/api/')
+  page.on('request', (r) => {
+    if (service(new URL(r.url()))) calls.push(r.url())
+  })
+  await page.route('**/*', (route) =>
+    service(new URL(route.request().url())) ? route.abort() : route.continue(),
+  )
+  await page.goto('./#/signallab')
+  const region = page.getByRole('region', {
+    name: '载波估计与恢复实验',
+    exact: true,
+  })
+  await region.getByRole('button', { name: '确认估计方案并运行' }).click()
+  await expect(region.getByRole('status')).toContainText('估计实验完成')
+  await expect(region.getByRole('img')).toHaveCount(5)
+  const download = page.waitForEvent('download')
+  await region.getByRole('button', { name: '导出估计记录 JSON' }).click()
+  expect((await download).suggestedFilename()).toMatch(
+    /^SignalLab-estimation-.*\.json$/,
+  )
+  await page.reload()
+  await expect(region.getByLabel('估计实验历史').locator('option')).toHaveCount(
+    1,
+  )
+  expect(calls).toEqual([])
+})
+
 test('v0.9.1 paired compensation runs locally under the repository subpath', async ({
   page,
   baseURL,
