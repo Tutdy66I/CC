@@ -172,7 +172,10 @@ function axisExpectedErrors(code: number, mean: number, sigma: number): number {
   return expected
 }
 
-export function simulateCarrierPoint(p: CarrierPointRequest): CarrierPoint {
+export function simulateCarrierPoint(
+  p: CarrierPointRequest,
+  observe?: (sample: CarrierPreview) => void,
+): CarrierPoint {
   validatePoint(p)
   const width = p.modulation === 'BPSK' ? 1 : p.modulation === 'QPSK' ? 2 : 4
   const symbols = p.bits / width
@@ -241,6 +244,15 @@ export function simulateCarrierPoint(p: CarrierPointRequest): CarrierPoint {
       })
       previewSlot++
     }
+    // Optional observer receives this exact noisy stream, without extra RNG draws.
+    observe?.({
+      index: n,
+      si,
+      sq,
+      i,
+      q,
+      phaseDeg: p.phaseDeg + 360 * p.frequency * n,
+    })
   }
   return {
     errors,

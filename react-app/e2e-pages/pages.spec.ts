@@ -1,5 +1,43 @@
 import { expect, test } from '@playwright/test'
 
+test('v0.9.1 paired compensation runs locally under the repository subpath', async ({
+  page,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('Pages baseURL required')
+  const origin = new URL(baseURL).origin,
+    calls: string[] = []
+  const isService = (url: URL) =>
+    url.origin !== origin || url.pathname.includes('/api/')
+  page.on('request', (r) => {
+    const u = new URL(r.url())
+    if (isService(u)) calls.push(`${u.origin}${u.pathname}`)
+  })
+  await page.route('**/*', (route) =>
+    isService(new URL(route.request().url()))
+      ? route.abort()
+      : route.continue(),
+  )
+  await page.goto('./#/signallab')
+  const region = page.getByRole('region', {
+    name: '理想载波补偿对照实验',
+    exact: true,
+  })
+  await region.getByLabel('补偿扫描点').fill('0,60')
+  await region.getByLabel('补偿启用 AWGN').uncheck()
+  await region.getByRole('button', { name: '确认补偿方案并运行' }).click()
+  await expect(region.getByRole('status')).toContainText('对照实验完成')
+  await expect(region.locator('tbody tr')).toHaveCount(4)
+  const download = page.waitForEvent('download')
+  await region.getByRole('button', { name: '导出补偿记录 JSON' }).click()
+  expect((await download).suggestedFilename()).toMatch(
+    /^SignalLab-compensation-.*\.json$/,
+  )
+  await page.reload()
+  await expect(region.locator('tbody tr')).toHaveCount(4)
+  expect(calls).toEqual([])
+})
+
 test('v0.9 carrier Worker runs and exports locally under the static repository subpath', async ({
   page,
   baseURL,

@@ -9,6 +9,7 @@ import ModulationComparison from '../components/ModulationComparison'
 import SeedStatistics from '../components/SeedStatistics'
 import GuidedExperiment from '../components/GuidedExperiment'
 import CarrierOffsetExperiment from '../components/CarrierOffsetExperiment'
+import CarrierCompensationExperiment from '../components/CarrierCompensationExperiment'
 import { measureEvm } from '../lib/evm'
 import './SignalLab.css'
 
@@ -104,12 +105,13 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v0.9</p>
+        <p className="signal-version">通信实验 · v0.9.1</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK、16QAM 的 BER 与 EVM。</p>
       </header>
       <GuidedExperiment />
       <CarrierOffsetExperiment />
+      <CarrierCompensationExperiment />
       <section className="signal-controls" aria-label="实验参数">
         <label htmlFor="signal-bits">输入比特流</label>
         <textarea
