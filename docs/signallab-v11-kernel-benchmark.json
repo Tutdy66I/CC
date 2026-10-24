@@ -1,0 +1,176 @@
+{
+  "node": "v24.16.0",
+  "platform": "win32",
+  "cpu": "AMD Ryzen 9 6900HX with Radeon Graphics        ",
+  "method": "two warmups; seven whole six-layout single-trial kernel timings; excludes Worker startup/UI; sampled memory is not peak allocation",
+  "rows": [
+    {
+      "plan": {
+        "frameSymbols": 2049,
+        "modulation": "BPSK",
+        "ebN0Db": 0,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "seed": 42,
+        "trials": 20,
+        "layouts": [
+          {
+            "kind": "uniform",
+            "spacing": 8
+          },
+          {
+            "kind": "uniform",
+            "spacing": 16
+          },
+          {
+            "kind": "uniform",
+            "spacing": 32
+          },
+          {
+            "kind": "uniform",
+            "spacing": 64
+          },
+          {
+            "kind": "shifted",
+            "spacing": 16
+          },
+          {
+            "kind": "paired",
+            "spacing": 16
+          }
+        ],
+        "noiseEnabled": true
+      },
+      "operationsPerTrialUpperBound": 7147924,
+      "durationsMs": [
+        33.857699999999994,
+        32.7714,
+        29.22200000000001,
+        30.08420000000001,
+        30.526700000000005,
+        29.122599999999977,
+        30.018599999999992
+      ],
+      "medianMs": 30.08420000000001,
+      "sampledProcessMemory": {
+        "rss": 67526656,
+        "heapTotal": 18841600,
+        "heapUsed": 9444720,
+        "external": 4570789,
+        "arrayBuffers": 2366531
+      }
+    },
+    {
+      "plan": {
+        "frameSymbols": 2049,
+        "modulation": "QPSK",
+        "ebN0Db": 0,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "seed": 42,
+        "trials": 20,
+        "layouts": [
+          {
+            "kind": "uniform",
+            "spacing": 8
+          },
+          {
+            "kind": "uniform",
+            "spacing": 16
+          },
+          {
+            "kind": "uniform",
+            "spacing": 32
+          },
+          {
+            "kind": "uniform",
+            "spacing": 64
+          },
+          {
+            "kind": "shifted",
+            "spacing": 16
+          },
+          {
+            "kind": "paired",
+            "spacing": 16
+          }
+        ],
+        "noiseEnabled": true
+      },
+      "operationsPerTrialUpperBound": 7147924,
+      "durationsMs": [
+        29.798400000000015,
+        28.144499999999994,
+        31.51589999999993,
+        30.776299999999992,
+        31.234300000000076,
+        31.218700000000013,
+        33.488699999999994
+      ],
+      "medianMs": 31.218700000000013,
+      "sampledProcessMemory": {
+        "rss": 77025280,
+        "heapTotal": 27762688,
+        "heapUsed": 11830576,
+        "external": 4706205,
+        "arrayBuffers": 2792723
+      }
+    },
+    {
+      "plan": {
+        "frameSymbols": 2049,
+        "modulation": "16QAM",
+        "ebN0Db": 0,
+        "phaseDeg": 37,
+        "frequency": 0.001,
+        "seed": 42,
+        "trials": 20,
+        "layouts": [
+          {
+            "kind": "uniform",
+            "spacing": 8
+          },
+          {
+            "kind": "uniform",
+            "spacing": 16
+          },
+          {
+            "kind": "uniform",
+            "spacing": 32
+          },
+          {
+            "kind": "uniform",
+            "spacing": 64
+          },
+          {
+            "kind": "shifted",
+            "spacing": 16
+          },
+          {
+            "kind": "paired",
+            "spacing": 16
+          }
+        ],
+        "noiseEnabled": true
+      },
+      "operationsPerTrialUpperBound": 7147924,
+      "durationsMs": [
+        52.594100000000026,
+        36.35169999999994,
+        31.134900000000016,
+        30.50929999999994,
+        32.56079999999997,
+        35.19550000000004,
+        34.53099999999995
+      ],
+      "medianMs": 34.53099999999995,
+      "sampledProcessMemory": {
+        "rss": 76972032,
+        "heapTotal": 27619328,
+        "heapUsed": 11209224,
+        "external": 3902921,
+        "arrayBuffers": 1989439
+      }
+    }
+  ]
+}
