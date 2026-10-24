@@ -2,11 +2,26 @@ import { expect, test } from '@playwright/test'
 
 test('v0.9 carrier Worker runs and exports locally under the static repository subpath', async ({
   page,
+  baseURL,
 }) => {
-  let calls = 0
+  if (!baseURL) throw new Error('Pages baseURL is required')
+  const applicationOrigin = new URL(baseURL).origin
+  const isServiceRequest = (url: URL) =>
+    url.origin !== applicationOrigin || url.pathname.includes('/api/')
+  const calls: string[] = []
   page.on('request', (r) => {
-    if (/supabase|\/api\//.test(r.url())) calls++
+    const url = new URL(r.url())
+    if (isServiceRequest(url)) {
+      calls.push(`${url.origin}${url.pathname}`)
+    }
   })
+  // A cloud-enabled build may load a same-origin supabaseClient-*.js asset.
+  // Count and block actual external/API calls, never contact a real service.
+  await page.route('**/*', (route) =>
+    isServiceRequest(new URL(route.request().url()))
+      ? route.abort()
+      : route.continue(),
+  )
   await page.goto('./#/signallab')
   const region = page.getByRole('region', {
     name: '相位与频率偏移实验',
@@ -23,7 +38,7 @@ test('v0.9 carrier Worker runs and exports locally under the static repository s
   )
   await page.reload()
   await expect(region.locator('tbody tr')).toHaveCount(2)
-  expect(calls).toBe(0)
+  expect(calls).toEqual([])
 })
 
 test('v0.8 static guided experiment runs without an AI API and exports a completed snapshot', async ({
