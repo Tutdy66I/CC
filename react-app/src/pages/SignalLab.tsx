@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { lazy, Suspense, useMemo, useState } from 'react'
 import { parseBits, simulateBpsk } from '../lib/signallab'
 import BerSweep from '../components/BerSweep'
 import QpskExperiment from '../components/QpskExperiment'
@@ -17,6 +17,9 @@ import './SignalLab.css'
 
 const MAX_BITS = 10000
 const PREVIEW_BITS = 32
+const ChannelResearchExperiment = lazy(
+  () => import('../components/ChannelResearchExperiment'),
+)
 
 function Waveform({
   values,
@@ -107,13 +110,14 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v1.1</p>
+        <p className="signal-version">通信实验 · v1.2</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK、16QAM 的 BER 与 EVM。</p>
       </header>
       <nav className="signal-section-nav" aria-label="实验章节">
         {[
           ['引导实验', 'guided-title'],
+          ['信道研究', 'channel-title'],
           ['载波研究', 'research-title'],
           ['比特与波形', 'bpsk-controls'],
         ].map(([label, id]) => (
@@ -132,6 +136,9 @@ export default function SignalLab() {
         </button>
       </nav>
       <GuidedExperiment />
+      <Suspense fallback={<p>正在加载信道研究模块…</p>}>
+        <ChannelResearchExperiment />
+      </Suspense>
       <CarrierOffsetExperiment />
       <CarrierCompensationExperiment />
       <CarrierEstimationExperiment />

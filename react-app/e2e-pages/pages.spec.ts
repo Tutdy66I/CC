@@ -1,5 +1,42 @@
 import { expect, test } from '@playwright/test'
 
+test('v1.2 channel Worker and local history work offline under the Pages repository subpath', async ({
+  page,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('baseURL required')
+  const origin = new URL(baseURL).origin,
+    calls: string[] = []
+  const external = (url: URL) =>
+    url.origin !== origin || url.pathname.includes('/api/')
+  page.on('request', (request) => {
+    if (external(new URL(request.url()))) calls.push(request.url())
+  })
+  await page.route('**/*', (route) =>
+    external(new URL(route.request().url())) ? route.abort() : route.continue(),
+  )
+  await page.goto('./#/signallab')
+  const region = page.getByRole('region', {
+    name: '无线衰落与信道估计研究',
+    exact: true,
+  })
+  await region.getByLabel('信道研究帧长').fill('128')
+  await region.getByLabel('信道研究试验帧数').fill('20')
+  await region.getByLabel('信道研究 Eb/N0 列表').fill('0,8')
+  await region.getByRole('button', { name: '冻结信道协议并运行' }).click()
+  await expect(region.getByRole('status')).toContainText('研究完成')
+  const download = page.waitForEvent('download')
+  await region.getByRole('button', { name: '导出信道研究 JSON' }).click()
+  expect((await download).suggestedFilename()).toBe(
+    'signallab-v12-research.json',
+  )
+  await page.reload()
+  await expect(region.getByLabel('信道研究历史').locator('option')).toHaveCount(
+    1,
+  )
+  expect(calls).toEqual([])
+})
+
 test('v1.1 research runs and persists independently in the static Pages build', async ({
   page,
   baseURL,

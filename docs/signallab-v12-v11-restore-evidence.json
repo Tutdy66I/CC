@@ -1,0 +1,64 @@
+{
+  "commit": "fa2ae0167e6d6eabcc1585c215c044dea97732c9",
+  "node": "v24.16.0",
+  "platform": "win32",
+  "arch": "x64",
+  "typescript": "6.0.3",
+  "sourceFiles": 27,
+  "executedFiles": 23,
+  "sourceSha256": "ac6924c19dae956fbc8d9faaf7d40d619d5f4579101f746cabab371c8cd52dc4",
+  "runtimeSha256": "caef009297e0791b3b2300024c27efd5e8be98070b66a1565da35234d94bc6a5",
+  "sourceMatches": true,
+  "runtimeMatches": true,
+  "lfSourceFiles": [
+    "berSweep.ts",
+    "carrierResearch.ts",
+    "carrierResearchRecord.ts",
+    "evm.ts",
+    "guidedExperiment.ts",
+    "modulationComparison.ts",
+    "pilotSearch.ts",
+    "qam16.ts",
+    "reportExport.ts",
+    "routes.ts",
+    "seedStatistics.ts",
+    "signallab.ts"
+  ],
+  "crlfSourceFiles": [
+    "carrierCompensation.ts",
+    "carrierCompensationRecord.ts",
+    "carrierEstimation.ts",
+    "carrierEstimationRecord.ts",
+    "carrierOffset.ts",
+    "carrierOffsetRecord.ts",
+    "experimentCloud.ts",
+    "experimentHistory.ts",
+    "experimentStore.ts",
+    "experimentSync.ts",
+    "pilotEstimator.ts",
+    "qpsk.ts",
+    "rss.ts",
+    "supabaseClient.ts"
+  ],
+  "mixedSourceFiles": {
+    "markdown.ts": "LF lines 1-72; final line 73 CRLF"
+  },
+  "executedRule": "23 emitted lib modules, LF; study script LF; TypeScript ES2022/ESNext/Bundler verbatimModuleSyntax",
+  "notice": "An exact byte reconstruction, not an external authenticity certificate. Original archive remains unchanged.",
+  "actualRestorationVerified": true,
+  "archiveAudit": {
+    "cases": 27,
+    "calibrationFrames": 540,
+    "evaluationFrames": 3240,
+    "sourceMatches": true,
+    "runtimeMatches": true,
+    "rawArchiveSha256": "6e58cf8370576dd891d05f9cd2809d7e16d111a9c3b7296df3c95cdd3a45692c"
+  },
+  "originalCheckpoint": {
+    "case": "confirm-16QAM--4-nominal",
+    "trials": 10,
+    "valid": true,
+    "sourceMatches": true,
+    "runtimeMatches": true
+  }
+}

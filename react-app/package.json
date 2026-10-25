@@ -17,7 +17,12 @@
     "test:cloud": "playwright test --config=playwright.cloud.config.ts",
     "test:e2e:server": "node scripts/e2e-server.mjs",
     "preview": "vite preview",
-    "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js && node --test tests/backup.test.mjs"
+    "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js && node --test tests/backup.test.mjs",
+    "test:channel-tools": "node --test tests/channel-tools.test.mjs",
+    "study:channel": "node scripts/study-channel-research.mjs",
+    "inspect:channel": "node scripts/inspect-channel-research.mjs",
+    "benchmark:channel": "node scripts/benchmark-channel-research.mjs",
+    "restore:v11": "node scripts/restore-v11-reference.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.118.0",

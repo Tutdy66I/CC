@@ -1,0 +1,1853 @@
+{
+  "protocolVersion": "channel-study-v12.1",
+  "quick": false,
+  "fingerprint": {
+    "executionMode": "node-typescript-strip",
+    "node": "v24.16.0",
+    "platform": "win32",
+    "arch": "x64",
+    "sourceSha256": "ea22da6f7a39dbadca65c7a95ce1207a57e843cd173f2c064dc7d536868b1e92",
+    "runtimeSha256": "ec52536e3bc330743abb894a25be7c3e7cae09a244edd9a632ba31882207095a",
+    "sources": [
+      {
+        "path": "src/lib/berSweep.ts",
+        "sha256": "4c38ddbf84a3e2e9111d81c947916a7c86e4d731096364ad539ccdf01fc80b1c"
+      },
+      {
+        "path": "src/lib/channelEqualizer.ts",
+        "sha256": "bc80fc071be13bb497283492a9431415962f63bf9151c8d41873bb2f7674f049"
+      },
+      {
+        "path": "src/lib/channelEstimator.ts",
+        "sha256": "1d789880bf01477ff3a5370165a5b3951b50de9bdaa4bf192dd1193c296e5c3e"
+      },
+      {
+        "path": "src/lib/channelResearch.ts",
+        "sha256": "f4139d4cf413f24fa068858837f81ccbcbb74804c6e60c6a29dfc1c1b31e57fa"
+      },
+      {
+        "path": "src/lib/channelResearchRecord.ts",
+        "sha256": "538a17eed8bf28c3f3481ff555578febac895913cb19a0028acb121b6a5a6beb"
+      },
+      {
+        "path": "src/lib/channelSimulation.ts",
+        "sha256": "28f90766cd628779e1eca813505b7bb16c3492fe2eedd44f772028ffbe25b16c"
+      },
+      {
+        "path": "src/lib/channelTypes.ts",
+        "sha256": "0d0d912668ce39ca0557354c79ab5abfe90797d40bac2da22e7e0d780444be91"
+      },
+      {
+        "path": "src/lib/evm.ts",
+        "sha256": "e648cd1cad3571fff5f77f98e72c0601116c8388a19cae3c4cf082c9151d8cbd"
+      },
+      {
+        "path": "src/lib/fadingRandom.ts",
+        "sha256": "c1b7eb525aa5d04850cfcbb367bae529041a90ae793a7a2bc0ea789d4f21f22f"
+      },
+      {
+        "path": "src/lib/flatFading.ts",
+        "sha256": "663584829941f7dc54b085b2c4600432a64da14d4b8777c4dce50d97c280c1e3"
+      },
+      {
+        "path": "src/lib/modulationComparison.ts",
+        "sha256": "d1878686e9160f70e987360e090eaae252ff9131a3a5ecb5787840fa0571c97e"
+      },
+      {
+        "path": "src/lib/qam16.ts",
+        "sha256": "0c9e781af6c3e17505e44238da0507c6cd05af2cd9aeffccbae3344528080ed2"
+      },
+      {
+        "path": "src/lib/qpsk.ts",
+        "sha256": "aef8a87bd29de96b530d94ea406d1b74d264404b900d4dea681eccf72fc63342"
+      },
+      {
+        "path": "src/lib/signallab.ts",
+        "sha256": "b3a38ffafdeca1531100f998cb51db91759a8781ced8381db61ee48f2e01c9fd"
+      }
+    ],
+    "executed": [
+      {
+        "path": "src/lib/berSweep.ts",
+        "sha256": "4c38ddbf84a3e2e9111d81c947916a7c86e4d731096364ad539ccdf01fc80b1c"
+      },
+      {
+        "path": "src/lib/channelEqualizer.ts",
+        "sha256": "bc80fc071be13bb497283492a9431415962f63bf9151c8d41873bb2f7674f049"
+      },
+      {
+        "path": "src/lib/channelEstimator.ts",
+        "sha256": "1d789880bf01477ff3a5370165a5b3951b50de9bdaa4bf192dd1193c296e5c3e"
+      },
+      {
+        "path": "src/lib/channelResearch.ts",
+        "sha256": "f4139d4cf413f24fa068858837f81ccbcbb74804c6e60c6a29dfc1c1b31e57fa"
+      },
+      {
+        "path": "src/lib/channelResearchRecord.ts",
+        "sha256": "538a17eed8bf28c3f3481ff555578febac895913cb19a0028acb121b6a5a6beb"
+      },
+      {
+        "path": "src/lib/channelSimulation.ts",
+        "sha256": "28f90766cd628779e1eca813505b7bb16c3492fe2eedd44f772028ffbe25b16c"
+      },
+      {
+        "path": "src/lib/channelTypes.ts",
+        "sha256": "0d0d912668ce39ca0557354c79ab5abfe90797d40bac2da22e7e0d780444be91"
+      },
+      {
+        "path": "src/lib/evm.ts",
+        "sha256": "e648cd1cad3571fff5f77f98e72c0601116c8388a19cae3c4cf082c9151d8cbd"
+      },
+      {
+        "path": "src/lib/fadingRandom.ts",
+        "sha256": "c1b7eb525aa5d04850cfcbb367bae529041a90ae793a7a2bc0ea789d4f21f22f"
+      },
+      {
+        "path": "src/lib/flatFading.ts",
+        "sha256": "663584829941f7dc54b085b2c4600432a64da14d4b8777c4dce50d97c280c1e3"
+      },
+      {
+        "path": "src/lib/modulationComparison.ts",
+        "sha256": "d1878686e9160f70e987360e090eaae252ff9131a3a5ecb5787840fa0571c97e"
+      },
+      {
+        "path": "src/lib/qam16.ts",
+        "sha256": "0c9e781af6c3e17505e44238da0507c6cd05af2cd9aeffccbae3344528080ed2"
+      },
+      {
+        "path": "src/lib/qpsk.ts",
+        "sha256": "aef8a87bd29de96b530d94ea406d1b74d264404b900d4dea681eccf72fc63342"
+      },
+      {
+        "path": "src/lib/signallab.ts",
+        "sha256": "b3a38ffafdeca1531100f998cb51db91759a8781ced8381db61ee48f2e01c9fd"
+      }
+    ],
+    "scripts": [
+      {
+        "path": "scripts/channel-study-manifest.mjs",
+        "sha256": "c67d7ff9b3d288c0fda1b68ad8e85b86d1eb2c5dd4653f59b0c326fbbec7372d"
+      },
+      {
+        "path": "scripts/study-channel-research.mjs",
+        "sha256": "a6fdc1815a800b25599008c04ad46d553b693b284f59634d96d01bfdc2e63803"
+      },
+      {
+        "path": "scripts/inspect-channel-research.mjs",
+        "sha256": "b817dff87b69460f2579a44c4e8766f88e6dc9a5f55279ad08c84cc2f2bf986a"
+      },
+      {
+        "path": "scripts/channel-reference.py",
+        "sha256": "e299ffe473cad8ea2a355ef19f03cb90fc843fda2505bcc393351df2528d9dab"
+      }
+    ]
+  },
+  "inference": "Fixed complete samples; independent frame unit; paired methods/layouts; no error-based stopping or case selection; pointwise intervals.",
+  "cases": [
+    {
+      "id": "main-BPSK--4-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "538a64cb87acb210dfbd7d973a67dbe51426946e3923e27c5eee54f1259e30b5",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            -4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK--4-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "8de947b5bb3a2f0a3d3d000187a94d29d24a412073fe9c51514a7f4a6219da79",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            -4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-0-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "3b53edcbbec5eac88888073b68481c5032d8908debe02172c042b37664c4fcae",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-0-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "e6a62ef3fc97d74c2501949e80415a580083cd4fedf92a910e246495aa6203c1",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-4-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "72004453afafd19a05640fd9d510ac7bea282a1947003aeb357a679510df8e38",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-4-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "f204da7c34fbd757e42d2b444cb31d533e5a4534352b7e8c9ada1ddb5a45be31",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-8-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "26e05c4ff178a690b05a4b0dd416d7692997f4f830672e2a19f64b937fa30b11",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-8-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "e2f344a3ccd61866c61d002c1efe5f5dffc0e7cabf8d4cf93106be2278ed6342",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-12-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "3e61ed1c4e66c4c7fd6d26e6b6f2ca44462c2549b63165383fc7ab00f163eb68",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            12
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-12-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "9ce4feeb3253f77ffec557a09ecacafdb6a6f988c66e016e5c23e3bb781b0c84",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            12
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-16-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "23cebdc663d37c447ca29d8cae1ae946a9271a51e4e1dbad8bc9a48ef1d28011",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-16-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "dc9c40a328ca3653a720947ab7ef1d7e80e45eefbdebad7c0aae47bb0bed08f1",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-20-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "bed0b34cbdf32ad17ba4846d901a621a2d9897e105773116564e03f3e8fbbc35",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            20
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-BPSK-20-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "06669d16613120e9211a3505a2f0dd9f088173a583c022e14ecd013f4f70bf6f",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            20
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK--4-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "74db8ef025ff11a8fd1562b92863557995e0497a2d22ba44bdeb94568d4d47ed",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            -4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK--4-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "c8022c43f0a210143328a68db682d680a485319625083ccc98c8d53d9afd5bcd",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            -4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-0-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "a75ac47f82d03835b6a1b25d4a877d841a7400c881f1c7648588a63da33147f5",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-0-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "1595343956faad9172da29e34d7ca7d60c735d52258afdf2cd95cf90d3aa5c0f",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-4-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "748d2d60ff1a22463f187ea2998e019fb98cd87a29d654a73a71f76e3a767510",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-4-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "c6bca118d6acae2b0d7ef2ee760cd039f48e76159989ed3f78ea7f34a269ce36",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-8-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "e6ca0fc70c2348d1636a5877da3317a88cf8b71cc861fa407397054ffe88434a",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-8-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "4428f5be1a18326c833a7354f56629688ff8bd06e8e868eeeeb5039a02ca57f9",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-12-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "a22a3c048fba481a44fa2ff05edf4566c566481a8d0463061fd9310a34b93e39",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            12
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-12-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "b5e7e6cd99ec23eb770d28643974b51b03988bc56ac1f70552aef6c6fdcace78",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            12
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-16-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "fbbafe2b30aaade4f7ca8ca1fa18794af34b8df3d4c4bd404558b045c5120cb8",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-16-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "67a56008095fc9fd4acb643f5fb205912b834fae5af7270e486fc7a4e63ea6e7",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-20-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "bd265c5cb60cab4839c3e96d3e1f0076612d1f50727bf12d7ebbd25367b501bf",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            20
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-QPSK-20-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "b9da76b57b9ca961659c5d8071c2263507e29fbe5b6e9893ea2a95b0504175d5",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            20
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM--4-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "56d8b178399fb31050ead45476ed526342bfeb7bcf8bff7ff5c458a4a3288299",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            -4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM--4-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "beb34cd10d95abb923d44ddcf79f829bd1d797614e1afbca559ad6846605227e",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            -4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-0-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "597438e295ebed24d5aa39f52960cee9b9b269b92ab09ffd6805ecd6bb959e3a",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-0-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "f1ff09072be4047047d0350aab9d754a88869b7139237f00af5e49747a693536",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-4-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "e732208cbcd04de51acd34aa7c48e606731f8161ca843480fb960fd6e7bf322a",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-4-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "42aef9a078fc7a5b3dfaa5dc6cd750393fda194de472f7d82877a060ef4852e3",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            4
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-8-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "3717d9fabe9675978937615f145e25b487e74439d063e2eb97a968429e7f93d6",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-8-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "730ba6f8da74bba306667e09b9f7b25c973f5397ea579e9ee0ddbb7807898766",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-12-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "de86e11cf6aa9dcddbdb2629503b8242dec926da42e31b79634e0d79a0d3d4a5",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            12
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-12-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "7c72fe283bce19dd7aadfb6f94d07752ca0e1b1bc0ef2b2bce0a3ea05d474f0b",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            12
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-16-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "c05c0349e5c81029787e16a2ab86c07b200e89e8b6ffa5ed5b9d0834a6c2b93b",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-16-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "607bfaf4c71c7cfad9124c43daf43cce1a84ba7841f178b6ca8d39a5f78f24f3",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-20-awgn",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "42ec431f119e1b8566c41bbce81cad790fb431d77b88bb39b94a98d37444121d",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            20
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "main-16QAM-20-rayleigh-block",
+      "phase": "primary",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "ebcb9b9c440054a89c6b17f685b76fcac21f9d5b47d4669dc0e3eaead72bf99c",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            20
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-QPSK-0-awgn",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "8dc3d9e97f7989fa779206578c944d12828a34ea76a77e73aa090830d1293ec3",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-QPSK-0-rayleigh-block",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "e3e294336b4b8ce9163521d43f4283689bcb98586c94157a34c0a2e5a4c4e955",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-QPSK-8-awgn",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "3206131fa12b8127970b99e64e8944b57e356fc0f36123b76b690083282ee36f",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-QPSK-8-rayleigh-block",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "bc6f95a8dc35d9c5e35d45de6b442aa5fab0be10c4f969b1412df83706517c43",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-QPSK-16-awgn",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "a07b47b451e3288001032b1f1b73eb33b67f9877f43a58ffd956b4029421cd63",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-QPSK-16-rayleigh-block",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "b1c310b1c1875319f9369eb731cb6cb063184884bd3066b92c77b8736f0654e2",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-16QAM-0-awgn",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "d3600112f2940d7306a91cd022549971fc5de2c476d458a7fc7e6652b671de1e",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-16QAM-0-rayleigh-block",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "32ee337a4b25a574325e87eb4e81d988e830ec3970e161d6712f543f47e680f6",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-16QAM-8-awgn",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "1025d2387eb6c0da9b4caf48db484413df0554b08cf5fd61c0843da98e88cd90",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-16QAM-8-rayleigh-block",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "7222862836508c433b75c560521ddf880b3281e05e86776bd5694a50aa95bd13",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-16QAM-16-awgn",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "e45add181deea72a686073d95d0d06043c3418d7090b8ca7d9cac6ec8bb94e15",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "awgn"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "total-16QAM-16-rayleigh-block",
+      "phase": "overhead",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "ee2d4a2c071becacaa8c7ebf3cc9367458c2af132730b9261f8b0859ba5f8e03",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-block"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "total-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-BPSK-0",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "bf25d57f4d9196432341d4fd4cb5afe3f24615f26c6715ebd829ad12f7e0fcdc",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-BPSK-8",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "8b167adff1d98b9c5a7bd88590f5e5a56e3baf4e216952a6f0c8791996e5e1fa",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-BPSK-16",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "f70e74f6438d73a032c99306bd87c26a2a537a9f86872cf5b80d35e8817328c2",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "BPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-QPSK-0",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "6f4763d28708813b5a37eb089ebf6adf24268c9aee341684013c87e141c58f4b",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-QPSK-8",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "2130c0e64e928ad3e331640b8d48e073ea0741e65e8bcbe7834d0a57eae28ca6",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-QPSK-16",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "503e3e68cd50f1f66c2ee993d834fa23476b26b8a67e37f158990f49272d8e66",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "QPSK",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-16QAM-0",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "6821fb42fadbc7c8344a142bc4c9bfc68bd3fda4b2e8d80d98b90d987a046726",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            0
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-16QAM-8",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "4ee1c37c59ff42f6c2bc6db89f97b654a55d50c8a2b47e145dfb5bc874735999",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            8
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    },
+    {
+      "id": "iid-16QAM-16",
+      "phase": "negative-control",
+      "frozen": {
+        "engineVersion": "flat-channel-v12.1",
+        "protocolHash": "039f0ee5352c2254ee88b5c9c50597cce7f3eff634da92af4091d9eb44cb1daa",
+        "plan": {
+          "frameSymbols": 1024,
+          "modulation": "16QAM",
+          "ebN0Db": [
+            16
+          ],
+          "pilotCounts": [
+            4,
+            16,
+            64
+          ],
+          "channels": [
+            "rayleigh-iid"
+          ],
+          "trials": 10000,
+          "seed": 42,
+          "energyBasis": "data-eb",
+          "noiseEnabled": true
+        }
+      }
+    }
+  ],
+  "protocolSha256": "bce3d93be2f850baf4eb64d7096d43b87d508c91205efff58f683009fa7a9911",
+  "frozenAt": "2026-10-25T06:51:30.062Z",
+  "registration": "Local freeze before computation; not an external timestamp registration."
+}

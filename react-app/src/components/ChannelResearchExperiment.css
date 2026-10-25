@@ -1,0 +1,172 @@
+.channel-experiment {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--signal-border);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.channel-experiment h2 {
+  scroll-margin-top: 1rem;
+}
+.channel-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+.channel-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.channel-fields input,
+.channel-fields select,
+.channel-history select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--signal-border);
+  border-radius: 4px;
+  padding: 0.5rem;
+  background: var(--bg, Canvas);
+  color: inherit;
+  font: inherit;
+}
+.channel-models {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.channel-models label {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.channel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0;
+}
+.channel-actions button,
+.channel-import {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--signal-border);
+  border-radius: 4px;
+  background: var(--bg, transparent);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.channel-import input {
+  display: block;
+  max-width: 100%;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+}
+.channel-experiment button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.channel-experiment progress {
+  width: 100%;
+  accent-color: var(--signal-accent);
+}
+.channel-notice {
+  border-left: 3px solid #b27716;
+  padding-left: 0.8rem;
+}
+.channel-caption {
+  font-size: 0.8rem;
+  color: var(--signal-muted);
+}
+.channel-history {
+  display: block;
+  margin: 1rem 0;
+}
+.channel-protocol {
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+.channel-plots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.channel-plots figure {
+  margin: 1rem 0;
+  min-width: 0;
+}
+.channel-plots svg {
+  display: block;
+  width: 100%;
+}
+.channel-plots line {
+  stroke: var(--signal-muted);
+  stroke-width: 0.7;
+}
+.channel-plots text {
+  fill: currentColor;
+  font-size: 9px;
+}
+.channel-plots polyline {
+  fill: none;
+  stroke-width: 1.5;
+}
+.channel-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.7rem;
+  font-size: 0.72rem;
+}
+.channel-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.channel-legend i {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+}
+.channel-table {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.channel-table table {
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  width: 100%;
+}
+.channel-table td,
+.channel-table th {
+  padding: 0.5rem;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--signal-border);
+  text-align: left;
+}
+.channel-table caption {
+  text-align: left;
+  padding: 0.5rem;
+}
+.channel-model-note {
+  border: 1px solid var(--signal-border);
+  border-radius: 4px;
+  padding: 0.8rem;
+  margin: 1rem 0;
+}
+.channel-model-note summary {
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+  .channel-fields,
+  .channel-plots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .channel-models {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
