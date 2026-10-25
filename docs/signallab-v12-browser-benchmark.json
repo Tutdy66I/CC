@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "browser": "chromium",
+  "generatedAt": "2026-10-25T11:17:37.696Z",
+  "defaultPlan": {
+    "modulation": "QPSK",
+    "frameSymbols": 512,
+    "pilotCounts": [
+      16
+    ],
+    "ebN0Db": [
+      0,
+      4,
+      8,
+      12
+    ],
+    "channels": [
+      "awgn",
+      "rayleigh-block"
+    ],
+    "trials": 200,
+    "seed": 42,
+    "energyBasis": "data-eb",
+    "noiseEnabled": true
+  },
+  "completion": {
+    "samplesMs": [
+      919.4000000003725,
+      971.1999999992549,
+      922.7999999988824
+    ],
+    "medianMs": 922.7999999988824,
+    "limitMs": 5000,
+    "scope": "Actual freeze-button click through complete status, validated result table and two animation frames; includes Worker startup, record validation and SVG DOM rendering."
+  },
+  "synchronousMessageHandler": {
+    "samples": 15,
+    "p95Ms": 9.199999999254942,
+    "maxMs": 9.199999999254942,
+    "limitMs": 50,
+    "scope": "Synchronous time inside the assigned Worker onmessage handler only; excludes every continuation after await. This is not complete main-thread task duration."
+  },
+  "cancellation": {
+    "milliseconds": 3,
+    "limitMs": 200,
+    "frameSymbols": 4096,
+    "trials": 200,
+    "cellsPerFrame": 8,
+    "scope": "Actual cancel-button click to MutationObserver seeing cancelled status; storage completion is excluded."
+  },
+  "progress": {
+    "targetMs": 100,
+    "nonFinalVisibleGapsMs": [
+      97.70000000111759,
+      102.40000000037253,
+      105.69999999925494,
+      102.5,
+      103.5,
+      102.5
+    ],
+    "minimumGapWithRenderJitterMs": 75,
+    "finalBatchMayArriveEarlier": true,
+    "scope": "Visible progress status commits, rather than claimed Worker emission timestamps; 25 ms render scheduling allowance."
+  },
+  "longTasks": {
+    "supported": true,
+    "count": 0,
+    "maxDurationMs": 0,
+    "entries": [],
+    "scope": "Chromium PerformanceObserver longtask diagnostics for the page; not an upper bound on total work or a substitute for full completion timing."
+  }
+}

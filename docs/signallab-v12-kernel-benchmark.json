@@ -1,0 +1,303 @@
+{
+  "node": "v24.16.0",
+  "platform": "win32",
+  "arch": "x64",
+  "cpu": "AMD Ryzen 9 6900HX with Radeon Graphics        ",
+  "fingerprint": {
+    "executionMode": "node-typescript-strip",
+    "node": "v24.16.0",
+    "platform": "win32",
+    "arch": "x64",
+    "sourceSha256": "ea22da6f7a39dbadca65c7a95ce1207a57e843cd173f2c064dc7d536868b1e92",
+    "runtimeSha256": "ec52536e3bc330743abb894a25be7c3e7cae09a244edd9a632ba31882207095a",
+    "sources": [
+      {
+        "path": "src/lib/berSweep.ts",
+        "sha256": "4c38ddbf84a3e2e9111d81c947916a7c86e4d731096364ad539ccdf01fc80b1c"
+      },
+      {
+        "path": "src/lib/channelEqualizer.ts",
+        "sha256": "bc80fc071be13bb497283492a9431415962f63bf9151c8d41873bb2f7674f049"
+      },
+      {
+        "path": "src/lib/channelEstimator.ts",
+        "sha256": "1d789880bf01477ff3a5370165a5b3951b50de9bdaa4bf192dd1193c296e5c3e"
+      },
+      {
+        "path": "src/lib/channelResearch.ts",
+        "sha256": "f4139d4cf413f24fa068858837f81ccbcbb74804c6e60c6a29dfc1c1b31e57fa"
+      },
+      {
+        "path": "src/lib/channelResearchRecord.ts",
+        "sha256": "538a17eed8bf28c3f3481ff555578febac895913cb19a0028acb121b6a5a6beb"
+      },
+      {
+        "path": "src/lib/channelSimulation.ts",
+        "sha256": "28f90766cd628779e1eca813505b7bb16c3492fe2eedd44f772028ffbe25b16c"
+      },
+      {
+        "path": "src/lib/channelTypes.ts",
+        "sha256": "0d0d912668ce39ca0557354c79ab5abfe90797d40bac2da22e7e0d780444be91"
+      },
+      {
+        "path": "src/lib/evm.ts",
+        "sha256": "e648cd1cad3571fff5f77f98e72c0601116c8388a19cae3c4cf082c9151d8cbd"
+      },
+      {
+        "path": "src/lib/fadingRandom.ts",
+        "sha256": "c1b7eb525aa5d04850cfcbb367bae529041a90ae793a7a2bc0ea789d4f21f22f"
+      },
+      {
+        "path": "src/lib/flatFading.ts",
+        "sha256": "663584829941f7dc54b085b2c4600432a64da14d4b8777c4dce50d97c280c1e3"
+      },
+      {
+        "path": "src/lib/modulationComparison.ts",
+        "sha256": "d1878686e9160f70e987360e090eaae252ff9131a3a5ecb5787840fa0571c97e"
+      },
+      {
+        "path": "src/lib/qam16.ts",
+        "sha256": "0c9e781af6c3e17505e44238da0507c6cd05af2cd9aeffccbae3344528080ed2"
+      },
+      {
+        "path": "src/lib/qpsk.ts",
+        "sha256": "aef8a87bd29de96b530d94ea406d1b74d264404b900d4dea681eccf72fc63342"
+      },
+      {
+        "path": "src/lib/signallab.ts",
+        "sha256": "b3a38ffafdeca1531100f998cb51db91759a8781ced8381db61ee48f2e01c9fd"
+      }
+    ],
+    "executed": [
+      {
+        "path": "src/lib/berSweep.ts",
+        "sha256": "4c38ddbf84a3e2e9111d81c947916a7c86e4d731096364ad539ccdf01fc80b1c"
+      },
+      {
+        "path": "src/lib/channelEqualizer.ts",
+        "sha256": "bc80fc071be13bb497283492a9431415962f63bf9151c8d41873bb2f7674f049"
+      },
+      {
+        "path": "src/lib/channelEstimator.ts",
+        "sha256": "1d789880bf01477ff3a5370165a5b3951b50de9bdaa4bf192dd1193c296e5c3e"
+      },
+      {
+        "path": "src/lib/channelResearch.ts",
+        "sha256": "f4139d4cf413f24fa068858837f81ccbcbb74804c6e60c6a29dfc1c1b31e57fa"
+      },
+      {
+        "path": "src/lib/channelResearchRecord.ts",
+        "sha256": "538a17eed8bf28c3f3481ff555578febac895913cb19a0028acb121b6a5a6beb"
+      },
+      {
+        "path": "src/lib/channelSimulation.ts",
+        "sha256": "28f90766cd628779e1eca813505b7bb16c3492fe2eedd44f772028ffbe25b16c"
+      },
+      {
+        "path": "src/lib/channelTypes.ts",
+        "sha256": "0d0d912668ce39ca0557354c79ab5abfe90797d40bac2da22e7e0d780444be91"
+      },
+      {
+        "path": "src/lib/evm.ts",
+        "sha256": "e648cd1cad3571fff5f77f98e72c0601116c8388a19cae3c4cf082c9151d8cbd"
+      },
+      {
+        "path": "src/lib/fadingRandom.ts",
+        "sha256": "c1b7eb525aa5d04850cfcbb367bae529041a90ae793a7a2bc0ea789d4f21f22f"
+      },
+      {
+        "path": "src/lib/flatFading.ts",
+        "sha256": "663584829941f7dc54b085b2c4600432a64da14d4b8777c4dce50d97c280c1e3"
+      },
+      {
+        "path": "src/lib/modulationComparison.ts",
+        "sha256": "d1878686e9160f70e987360e090eaae252ff9131a3a5ecb5787840fa0571c97e"
+      },
+      {
+        "path": "src/lib/qam16.ts",
+        "sha256": "0c9e781af6c3e17505e44238da0507c6cd05af2cd9aeffccbae3344528080ed2"
+      },
+      {
+        "path": "src/lib/qpsk.ts",
+        "sha256": "aef8a87bd29de96b530d94ea406d1b74d264404b900d4dea681eccf72fc63342"
+      },
+      {
+        "path": "src/lib/signallab.ts",
+        "sha256": "b3a38ffafdeca1531100f998cb51db91759a8781ced8381db61ee48f2e01c9fd"
+      }
+    ],
+    "scripts": [
+      {
+        "path": "scripts/channel-study-manifest.mjs",
+        "sha256": "c67d7ff9b3d288c0fda1b68ad8e85b86d1eb2c5dd4653f59b0c326fbbec7372d"
+      },
+      {
+        "path": "scripts/study-channel-research.mjs",
+        "sha256": "a6fdc1815a800b25599008c04ad46d553b693b284f59634d96d01bfdc2e63803"
+      },
+      {
+        "path": "scripts/inspect-channel-research.mjs",
+        "sha256": "b817dff87b69460f2579a44c4e8766f88e6dc9a5f55279ad08c84cc2f2bf986a"
+      },
+      {
+        "path": "scripts/channel-reference.py",
+        "sha256": "e299ffe473cad8ea2a355ef19f03cb90fc843fda2505bcc393351df2528d9dab"
+      }
+    ]
+  },
+  "benchmarkScriptSha256": "6b77f63ce7871cd67c49270411d0344413280496323aef762a67fbfdc0cdd8bb",
+  "method": "two warmups; seven kernel measurements; default Node end-to-end includes generation/summary/record validation, excludes Worker startup/UI/storage",
+  "cases": [
+    {
+      "plan": {
+        "frameSymbols": 4096,
+        "modulation": "BPSK",
+        "ebN0Db": [
+          8
+        ],
+        "pilotCounts": [
+          4,
+          16,
+          64
+        ],
+        "channels": [
+          "awgn",
+          "rayleigh-block",
+          "rayleigh-iid"
+        ],
+        "trials": 1,
+        "seed": 42,
+        "energyBasis": "data-eb",
+        "noiseEnabled": true
+      },
+      "durationsMs": [
+        28.262400000000014,
+        38.5805,
+        11.863100000000003,
+        12.355999999999995,
+        14.252900000000011,
+        12.781600000000026,
+        16.371099999999956
+      ],
+      "medianMs": 14.252900000000011
+    },
+    {
+      "plan": {
+        "frameSymbols": 4096,
+        "modulation": "QPSK",
+        "ebN0Db": [
+          8
+        ],
+        "pilotCounts": [
+          4,
+          16,
+          64
+        ],
+        "channels": [
+          "awgn",
+          "rayleigh-block",
+          "rayleigh-iid"
+        ],
+        "trials": 1,
+        "seed": 42,
+        "energyBasis": "data-eb",
+        "noiseEnabled": true
+      },
+      "durationsMs": [
+        10.743200000000002,
+        10.688599999999951,
+        10.661699999999996,
+        12.42470000000003,
+        12.11099999999999,
+        12.224099999999964,
+        11.991800000000012
+      ],
+      "medianMs": 11.991800000000012
+    },
+    {
+      "plan": {
+        "frameSymbols": 4096,
+        "modulation": "16QAM",
+        "ebN0Db": [
+          8
+        ],
+        "pilotCounts": [
+          4,
+          16,
+          64
+        ],
+        "channels": [
+          "awgn",
+          "rayleigh-block",
+          "rayleigh-iid"
+        ],
+        "trials": 1,
+        "seed": 42,
+        "energyBasis": "data-eb",
+        "noiseEnabled": true
+      },
+      "durationsMs": [
+        12.769599999999969,
+        12.172399999999982,
+        12.74939999999998,
+        11.946300000000008,
+        12.79509999999999,
+        14.426900000000046,
+        16.336400000000026
+      ],
+      "medianMs": 12.769599999999969
+    }
+  ],
+  "defaultPlan": {
+    "frameSymbols": 512,
+    "modulation": "QPSK",
+    "ebN0Db": [
+      0,
+      4,
+      8,
+      12
+    ],
+    "pilotCounts": [
+      16
+    ],
+    "channels": [
+      "awgn",
+      "rayleigh-block"
+    ],
+    "trials": 200,
+    "seed": 42,
+    "energyBasis": "data-eb",
+    "noiseEnabled": true
+  },
+  "defaultEndToEndMs": 290.8595,
+  "defaultNodeUnder5Seconds": true,
+  "memoryChild": {
+    "valid": true,
+    "sampledMemory": {
+      "rss": 81256448,
+      "heapTotal": 15986688,
+      "heapUsed": 12785608,
+      "external": 9674559,
+      "arrayBuffers": 496225
+    },
+    "boundary": "32 MiB V8 old-space; sampled process values are not peak allocations or browser memory"
+  },
+  "legacy": {
+    "bits": 1000000,
+    "exactParity": true,
+    "durationsMs": [
+      409.11940000000004,
+      399.7721999999999,
+      408.4285,
+      405.4357,
+      403.7022000000002,
+      403.1256000000003,
+      408.0640999999996
+    ],
+    "medianMs": 405.4357,
+    "archivedMedianMs": 475.21370000000024,
+    "comparable": true,
+    "regressionRatio": 0.8531650076586592,
+    "under10PercentRegression": true
+  }
+}

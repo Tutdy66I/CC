@@ -81,6 +81,13 @@ pilot search, separate calibration/evaluation seeds, frame-level failure interva
 diagnostic ROC, resumable checkpoints, and frozen offline confirmation studies.
 See [v1.1 research protocol, results and limitations](docs/signallab-v1.1.md).
 
+SignalLab v1.2 adds complex-baseband AWGN and flat Rayleigh fading, pilot LS channel
+estimation, paired ideal/estimated-CSI ZF, frame-level uncertainty, and explicit
+pilot-energy accounting. Independent Python references, frozen offline studies
+and exact v1.1 restoration retain both successful and failed cases.
+See [v1.2 models, results and limitations](docs/signallab-v1.2.md) and
+[reproduction tools](docs/signallab-v12-tools.md).
+
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).

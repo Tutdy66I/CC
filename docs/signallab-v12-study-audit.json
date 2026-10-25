@@ -1,0 +1,11 @@
+{
+  "valid": true,
+  "groups": 63,
+  "cells": 189,
+  "groupedFrames": 630000,
+  "sourceMatches": true,
+  "runtimeMatches": true,
+  "protocolSha256": "bce3d93be2f850baf4eb64d7096d43b87d508c91205efff58f683009fa7a9911",
+  "rawArchiveSha256": "7e3cbb89186d949dd0d1e7e6d534eb7b9e455fd0e0813bd60d5039852b9e4feb",
+  "notice": "Structural/math/integrity checks are not external authenticity certification or independent simulation validation."
+}

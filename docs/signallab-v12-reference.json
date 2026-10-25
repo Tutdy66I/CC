@@ -1,0 +1,158 @@
+{
+  "referenceVersion": "channel-reference-python-v1",
+  "energy": "data Eb=1, CN noise variance N0=1/gamma",
+  "method": "Gaussian decision-region erfc; independent exponential-power adaptive quadrature",
+  "lsBlockMse": "N0 / (P * Ep)",
+  "iidPilotConstantEstimateDataMse": "1 + (1 + N0/Ep)/P",
+  "oracleZfMeanSquaredEvm": "infinite for untruncated Rayleigh; finite sample values remain reportable",
+  "rows": [
+    {
+      "modulation": "BPSK",
+      "ebN0Db": -4,
+      "awgnBer": 0.186113817483389,
+      "rayleighIdealBer": 0.23319143147623564,
+      "rayleighClosedBer": 0.2331914314762355
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 0,
+      "awgnBer": 0.07864960352514255,
+      "rayleighIdealBer": 0.14644660940672632,
+      "rayleighClosedBer": 0.14644660940672624
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 4,
+      "awgnBer": 0.012500818040737556,
+      "rayleighIdealBer": 0.07713691605639116,
+      "rayleighClosedBer": 0.07713691605639107
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 8,
+      "awgnBer": 0.00019090777407599314,
+      "rayleighIdealBer": 0.03545906762783818,
+      "rayleighClosedBer": 0.0354590676278381
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 12,
+      "awgnBer": 9.006010350628752e-9,
+      "rayleighIdealBer": 0.0150646803703529,
+      "rayleighClosedBer": 0.015064680370352792
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 16,
+      "awgnBer": 2.267395844454413e-19,
+      "rayleighIdealBer": 0.006163834746364581,
+      "rayleighClosedBer": 0.006163834746364487
+    },
+    {
+      "modulation": "BPSK",
+      "ebN0Db": 20,
+      "awgnBer": 1.0442437918812724e-45,
+      "rayleighIdealBer": 0.0024814048950054977,
+      "rayleighClosedBer": 0.002481404895005432
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": -4,
+      "awgnBer": 0.186113817483389,
+      "rayleighIdealBer": 0.23319143147623564,
+      "rayleighClosedBer": 0.2331914314762355
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 0,
+      "awgnBer": 0.07864960352514255,
+      "rayleighIdealBer": 0.14644660940672632,
+      "rayleighClosedBer": 0.14644660940672624
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 4,
+      "awgnBer": 0.012500818040737556,
+      "rayleighIdealBer": 0.07713691605639116,
+      "rayleighClosedBer": 0.07713691605639107
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 8,
+      "awgnBer": 0.00019090777407599314,
+      "rayleighIdealBer": 0.03545906762783818,
+      "rayleighClosedBer": 0.0354590676278381
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 12,
+      "awgnBer": 9.006010350628752e-9,
+      "rayleighIdealBer": 0.0150646803703529,
+      "rayleighClosedBer": 0.015064680370352792
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 16,
+      "awgnBer": 2.267395844454413e-19,
+      "rayleighIdealBer": 0.006163834746364581,
+      "rayleighClosedBer": 0.006163834746364487
+    },
+    {
+      "modulation": "QPSK",
+      "ebN0Db": 20,
+      "awgnBer": 1.0442437918812724e-45,
+      "rayleighIdealBer": 0.0024814048950054977,
+      "rayleighClosedBer": 0.002481404895005432
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": -4,
+      "awgnBer": 0.2367097280525889,
+      "rayleighIdealBer": 0.28089484798999526,
+      "rayleighClosedBer": null
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 0,
+      "awgnBer": 0.14098163506684167,
+      "rayleighIdealBer": 0.1975739579890352,
+      "rayleighClosedBer": null
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 4,
+      "awgnBer": 0.058623737283404385,
+      "rayleighIdealBer": 0.11987748450526885,
+      "rayleighClosedBer": null
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 8,
+      "awgnBer": 0.009247213741474417,
+      "rayleighIdealBer": 0.06198768029901056,
+      "rayleighClosedBer": null
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 12,
+      "awgnBer": 0.0001386586888126191,
+      "rayleighIdealBer": 0.028251418589803377,
+      "rayleighClosedBer": null
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 16,
+      "awgnBer": 6.250200827741984e-9,
+      "rayleighIdealBer": 0.011958373375334556,
+      "rayleighClosedBer": null
+    },
+    {
+      "modulation": "16QAM",
+      "ebN0Db": 20,
+      "awgnBer": 1.4040365190761012e-19,
+      "rayleighIdealBer": 0.004885448605398317,
+      "rayleighClosedBer": null
+    }
+  ],
+  "referenceScriptSha256": "e299ffe473cad8ea2a355ef19f03cb90fc843fda2505bcc393351df2528d9dab"
+}

@@ -327,6 +327,29 @@ test('signed-in v1.1 research never enters the cloud upload queue', async ({
   expect(service.rows).toEqual([])
 })
 
+test('signed-in v1.2 channel research persists locally without any cloud upload', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  await page.goto('./#/signallab')
+  await expect(page.getByText('已登录：', { exact: false })).toBeVisible()
+  const region = page.getByRole('region', {
+    name: '无线衰落与信道估计研究',
+    exact: true,
+  })
+  await region.getByLabel('信道研究帧长').fill('128')
+  await region.getByLabel('信道研究试验帧数').fill('20')
+  await region.getByLabel('信道研究 Eb/N0 列表').fill('0,8')
+  await region.getByRole('button', { name: '冻结信道协议并运行' }).click()
+  await expect(region.getByRole('status')).toContainText('研究完成')
+  await page.reload()
+  await expect(region.getByLabel('信道研究历史').locator('option')).toHaveCount(
+    1,
+  )
+  expect(service.writes).toBe(0)
+  expect(service.rows).toEqual([])
+})
+
 test('signed-in pilot estimation remains local and never enters the cloud upload queue', async ({
   page,
 }) => {
