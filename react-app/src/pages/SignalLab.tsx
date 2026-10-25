@@ -136,9 +136,6 @@ export default function SignalLab() {
         </button>
       </nav>
       <GuidedExperiment />
-      <Suspense fallback={<p>正在加载信道研究模块…</p>}>
-        <ChannelResearchExperiment />
-      </Suspense>
       <CarrierOffsetExperiment />
       <CarrierCompensationExperiment />
       <CarrierEstimationExperiment />
@@ -327,6 +324,9 @@ export default function SignalLab() {
       <QamExperiment />
       <ModulationComparison />
       <SeedStatistics />
+      <Suspense fallback={<p>正在加载信道研究模块…</p>}>
+        <ChannelResearchExperiment />
+      </Suspense>
     </main>
   )
 }

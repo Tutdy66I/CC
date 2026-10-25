@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-25T11:59:41.594Z",
+  "timezone": "Asia/Hong_Kong",
+  "scope": "Local acceptance; remote CI and deployment are separate delivery states.",
+  "baseCodeCommit": "c4685e428f145e91f72db20bdb32add65680ee70",
+  "finalUiFiles": [
+    {
+      "path": "react-app/src/pages/SignalLab.tsx",
+      "sha256": "4456642ce6a64014d324a29ccbe2674995d9aa8a8907ec3ca6d31415ee6c2d41"
+    },
+    {
+      "path": "react-app/src/components/ChannelResearchExperiment.css",
+      "sha256": "aa6b9a524d30c7570084306b2a52add80488c51a22deff3ea7012488cd42f47d"
+    },
+    {
+      "path": "react-app/e2e/channel-research.spec.ts",
+      "sha256": "3ed7ffef676a34f2af55b6a89f59ccb142e6b1d839efe5ba286e17bf9be8c193"
+    }
+  ],
+  "checks": {
+    "typecheck": true,
+    "eslint": true,
+    "prettier": true,
+    "normalBuild": true,
+    "staticPagesBuild": true,
+    "coreHttpTests": {
+      "passed": 189,
+      "failed": 0
+    },
+    "windowsBackupTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "independentTools": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "python": "explicit Python 3; independent stdlib reference"
+    },
+    "browser": {
+      "command": "npx playwright test --workers=2",
+      "total": 228,
+      "passed": 225,
+      "failed": 0,
+      "skipped": 3,
+      "skipReason": "Timing acceptance runs on desktop Chromium only; mobile Chromium, Firefox and WebKit deliberately skip that one test.",
+      "projects": ["chromium", "mobile-chromium", "firefox", "webkit"]
+    },
+    "staticPages": {
+      "passed": 22,
+      "failed": 0,
+      "repositorySubpath": "/CC/"
+    },
+    "syntheticCloudBaseline": {
+      "passed": 54,
+      "failed": 0
+    },
+    "v12SignedInCloudIsolation": {
+      "passed": 3,
+      "failed": 0,
+      "realProjectContacted": false
+    }
+  },
+  "legacyNumericalAndDatabaseSourcesUnchanged": true,
+  "scientificFilesMatchFrozenSnapshot": 18,
+  "fullStudy": {
+    "valid": true,
+    "groups": 63,
+    "cells": 189,
+    "groupedFrames": 630000,
+    "sourceMatches": true,
+    "runtimeMatches": true,
+    "protocolSha256": "bce3d93be2f850baf4eb64d7096d43b87d508c91205efff58f683009fa7a9911",
+    "rawArchiveSha256": "7e3cbb89186d949dd0d1e7e6d534eb7b9e455fd0e0813bd60d5039852b9e4feb",
+    "notice": "Structural/math/integrity checks are not external authenticity certification or independent simulation validation."
+  },
+  "layoutRegression": {
+    "beforeLegacyButtonDocumentShiftPx": 938.03125,
+    "afterAssertion": "Legacy control document-position change <1px across deferred module loading",
+    "beforeChannelHeadingTopPx": 18.21875,
+    "stickyNavigationBottomPx": 60,
+    "afterAssertionNavigation": "Heading top >= sticky navigation bottom in every browser project"
+  },
+  "latestBrowserPerformance": {
+    "schemaVersion": 1,
+    "browser": "chromium",
+    "generatedAt": "2026-10-25T11:50:54.042Z",
+    "defaultPlan": {
+      "modulation": "QPSK",
+      "frameSymbols": 512,
+      "pilotCounts": [16],
+      "ebN0Db": [0, 4, 8, 12],
+      "channels": ["awgn", "rayleigh-block"],
+      "trials": 200,
+      "seed": 42,
+      "energyBasis": "data-eb",
+      "noiseEnabled": true
+    },
+    "completion": {
+      "samplesMs": [904.1999999992549, 923.0999999996275, 924],
+      "medianMs": 923.0999999996275,
+      "limitMs": 5000,
+      "scope": "Actual freeze-button click through complete status, validated result table and two animation frames; includes Worker startup, record validation and SVG DOM rendering."
+    },
+    "synchronousMessageHandler": {
+      "samples": 14,
+      "p95Ms": 8.900000000372529,
+      "maxMs": 8.900000000372529,
+      "limitMs": 50,
+      "scope": "Synchronous time inside the assigned Worker onmessage handler only; excludes every continuation after await. This is not complete main-thread task duration."
+    },
+    "cancellation": {
+      "milliseconds": 1.699999999254942,
+      "limitMs": 200,
+      "frameSymbols": 4096,
+      "trials": 200,
+      "cellsPerFrame": 8,
+      "scope": "Actual cancel-button click to MutationObserver seeing cancelled status; storage completion is excluded."
+    },
+    "progress": {
+      "targetMs": 100,
+      "nonFinalVisibleGapsMs": [
+        100, 103.40000000037253, 104.5, 99.69999999925494, 104.30000000074506
+      ],
+      "minimumGapWithRenderJitterMs": 75,
+      "finalBatchMayArriveEarlier": true,
+      "scope": "Visible progress status commits, rather than claimed Worker emission timestamps; 25 ms render scheduling allowance."
+    },
+    "longTasks": {
+      "supported": true,
+      "count": 0,
+      "maxDurationMs": 0,
+      "entries": [],
+      "scope": "Chromium PerformanceObserver longtask diagnostics for the page; not an upper bound on total work or a substitute for full completion timing."
+    }
+  },
+  "review": "Independent numerical/storage/Worker/tool review and focused layout review found no blocking issue."
+}

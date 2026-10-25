@@ -6,7 +6,7 @@
   overflow-wrap: anywhere;
 }
 .channel-experiment h2 {
-  scroll-margin-top: 1rem;
+  scroll-margin-top: 120px;
 }
 .channel-fields {
   display: grid;

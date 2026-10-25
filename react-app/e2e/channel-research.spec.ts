@@ -3,6 +3,24 @@ import { readFile } from 'node:fs/promises'
 
 const regionName = '无线衰落与信道估计研究'
 
+test('channel navigation keeps its heading below the sticky chapter controls', async ({
+  page,
+}) => {
+  await page.goto('/#/signallab')
+  const heading = page.getByRole('heading', { name: regionName, exact: true })
+  await expect(heading).toBeAttached()
+  const nav = page.getByRole('navigation', { name: '实验章节' })
+  await nav.getByRole('button', { name: '信道研究', exact: true }).click()
+  await expect(heading).toBeInViewport()
+  const position = await heading.evaluate((node) => ({
+    top: node.getBoundingClientRect().top,
+    navBottom: document
+      .querySelector('.signal-section-nav')!
+      .getBoundingClientRect().bottom,
+  }))
+  expect(position.top).toBeGreaterThanOrEqual(position.navBottom)
+})
+
 test('late channel-module loading cannot move an existing experiment during a click', async ({
   page,
 }) => {
@@ -29,13 +47,24 @@ test('late channel-module loading cannot move an existing experiment during a cl
   await button.scrollIntoViewIfNeeded()
   const box = await button.boundingBox()
   if (!box) throw new Error('Existing experiment control is not visible')
+  const documentTop = box.y + (await page.evaluate(() => scrollY))
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
   await page.mouse.down()
   release()
   await expect(
     page.getByRole('region', { name: regionName, exact: true }),
   ).toBeAttached()
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  )
+  const after = await button.boundingBox()
+  if (!after) throw new Error('Existing experiment control disappeared')
+  const afterDocumentTop = after.y + (await page.evaluate(() => scrollY))
   await page.mouse.up()
+  expect(Math.abs(afterDocumentTop - documentTop)).toBeLessThan(1)
   await expect(old.getByRole('status')).toContainText(/研究计算中|研究完成/)
 })
 
