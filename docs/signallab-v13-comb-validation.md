@@ -1,5 +1,7 @@
 # v1.3 第二阶段开发验证报告
 
+后续状态：PR #11 已合并为 `99e8286`，master CI与Pages部署成功。实体iPad用户验收、明确修订为256 MiB的隔离renderer原生内存验收及正式研究预算见 [发布验收](signallab-v13-release-acceptance.md)。下文保留第二阶段当时的验证边界；原64 MiB Worker目标未被重新标为通过。
+
 日期：2026-10-26（Asia/Hong_Kong）。开发基线：`master 2d4f69c`，PR #10。第二阶段引擎为 `ofdm-v13.2`，不是 `v1.3.0` Release。远端交付及 CI 状态以本阶段 PR 的当前提交检查为准；本文件记录本地验证与边界。
 
 ## 功能与算法

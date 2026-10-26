@@ -468,7 +468,12 @@ export default function OfdmCombResearchExperiment() {
           : "已导入 OFDM 检查点；继续前将校验源码与运行时。",
       );
       if (value.status === "complete")
-        setHistory((h) => [value as OfdmCombRecord, ...h].slice(0, 2));
+        setHistory((h) =>
+          [
+            value as OfdmCombRecord,
+            ...h.filter((r) => r.integrityHash !== value.integrityHash),
+          ].slice(0, 2),
+        );
     } catch (e) {
       setError(message(e));
     } finally {

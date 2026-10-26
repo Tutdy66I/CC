@@ -24,8 +24,26 @@ test("static Pages comb Worker runs, draws signed-frequency interpolation and re
   );
   expect(record.engineVersion).toBe("ofdm-v13.2");
   expect(record.plan.pilotLayouts).toHaveLength(2);
+  await r.getByLabel("OFDM 种子").fill("20261031");
+  await r
+    .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
+    .click();
+  await expect(r.getByRole("status")).toContainText("已保存本地");
+  const latest = page.waitForEvent("download");
+  await r.getByRole("button", { name: "导出 OFDM JSON", exact: true }).click();
+  await r
+    .getByLabel("导入 OFDM JSON", { exact: true })
+    .setInputFiles((await (await latest).path())!);
+  await expect(r.getByRole("status")).toContainText("已导入并保存");
+  const history = r
+    .locator("details")
+    .filter({ hasText: "本地完整历史（最多两条）" });
+  await expect(history.locator("button")).toHaveCount(2);
+  await expect(history).toContainText(`seed ${record.plan.seed}`);
+  await expect(history).toContainText("seed 20261031");
   await page.reload();
   await expect(r.getByRole("status")).toContainText("已恢复本地完整记录");
+  await expect(history).toContainText(`seed ${record.plan.seed}`);
   await page.getByLabel("OFDM 实验模式").selectOption("training");
   await expect(
     page.getByRole("region", { name: "OFDM 与频率选择性多径", exact: true }),

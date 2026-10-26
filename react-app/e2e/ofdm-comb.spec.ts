@@ -6,6 +6,33 @@ test.beforeEach(async ({ page }) => {
     localStorage.setItem("signallab-ofdm-mode", "comb"),
   );
 });
+test("reimporting a comb record preserves two distinct visible history entries", async ({
+  page,
+}) => {
+  await page.goto("/#/signallab");
+  const r = page.getByRole("region", { name, exact: true });
+  await r.getByLabel("OFDM 试验帧数").fill("4");
+  for (const seed of ["20261028", "20261029"]) {
+    await r.getByLabel("OFDM 种子").fill(seed);
+    await r
+      .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
+      .click();
+    await expect(r.getByRole("status")).toContainText("已保存本地");
+  }
+  const download = page.waitForEvent("download");
+  await r.getByRole("button", { name: "导出 OFDM JSON", exact: true }).click();
+  const file = await (await download).path();
+  await r.getByLabel("导入 OFDM JSON", { exact: true }).setInputFiles(file!);
+  await expect(r.getByRole("status")).toContainText("已导入并保存");
+  const history = r
+    .locator("details")
+    .filter({ hasText: "本地完整历史（最多两条）" });
+  await expect(history.locator("button")).toHaveCount(2);
+  await expect(history).toContainText("seed 20261028");
+  await expect(history).toContainText("seed 20261029");
+  await page.reload();
+  await expect(history).toContainText("seed 20261028");
+});
 test("comb rejects a batch with a foreign protocol identity", async ({
   page,
 }) => {
