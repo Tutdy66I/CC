@@ -25,7 +25,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version: '24'
           cache: npm
           cache-dependency-path: react-app/package-lock.json
       - run: npm ci
@@ -71,7 +71,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version: '24'
           cache: npm
           cache-dependency-path: react-app/package-lock.json
       - uses: actions/configure-pages@v5
@@ -80,7 +80,7 @@ jobs:
         run: npm run build
         env:
           DEPLOY_BASE_PATH: /CC/
-          VITE_STATIC_HOST: "true"
+          VITE_STATIC_HOST: 'true'
           VITE_EXPERIMENT_SYNC: ${{ vars.SIGNALLAB_EXPERIMENT_SYNC || 'false' }}
           VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}

@@ -1,53 +1,53 @@
-import { lazy, Suspense, useMemo, useState } from "react";
-import { parseBits, simulateBpsk } from "../lib/signallab";
-import BerSweep from "../components/BerSweep";
-import QpskExperiment from "../components/QpskExperiment";
-import AiTutor from "../components/AiTutor";
-import EvmReadout from "../components/EvmReadout";
-import QamExperiment from "../components/QamExperiment";
-import ModulationComparison from "../components/ModulationComparison";
-import SeedStatistics from "../components/SeedStatistics";
-import GuidedExperiment from "../components/GuidedExperiment";
-import CarrierOffsetExperiment from "../components/CarrierOffsetExperiment";
-import CarrierCompensationExperiment from "../components/CarrierCompensationExperiment";
-import CarrierEstimationExperiment from "../components/CarrierEstimationExperiment";
-import CarrierResearchExperiment from "../components/CarrierResearchExperiment";
-import { measureEvm } from "../lib/evm";
-import "./SignalLab.css";
+import { lazy, Suspense, useMemo, useState } from 'react'
+import { parseBits, simulateBpsk } from '../lib/signallab'
+import BerSweep from '../components/BerSweep'
+import QpskExperiment from '../components/QpskExperiment'
+import AiTutor from '../components/AiTutor'
+import EvmReadout from '../components/EvmReadout'
+import QamExperiment from '../components/QamExperiment'
+import ModulationComparison from '../components/ModulationComparison'
+import SeedStatistics from '../components/SeedStatistics'
+import GuidedExperiment from '../components/GuidedExperiment'
+import CarrierOffsetExperiment from '../components/CarrierOffsetExperiment'
+import CarrierCompensationExperiment from '../components/CarrierCompensationExperiment'
+import CarrierEstimationExperiment from '../components/CarrierEstimationExperiment'
+import CarrierResearchExperiment from '../components/CarrierResearchExperiment'
+import { measureEvm } from '../lib/evm'
+import './SignalLab.css'
 
-const MAX_BITS = 10000;
-const PREVIEW_BITS = 32;
+const MAX_BITS = 10000
+const PREVIEW_BITS = 32
 const ChannelResearchExperiment = lazy(
-  () => import("../components/ChannelResearchExperiment"),
-);
+  () => import('../components/ChannelResearchExperiment'),
+)
 const OfdmResearchExperiment = lazy(
-  () => import("../components/OfdmResearchExperiment"),
-);
+  () => import('../components/OfdmResearchExperiment'),
+)
 
 function Waveform({
   values,
   carrier = false,
   title,
 }: {
-  values: readonly number[];
-  carrier?: boolean;
-  title: string;
+  values: readonly number[]
+  carrier?: boolean
+  title: string
 }) {
-  const preview = values.slice(0, PREVIEW_BITS);
-  const scale = Math.max(1.5, ...preview.map(Math.abs));
-  const x = (time: number) => 35 + (time / preview.length) * 730;
-  const y = (value: number) => 90 - (value / scale) * 60;
+  const preview = values.slice(0, PREVIEW_BITS)
+  const scale = Math.max(1.5, ...preview.map(Math.abs))
+  const x = (time: number) => 35 + (time / preview.length) * 730
+  const y = (value: number) => 90 - (value / scale) * 60
   const points = preview
     .flatMap((value, index) =>
       Array.from({ length: carrier ? 33 : 2 }, (_, sample) => {
-        const fraction = sample / (carrier ? 32 : 1);
+        const fraction = sample / (carrier ? 32 : 1)
         const amplitude = carrier
           ? value * Math.cos(2 * Math.PI * fraction)
-          : value;
-        return `${x(index + fraction)},${y(amplitude)}`;
+          : value
+        return `${x(index + fraction)},${y(amplitude)}`
       }),
     )
-    .join(" ");
+    .join(' ')
   return (
     <figure className="signal-chart">
       <figcaption>{title}</figcaption>
@@ -69,7 +69,7 @@ function Waveform({
         <polyline
           points={points}
           fill="none"
-          className={carrier ? "signal-carrier" : "signal-samples"}
+          className={carrier ? 'signal-carrier' : 'signal-samples'}
           strokeWidth="2"
         />
         <text x="35" y="174">
@@ -80,36 +80,35 @@ function Waveform({
         </text>
       </svg>
     </figure>
-  );
+  )
 }
 
 export default function SignalLab() {
-  const [input, setInput] = useState("01001101 10110010 01010101 11000011");
-  const [ebN0Db, setEbN0Db] = useState(0);
-  const [seed, setSeed] = useState("42");
-  const [noiseEnabled, setNoiseEnabled] = useState(true);
+  const [input, setInput] = useState('01001101 10110010 01010101 11000011')
+  const [ebN0Db, setEbN0Db] = useState(0)
+  const [seed, setSeed] = useState('42')
+  const [noiseEnabled, setNoiseEnabled] = useState(true)
   const experiment = useMemo(() => {
     try {
-      const bits = parseBits(input);
-      if (bits.length > MAX_BITS)
-        throw new Error(`最多输入 ${MAX_BITS} 比特。`);
-      if (!seed.trim()) throw new Error("请输入随机种子。");
-      const numericSeed = Number(seed);
+      const bits = parseBits(input)
+      if (bits.length > MAX_BITS) throw new Error(`最多输入 ${MAX_BITS} 比特。`)
+      if (!seed.trim()) throw new Error('请输入随机种子。')
+      const numericSeed = Number(seed)
       if (
         !Number.isInteger(numericSeed) ||
         numericSeed < 0 ||
         numericSeed > 0xffffffff
       ) {
-        throw new Error("随机种子必须是 0 到 4294967295 的整数。");
+        throw new Error('随机种子必须是 0 到 4294967295 的整数。')
       }
-      const result = simulateBpsk(bits, ebN0Db, numericSeed, noiseEnabled);
-      return { bits, result, error: null };
+      const result = simulateBpsk(bits, ebN0Db, numericSeed, noiseEnabled)
+      return { bits, result, error: null }
     } catch (error) {
       return {
-        error: error instanceof Error ? error.message : "无法运行实验。",
-      };
+        error: error instanceof Error ? error.message : '无法运行实验。',
+      }
     }
-  }, [input, ebN0Db, seed, noiseEnabled]);
+  }, [input, ebN0Db, seed, noiseEnabled])
 
   return (
     <main className="signal-lab">
@@ -120,17 +119,17 @@ export default function SignalLab() {
       </header>
       <nav className="signal-section-nav" aria-label="实验章节">
         {[
-          ["引导实验", "guided-title"],
-          ["信道研究", "channel-title"],
-          ["OFDM 研究", "ofdm-title"],
-          ["载波研究", "research-title"],
-          ["比特与波形", "bpsk-controls"],
+          ['引导实验', 'guided-title'],
+          ['信道研究', 'channel-title'],
+          ['OFDM 研究', 'ofdm-title'],
+          ['载波研究', 'research-title'],
+          ['比特与波形', 'bpsk-controls'],
         ].map(([label, id]) => (
           <button
             type="button"
             key={id}
             onClick={() => {
-              document.getElementById(id)?.scrollIntoView({ block: "start" });
+              document.getElementById(id)?.scrollIntoView({ block: 'start' })
             }}
           >
             {label}
@@ -161,7 +160,7 @@ export default function SignalLab() {
           aria-invalid={Boolean(experiment.error)}
         />
         <p id="signal-input-help">
-          仅支持 0、1、空格和换行，最多 {MAX_BITS.toLocaleString()}{" "}
+          仅支持 0、1、空格和换行，最多 {MAX_BITS.toLocaleString()}{' '}
           比特。修改参数后自动重新计算。
         </p>
         <div className="signal-parameters">
@@ -228,7 +227,7 @@ export default function SignalLab() {
               </div>
             </dl>
             <p>
-              恢复比特（前 {Math.min(experiment.bits.length, PREVIEW_BITS)}{" "}
+              恢复比特（前 {Math.min(experiment.bits.length, PREVIEW_BITS)}{' '}
               位，红色表示误码）：
             </p>
             <div className="signal-decoded" aria-label="恢复比特">
@@ -239,7 +238,7 @@ export default function SignalLab() {
                     key={index}
                     className={
                       bit !== experiment.bits[index]
-                        ? "signal-bit-error"
+                        ? 'signal-bit-error'
                         : undefined
                     }
                     title={`第 ${index + 1} 位：发送 ${experiment.bits[index]}，恢复 ${bit}`}
@@ -251,7 +250,7 @@ export default function SignalLab() {
           </section>
           <section aria-label="波形可视化">
             <p>
-              波形显示前 {Math.min(experiment.bits.length, PREVIEW_BITS)}{" "}
+              波形显示前 {Math.min(experiment.bits.length, PREVIEW_BITS)}{' '}
               比特；BER 使用全部输入比特计算。横轴为比特周期
               Tb，纵轴为归一化幅度。
             </p>
@@ -275,8 +274,8 @@ export default function SignalLab() {
         reportData={
           experiment.result && experiment.bits
             ? {
-                inputBits: experiment.bits.join(""),
-                decodedBits: experiment.result.decoded.join(""),
+                inputBits: experiment.bits.join(''),
+                decodedBits: experiment.result.decoded.join(''),
                 samples: experiment.result.received
                   .slice(0, 32)
                   .map((received, index) => ({
@@ -291,7 +290,7 @@ export default function SignalLab() {
         context={
           experiment.result && experiment.bits
             ? {
-                experiment: "BPSK",
+                experiment: 'BPSK',
                 data: {
                   bits: experiment.bits.length,
                   ebN0Db,
@@ -336,5 +335,5 @@ export default function SignalLab() {
         <OfdmResearchExperiment />
       </Suspense>
     </main>
-  );
+  )
 }
