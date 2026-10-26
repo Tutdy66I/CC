@@ -454,15 +454,20 @@ test("queued errors from a cancelled OFDM Worker cannot stop the next run", asyn
   await r
     .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
     .click();
+  await expect(r.getByRole("status")).toContainText(/计算中.*帧/);
   await r.getByRole("button", { name: "取消 OFDM 计算", exact: true }).click();
   await expect(r.getByRole("status")).toContainText("已取消");
+  // This tests late-event isolation, with an independent default-performance gate.
+  await r.getByLabel("OFDM 试验帧数").fill("20");
   await r
     .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
     .click();
+  await expect(r.getByRole("status")).toContainText(/计算中.*帧/);
   await page.evaluate(() => {
     const first = (window as unknown as { ofdmWorkers: Worker[] })
       .ofdmWorkers[0];
-    first.onerror?.call(
+    if (!first.onerror) throw new Error("旧 Worker 未安装运行期错误处理器。");
+    first.onerror.call(
       first,
       new ErrorEvent("error", { message: "queued old error" }),
     );
