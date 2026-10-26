@@ -7,15 +7,29 @@ import { createHash } from 'node:crypto'
 import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-// Hash saved source bytes, including the unchanged numerical dependency closure.
+// Preserve the v13.1 byte identity: comb modules are a disjoint engine.
 const ofdmSource = createHash('sha256')
+for (const file of [
+  ...readdirSync('src/lib')
+    .filter((x) => x.endsWith('.ts') && !x.startsWith('ofdmComb'))
+    .map((x) => `src/lib/${x}`),
+  'src/workers/ofdmResearch.worker.ts',
+].sort()) {
+  ofdmSource
+    .update(file + '\0')
+    .update(readFileSync(resolve(file)))
+    .update('\0')
+}
+
+const combSource = createHash('sha256')
 for (const file of [
   ...readdirSync('src/lib')
     .filter((x) => x.endsWith('.ts'))
     .map((x) => `src/lib/${x}`),
   'src/workers/ofdmResearch.worker.ts',
+  'src/workers/ofdmCombResearch.worker.ts',
 ].sort()) {
-  ofdmSource
+  combSource
     .update(file + '\0')
     .update(readFileSync(resolve(file)))
     .update('\0')
@@ -48,6 +62,7 @@ function rssProxyPlugin(): Plugin {
 export default defineConfig({
   define: {
     __OFDM_SOURCE_FINGERPRINT__: JSON.stringify(ofdmSource.digest('hex')),
+    __OFDM_COMB_SOURCE_FINGERPRINT__: JSON.stringify(combSource.digest('hex')),
   },
   base: process.env.DEPLOY_BASE_PATH || '/',
   plugins: [

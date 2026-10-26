@@ -1,5 +1,7 @@
 # v1.3 implementation gates
 
+后续交付状态（2026-10-26）：全训练基线已由 PR #10 合并，`master 2d4f69c` 的 CI/Pages 部署成功。以下保留合并前的开发与修复证据；文末当时“不合并/不部署”不再表示当前生产状态。第二阶段 comb 的实现与验收另见 [协议](signallab-v13-comb-protocol.md) 和 [验证报告](signallab-v13-comb-validation.md)。
+
 Approved on 2026-10-26 by the user's “开始”, against `signallab-v1.3-design.md`.
 
 This delivery implements the full-training LS baseline. Comb pilots remain a second stage. The independent reference uses Python's standard library; no NumPy dependency is added. No formal Monte Carlo study or production data change is authorized.

@@ -21,7 +21,7 @@ const ChannelResearchExperiment = lazy(
   () => import('../components/ChannelResearchExperiment'),
 )
 const OfdmResearchExperiment = lazy(
-  () => import('../components/OfdmResearchExperiment'),
+  () => import('../components/OfdmResearchPanel'),
 )
 
 function Waveform({
