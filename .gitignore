@@ -35,6 +35,7 @@ output/signallab-v12-study/
 output/signallab-v13-screen/
 output/signallab-v13-validation/
 output/signallab-v13-comb-validation/
+output/signallab-v13-release-acceptance/
 output/playwright/ofdm-*.png
 output/playwright/signallab-*.png
 output/v12-browser-performance.json

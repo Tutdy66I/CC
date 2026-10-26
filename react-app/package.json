@@ -21,6 +21,8 @@
     "test:channel-tools": "node --test tests/channel-tools.test.mjs",
     "test:ofdm-reference": "tsc -p tsconfig.test.json && node --test tests/ofdm-reference.test.mjs",
     "test:ofdm-comb-reference": "tsc -p tsconfig.test.json && node --test tests/ofdm-comb-reference.test.mjs",
+    "accept:ofdm-native": "tsc -p tsconfig.test.json && node scripts/accept-ofdm-native.mjs",
+    "plan:ofdm-study": "tsc -p tsconfig.test.json && node scripts/plan-ofdm-study.mjs",
     "study:ofdm": "tsc -p tsconfig.test.json && node scripts/study-ofdm-research.mjs",
     "inspect:ofdm": "tsc -p tsconfig.test.json && node scripts/inspect-ofdm-research.mjs",
     "benchmark:ofdm": "tsc -p tsconfig.test.json && node scripts/benchmark-ofdm-research.mjs",

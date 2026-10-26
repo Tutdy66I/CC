@@ -96,7 +96,9 @@ earlier experiments. The separate `ofdm-v13.2` mode adds configurable comb pilot
 complex linear interpolation on signed frequency coordinates, and a same-waveform
 ideal/full-training/comb CSI comparison. It reports common-data layout pairs,
 interpolation bias, pilot noise, and complete training/pilot/CP energy accounting.
-Formal research and physical iPad acceptance remain deferred; no v1.3 release is sealed.
+Scoped physical iPad and Windows native-memory acceptance, plus a fixed formal-study
+budget, are documented in [release acceptance](docs/signallab-v13-release-acceptance.md).
+Formal research execution remains deferred; engineering preflights are not study results.
 See [v1.3 implementation and validation](docs/signallab-v13-implementation.md) and
 [bounded reproduction tools](docs/signallab-v13-tools.md).
 See the [comb protocol](docs/signallab-v13-comb-protocol.md) and
