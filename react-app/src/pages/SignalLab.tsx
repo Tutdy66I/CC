@@ -20,6 +20,9 @@ const PREVIEW_BITS = 32
 const ChannelResearchExperiment = lazy(
   () => import('../components/ChannelResearchExperiment'),
 )
+const OfdmResearchExperiment = lazy(
+  () => import('../components/OfdmResearchExperiment'),
+)
 
 function Waveform({
   values,
@@ -110,7 +113,7 @@ export default function SignalLab() {
   return (
     <main className="signal-lab">
       <header>
-        <p className="signal-version">通信实验 · v1.2</p>
+        <p className="signal-version">通信实验 · v1.3</p>
         <h1>SignalLab AI</h1>
         <p>从比特到波形与星座图，观察 BPSK、QPSK、16QAM 的 BER 与 EVM。</p>
       </header>
@@ -118,6 +121,7 @@ export default function SignalLab() {
         {[
           ['引导实验', 'guided-title'],
           ['信道研究', 'channel-title'],
+          ['OFDM 研究', 'ofdm-title'],
           ['载波研究', 'research-title'],
           ['比特与波形', 'bpsk-controls'],
         ].map(([label, id]) => (
@@ -326,6 +330,9 @@ export default function SignalLab() {
       <SeedStatistics />
       <Suspense fallback={<p>正在加载信道研究模块…</p>}>
         <ChannelResearchExperiment />
+      </Suspense>
+      <Suspense fallback={<p>正在加载 OFDM 研究模块…</p>}>
+        <OfdmResearchExperiment />
       </Suspense>
     </main>
   )

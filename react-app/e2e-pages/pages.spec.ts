@@ -1,5 +1,38 @@
 import { expect, test } from '@playwright/test'
 
+test('v1.3 OFDM Worker exports and restores under the Pages subpath without service calls', async ({
+  page,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('baseURL required')
+  const origin = new URL(baseURL).origin,
+    calls: string[] = []
+  const external = (url: URL) =>
+    url.origin !== origin || url.pathname.includes('/api/')
+  page.on('request', (r) => {
+    if (external(new URL(r.url()))) calls.push(r.url())
+  })
+  await page.route('**/*', (route) =>
+    external(new URL(route.request().url())) ? route.abort() : route.continue(),
+  )
+  await page.goto('./#/signallab')
+  const r = page.getByRole('region', {
+    name: 'OFDM 与频率选择性多径',
+    exact: true,
+  })
+  await r.getByLabel('OFDM 试验帧数').fill('8')
+  await r
+    .getByRole('button', { name: '冻结 OFDM 协议并运行', exact: true })
+    .click()
+  await expect(r.getByRole('status')).toContainText('已保存本地')
+  const download = page.waitForEvent('download')
+  await r.getByRole('button', { name: '导出 OFDM JSON', exact: true }).click()
+  expect((await download).suggestedFilename()).toBe('signallab-ofdm-v13.json')
+  await page.reload()
+  await expect(r.getByRole('status')).toContainText('已恢复本地完整记录')
+  expect(calls).toEqual([])
+})
+
 test('v1.2 channel Worker and local history work offline under the Pages repository subpath', async ({
   page,
   baseURL,

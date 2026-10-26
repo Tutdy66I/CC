@@ -3,6 +3,23 @@ import react from '@vitejs/plugin-react'
 import { createRssProxyResponse } from './server/rssProxyHandler'
 import { handleTutorRequest } from './server/aiTutorHandler'
 import { validatePublishableKey } from './server/publicConfig'
+import { createHash } from 'node:crypto'
+import { readFileSync, readdirSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+// Hash saved source bytes, including the unchanged numerical dependency closure.
+const ofdmSource = createHash('sha256')
+for (const file of [
+  ...readdirSync('src/lib')
+    .filter((x) => x.endsWith('.ts'))
+    .map((x) => `src/lib/${x}`),
+  'src/workers/ofdmResearch.worker.ts',
+].sort()) {
+  ofdmSource
+    .update(file + '\0')
+    .update(readFileSync(resolve(file)))
+    .update('\0')
+}
 
 function rssProxyPlugin(): Plugin {
   return {
@@ -29,6 +46,9 @@ function rssProxyPlugin(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    __OFDM_SOURCE_FINGERPRINT__: JSON.stringify(ofdmSource.digest('hex')),
+  },
   base: process.env.DEPLOY_BASE_PATH || '/',
   plugins: [
     react(),

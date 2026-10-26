@@ -30,6 +30,10 @@ jobs:
           cache-dependency-path: react-app/package-lock.json
       - run: npm ci
       - run: npm test
+      - name: Independent OFDM DFT, FIR, Toeplitz and scalar receiver references
+        run: npm run test:ofdm-reference
+        env:
+          SIGNALLAB_PYTHON: python3
       - name: Independent channel mathematics and offline protocol tools
         run: npm run test:channel-tools
         env:

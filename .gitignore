@@ -32,6 +32,10 @@ react-app/.test-build/
 react-app/.server-build/
 output/report-export/
 output/signallab-v12-study/
+output/signallab-v13-screen/
+output/signallab-v13-validation/
+output/playwright/ofdm-*.png
+react-app/ofdm-*.log
 
 # OS
 .DS_Store
