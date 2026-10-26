@@ -59,6 +59,10 @@ export async function simulateOfdmTrial(
   const symbols = grids.map((g) => modulateOfdm(g, c)),
     wave = Float64Array.from(symbols.flatMap((x) => [...x]));
   const useful = grids.reduce((s, g) => s + complexEnergy(g), 0),
+    actualCp = symbols.reduce(
+      (s, v) => s + complexEnergy(v.subarray(0, 2 * c)),
+      0,
+    ),
     total = complexEnergy(wave);
   const standardNoise = new Float64Array(wave.length);
   for (let m = 0; m < slots; m++) {
@@ -229,7 +233,7 @@ export async function simulateOfdmTrial(
         cpSufficient,
         energy: {
           useful,
-          cp: total - useful,
+          cp: actualCp,
           training: complexEnergy(symbols[0]),
           total,
           expectedEbTotal: budget.expectedEbTotal,
@@ -293,26 +297,29 @@ export function summarizeOfdm(
       const cells = trials.map((t) => t.cells[j]),
         metrics = cells.map((c) => c.methods[method]),
         ideal = cells.map((c) => c.methods["ideal-zf"]);
-      const sum = (key: "bits" | "errors" | "erasedBits" | "signalEnergy") =>
+      const sum = (key: "bits" | "errors" | "erasedBits") =>
         metrics.reduce((s, v) => s + v[key], 0);
       const bits = sum("bits"),
         errors = sum("errors"),
         erasedBits = sum("erasedBits"),
-        signal = sum("signalEnergy");
+        signal = metrics.reduce((s, m) => s + m.signalEnergy / p.trials, 0);
       const low = metrics.reduce((s, m) => s + m.errors / m.bits, 0) / p.trials,
         high =
           metrics.reduce((s, m) => s + (m.errors + m.erasedBits) / m.bits, 0) /
           p.trials;
       const evms = metrics
         .filter((m) => m.decisionErrorEnergy !== null)
-        .map((m) => Math.sqrt(m.decisionErrorEnergy! / m.signalEnergy))
+        .map(
+          (m) => Math.sqrt(m.decisionErrorEnergy!) / Math.sqrt(m.signalEnergy),
+        )
+        .filter(Number.isFinite)
         .sort((a, b) => a - b);
       const quantile = (q: number) =>
         evms.length ? evms[Math.ceil(q * (evms.length - 1))] : null;
       const pooled = (key: "rawErrorEnergy" | "decisionErrorEnergy") =>
         metrics.some((m) => m[key] === null)
           ? null
-          : metrics.reduce((s, m) => s + m[key]!, 0);
+          : metrics.reduce((s, m) => s + m[key]! / p.trials, 0);
       const raw = pooled("rawErrorEnergy"),
         decision = pooled("decisionErrorEnergy");
       const missingPair = metrics.some(
@@ -324,8 +331,15 @@ export function summarizeOfdm(
               s + m.errors / m.bits - ideal[i].errors / ideal[i].bits,
             0,
           ) / p.trials;
-      const channelEnergy = cells.reduce((s, c) => s + c.channelEnergy, 0),
-        channelError = cells.reduce((s, c) => s + c.channelErrorEnergy, 0);
+      const channelEnergy = cells.reduce(
+          (s, c) => s + c.channelEnergy / p.trials,
+          0,
+        ),
+        channelError = cells.reduce(
+          (s, c) => s + c.channelErrorEnergy / p.trials,
+          0,
+        );
+      const finiteOrNull = (v: number) => (Number.isFinite(v) ? v : null);
       return {
         channel: first.channel,
         ebN0Db: first.ebN0Db,
@@ -351,9 +365,19 @@ export function summarizeOfdm(
               ] as [number, number]),
         },
         rawMse:
-          raw === null ? null : raw / (bits / bitsPerSymbol(p.modulation)),
-        rawEvmRms: raw === null ? null : Math.sqrt(raw / signal),
-        decisionEvmRms: decision === null ? null : Math.sqrt(decision / signal),
+          raw === null
+            ? null
+            : finiteOrNull(
+                raw / (bits / p.trials / bitsPerSymbol(p.modulation)),
+              ),
+        rawEvmRms:
+          raw === null
+            ? null
+            : finiteOrNull(Math.sqrt(raw) / Math.sqrt(signal)),
+        decisionEvmRms:
+          decision === null
+            ? null
+            : finiteOrNull(Math.sqrt(decision) / Math.sqrt(signal)),
         frameEvm: {
           p50: quantile(0.5),
           p90: quantile(0.9),
@@ -362,8 +386,11 @@ export function summarizeOfdm(
           valid: evms.length,
           failed: p.trials - evms.length,
         },
-        channelNmse: channelEnergy === 0 ? null : channelError / channelEnergy,
-        lsMse: channelError / (p.trials * first.lsToneCount),
+        channelNmse:
+          channelEnergy === 0
+            ? null
+            : finiteOrNull(channelError / channelEnergy),
+        lsMse: channelError / first.lsToneCount,
         idealTheoryBer:
           !first.cpSufficient || !p.noiseEnabled || first.channel === "fixed"
             ? null

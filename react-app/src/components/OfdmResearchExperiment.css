@@ -1,0 +1,136 @@
+.ofdm-research {
+  margin-top: 2.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border-color, #667085);
+  border-radius: 12px;
+  min-width: 0;
+}
+.ofdm-research h2 {
+  scroll-margin-top: 9rem;
+}
+.ofdm-research fieldset {
+  margin: 1rem 0;
+  min-width: 0;
+  border: 1px solid #667085;
+  border-radius: 8px;
+}
+.ofdm-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
+  padding: 0.5rem;
+}
+.ofdm-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.ofdm-controls input,
+.ofdm-controls select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 0.5rem;
+  background: var(--bg, Canvas);
+  color: inherit;
+  border: 1px solid #667085;
+  border-radius: 5px;
+}
+.ofdm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 0.75rem 0;
+}
+.ofdm-actions label {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+.ofdm-research button {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #667085;
+  border-radius: 6px;
+  background: var(--bg, Canvas);
+  color: inherit;
+  cursor: pointer;
+}
+.ofdm-research button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ofdm-import {
+  flex-wrap: wrap;
+}
+.ofdm-import input {
+  max-width: 220px;
+}
+.ofdm-budget {
+  border-left: 3px solid #2196a0;
+  padding-left: 0.8rem;
+}
+.ofdm-warning,
+.ofdm-research [role="alert"] {
+  color: #e6a254;
+}
+.ofdm-fingerprint {
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+.ofdm-table {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 1rem 0;
+}
+.ofdm-table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.85rem;
+}
+.ofdm-table th,
+.ofdm-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #667085;
+  text-align: left;
+  white-space: nowrap;
+}
+.ofdm-results figure {
+  margin: 1rem 0;
+  min-width: 0;
+}
+.ofdm-results svg {
+  width: 100%;
+  height: auto;
+  max-height: 360px;
+}
+.ofdm-results svg text {
+  fill: currentColor;
+  font-size: 13px;
+}
+.ofdm-axis {
+  stroke: #667085;
+  stroke-width: 1;
+}
+.ofdm-plots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1rem;
+}
+@media (max-width: 600px) {
+  .ofdm-research {
+    padding: 0.7rem;
+  }
+  .ofdm-research h2 {
+    scroll-margin-top: 11rem;
+  }
+  .ofdm-controls {
+    grid-template-columns: 1fr;
+  }
+  .ofdm-actions button {
+    min-height: 44px;
+  }
+  .ofdm-results svg text {
+    font-size: 16px;
+  }
+}

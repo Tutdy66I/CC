@@ -10,6 +10,9 @@ import {
 import { modulateOfdm, demodulateOfdm } from "../.test-build/src/lib/ofdm.js";
 import { deriveOfdmState } from "../.test-build/src/lib/ofdmRandom.js";
 import { equalizeOfdm } from "../.test-build/src/lib/ofdmEqualizer.js";
+import { defaultOfdmPlan } from "../.test-build/src/lib/ofdmProtocol.js";
+import { energyBudget } from "../.test-build/src/lib/ofdmEnergy.js";
+import { channelBer } from "../.test-build/src/lib/channelSimulation.js";
 const fixture = JSON.parse(
   readFileSync(
     new URL("./fixtures/ofdm-v13-reference.json", import.meta.url),
@@ -17,6 +20,24 @@ const fixture = JSON.parse(
   ),
 );
 const flat = (x) => Float64Array.from(x.flat());
+test("training CP energy and coherent theory match independent Python DFT and erfc", () => {
+  fixture.energy.forEach((e, j) => {
+    const budget = energyBudget({
+      ...defaultOfdmPlan(),
+      modulation: ["BPSK", "QPSK", "16QAM"][j],
+    });
+    for (const [actual, expected] of [
+      [budget.trainingCpEnergy, e.trainingCp],
+      [budget.expectedTotalEnergy, e.expectedTotal],
+      [budget.expectedEbTotal, e.ebTotal],
+    ])
+      assert.ok(
+        Math.abs(actual - expected) <= 1e-10 * Math.max(1, Math.abs(expected)),
+      );
+  });
+  for (const [db, ber] of Object.entries(fixture.awgnBer))
+    assert.ok(Math.abs(channelBer("QPSK", "awgn", Number(db)) - ber) < 1e-12);
+});
 const compare = (actual, expected) => {
   assert.equal(actual.length, expected.length);
   const error = Math.hypot(...actual.map((v, j) => v - expected[j])),

@@ -36,7 +36,7 @@ function App() {
     if (window.location.hash !== nextHash) window.location.hash = nextHash
   }
   useEffect(() => {
-    document.title = view.page === 'signallab' ? 'SignalLab AI · v1.2' : 'Blog'
+    document.title = view.page === 'signallab' ? 'SignalLab AI · v1.3' : 'Blog'
   }, [view.page])
 
   const isBlogSection = view.page === 'blog' || view.page === 'detail'

@@ -132,8 +132,10 @@ export function normalizeOfdmPlan(p: OfdmPlan): OfdmPlan {
     noiseEnabled: p.noiseEnabled,
   };
 }
-export const canonicalOfdm = (v: unknown): string =>
-  v === null || typeof v !== "object"
+export const canonicalOfdm = (v: unknown): string => {
+  if ((typeof v === "number" && !Number.isFinite(v)) || v === undefined)
+    throw new Error("OFDM 协议不接受非有限值或 undefined。");
+  return v === null || typeof v !== "object"
     ? JSON.stringify(v)
     : Array.isArray(v)
       ? `[${v.map(canonicalOfdm).join(",")}]`
@@ -144,6 +146,7 @@ export const canonicalOfdm = (v: unknown): string =>
               `${JSON.stringify(k)}:${canonicalOfdm((v as Record<string, unknown>)[k])}`,
           )
           .join(",")}}`;
+};
 export async function ofdmHash(value: unknown): Promise<string> {
   const digest = await crypto.subtle.digest(
     "SHA-256",

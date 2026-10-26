@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
 test('SignalLab exposes a route title and section navigation without changing the hash route', async ({
   page,
 }) => {
-  await expect(page).toHaveTitle('SignalLab AI · v1.2')
+  await expect(page).toHaveTitle('SignalLab AI · v1.3')
   await page
     .getByRole('navigation', { name: '实验章节' })
     .getByRole('button', { name: '载波研究' })

@@ -5,6 +5,47 @@ import { defaultOfdmPlan, freezeOfdmPlan } from "../src/lib/ofdmProtocol.js";
 import { deriveOfdmState } from "../src/lib/ofdmRandom.js";
 import { simulateOfdmTrial, summarizeOfdm } from "../src/lib/ofdmResearch.js";
 
+test("deep fade pooled MSE stays finite when the frame-energy sum would overflow", async () => {
+  const p = {
+    ...defaultOfdmPlan(),
+    fftSize: 64,
+    cp: 16,
+    activeBins: [-1, 1],
+    dataSymbols: 1,
+    trials: 4,
+    channels: ["fixed"] as "fixed"[],
+    ebN0Db: [0],
+    taps: [{ delay: 0, i: 1e-154, q: 0, power: 1 }],
+  };
+  const f = await freezeOfdmPlan(p),
+    trials = [];
+  for (let i = 0; i < p.trials; i++) trials.push(await simulateOfdmTrial(p, i));
+  const s = summarizeOfdm(f, trials).find((v) => v.method === "ideal-zf")!;
+  assert.ok(s.rawMse !== null && Number.isFinite(s.rawMse) && s.rawMse > 1e307);
+  assert.ok(s.rawEvmRms !== null && Number.isFinite(s.rawEvmRms));
+});
+test("an active-bin multipath notch retains its bit weight without an epsilon cutoff", async () => {
+  const n = 64,
+    k = 5,
+    angle = (2 * Math.PI * k) / n;
+  const plan = {
+    ...defaultOfdmPlan(),
+    fftSize: n,
+    trials: 2,
+    ebN0Db: [8],
+    channels: ["fixed"] as "fixed"[],
+    activeBins: [-5, 5],
+    taps: [
+      { delay: 0, i: 1, q: 0, power: 1 },
+      { delay: 1, i: -Math.cos(angle), q: -Math.sin(angle), power: 1 },
+    ],
+  };
+  const c = (await simulateOfdmTrial(plan, 0)).cells[0];
+  assert.ok(c.methods["ideal-zf"].deepFadeSymbols >= plan.dataSymbols);
+  assert.equal(c.methods["ideal-zf"].bits, plan.dataSymbols * 2 * 2);
+  assert.equal(c.methods["ideal-zf"].errors, c.methods["ideal-mmse"].errors);
+});
+
 test("fixed-sample LS error agrees with N0/Ep; CP and SNR do not change virtual data", async () => {
   const plan = {
     ...defaultOfdmPlan(),
@@ -23,6 +64,14 @@ test("fixed-sample LS error agrees with N0/Ep; CP and SNR do not change virtual 
   assert.ok(
     Math.abs(mse - 0.5) < 0.06,
     `LS MSE ${mse}, expected N0/Ep=.5; fixed F40 tolerance .06`,
+  );
+  const summary = summarizeOfdm(await freezeOfdmPlan(plan), trials);
+  assert.ok(
+    Math.abs(summary.find((s) => s.method === "ideal-zf")!.rawMse! - 1) < 0.1,
+  );
+  assert.ok(
+    Math.abs(summary.find((s) => s.method === "ideal-mmse")!.rawMse! - 2 / 3) <
+      0.1,
   );
   const a = await simulateOfdmTrial(plan, 0),
     b = await simulateOfdmTrial({ ...plan, cp: 0, ebN0Db: [8] }, 0);

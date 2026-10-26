@@ -55,6 +55,22 @@ for cp in [0, 2, 3]:
 random_input = 'signallab-ofdm-rng-v1|20261026|7|data|2'
 random_state = list(struct.unpack('<4I', hashlib.sha256(random_input.encode('ascii')).digest()[:16]))
 
+# Independent fixed training CP energy, including coherent public-pilot structure.
+energy = []
+for bits in [1, 2, 4]:
+    n, cp, symbols = 128, 16, 4
+    active = list(range(-48, 0))+list(range(1, 49))
+    grid = [0j]*n
+    for signed in active:
+        k = signed % n
+        code = ((13*k+7) ^ (k >> 2)) & 3
+        grid[k] = complex(-1 if code & 1 else 1, -1 if code & 2 else 1)*math.sqrt(bits/2)
+    body = dft(grid, True)
+    training_cp = sum(abs(z)**2 for z in body[-cp:])
+    useful = (1+symbols)*len(active)*bits
+    expected_cp = training_cp+symbols*cp/n*len(active)*bits
+    energy.append(dict(bits=bits, trainingCp=training_cp, expectedTotal=useful+expected_cp, ebTotal=(useful+expected_cp)/(symbols*len(active)*bits)))
+
 equalizers = []
 for h, estimate, y, n0, es in [(1+.2j, .8+.1j, -2+.7j, .25, 4), (.00000001+2e-8j, 1e-8+2e-8j, 1-.5j, 1, 2)]:
     for method in ['zf', 'mmse']:
@@ -62,4 +78,4 @@ for h, estimate, y, n0, es in [(1+.2j, .8+.1j, -2+.7j, .25, 4), (.00000001+2e-8j
         gain = 1 if method == 'zf' else abs(estimate)**2/(abs(estimate)**2+n0/es)
         equalizers.append(dict(h=pairs([h])[0], estimate=pairs([estimate])[0], y=pairs([y])[0], n0=n0, es=es, method=method, raw=pairs([w*y])[0], decision=pairs([y/estimate])[0], gain=gain, conditionalMse=es*abs(w*h-1)**2+n0*abs(w)**2))
 
-print(json.dumps(dict(version=1, transforms=transforms, channels=channels, randomInput=random_input, randomState=random_state, equalizers=equalizers, awgnBer={str(db):.5*math.erfc(math.sqrt(10**(db/10))) for db in [0, 4, 8]}), separators=(',', ':')))
+print(json.dumps(dict(version=1, transforms=transforms, channels=channels, energy=energy, randomInput=random_input, randomState=random_state, equalizers=equalizers, awgnBer={str(db):.5*math.erfc(math.sqrt(10**(db/10))) for db in [0, 4, 8]}), separators=(',', ':')))

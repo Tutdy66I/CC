@@ -88,6 +88,14 @@ and exact v1.1 restoration retain both successful and failed cases.
 See [v1.2 models, results and limitations](docs/signallab-v1.2.md) and
 [reproduction tools](docs/signallab-v12-tools.md).
 
+SignalLab v1.3 adds a full-training CP-OFDM baseline with a continuous time-domain
+multipath channel, unitary transforms, block-static Rayleigh taps, LS and paired
+ideal/estimated ZF/MMSE. Energy accounts for training and CP; intervals use complete
+frames. Its Worker, versioned JSON and IndexedDB are independent of cloud sync and
+earlier experiments. Comb pilots and formal research remain deferred.
+See [v1.3 implementation and validation](docs/signallab-v13-implementation.md) and
+[bounded reproduction tools](docs/signallab-v13-tools.md).
+
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
 can be printed to PDF. See [report export](docs/signallab-report-export.md).
