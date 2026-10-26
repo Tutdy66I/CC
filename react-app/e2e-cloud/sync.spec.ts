@@ -348,6 +348,21 @@ test('signed-in v1.3 OFDM stays local and never enters the cloud queue', async (
   expect(service.rows).toEqual([])
 })
 
+test('signed-in comb experiment uses an isolated local database with zero cloud writes', async ({ page }) => {
+  const service = await fixture(page)
+  await page.goto('./#/signallab')
+  await expect(page.getByText('已登录：', { exact: false })).toBeVisible()
+  await page.getByLabel('OFDM 实验模式').selectOption('comb')
+  const r = page.getByRole('region', { name: 'OFDM 梳状导频与插值', exact: true })
+  await r.getByLabel('OFDM 试验帧数').fill('8')
+  await r.getByRole('button', { name: '冻结 OFDM 协议并运行', exact: true }).click()
+  await expect(r.getByRole('status')).toContainText('已保存本地')
+  await page.reload()
+  await expect(r.getByRole('status')).toContainText('已恢复本地完整记录')
+  expect(service.writes).toBe(0)
+  expect(service.rows).toEqual([])
+})
+
 test('signed-in v1.2 channel research persists locally without any cloud upload', async ({
   page,
 }) => {

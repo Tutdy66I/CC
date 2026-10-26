@@ -446,7 +446,7 @@ export default function OfdmResearchExperiment() {
       <h2 id="ofdm-title">OFDM 与频率选择性多径</h2>
       <p>
         v1.3 · 全训练 LS 基线。单位酉 FFT，连续时域 FIR，帧内静态
-        SISO。梳状导频尚未提供。
+        SISO。梳状导频与插值请在上方“OFDM 实验模式”中选择。
       </p>
       <details>
         <summary>数学约定与模型边界</summary>

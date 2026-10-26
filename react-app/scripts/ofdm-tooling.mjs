@@ -15,7 +15,7 @@ export function sourceFingerprint() {
   const h = createHash("sha256");
   for (const name of [
     ...readdirSync("src/lib")
-      .filter((x) => x.endsWith(".ts"))
+      .filter((x) => x.endsWith(".ts") && !x.startsWith("ofdmComb"))
       .map((x) => `src/lib/${x}`),
     "src/workers/ofdmResearch.worker.ts",
   ].sort())

@@ -92,9 +92,15 @@ SignalLab v1.3 adds a full-training CP-OFDM baseline with a continuous time-doma
 multipath channel, unitary transforms, block-static Rayleigh taps, LS and paired
 ideal/estimated ZF/MMSE. Energy accounts for training and CP; intervals use complete
 frames. Its Worker, versioned JSON and IndexedDB are independent of cloud sync and
-earlier experiments. Comb pilots and formal research remain deferred.
+earlier experiments. The separate `ofdm-v13.2` mode adds configurable comb pilots,
+complex linear interpolation on signed frequency coordinates, and a same-waveform
+ideal/full-training/comb CSI comparison. It reports common-data layout pairs,
+interpolation bias, pilot noise, and complete training/pilot/CP energy accounting.
+Formal research and physical iPad acceptance remain deferred; no v1.3 release is sealed.
 See [v1.3 implementation and validation](docs/signallab-v13-implementation.md) and
 [bounded reproduction tools](docs/signallab-v13-tools.md).
+See the [comb protocol](docs/signallab-v13-comb-protocol.md) and
+[second-stage validation](docs/signallab-v13-comb-validation.md).
 
 BPSK, QPSK, 16QAM and the single-seed scans can export HTML reports or Markdown,
 including graphs, results, and optional completed AI conversations. HTML reports
