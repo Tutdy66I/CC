@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import "fake-indexeddb/auto";
+import { handshakeOfdmWorker } from "../src/lib/ofdmIdentity.js";
 import { defaultOfdmPlan, freezeOfdmPlan } from "../src/lib/ofdmProtocol.js";
 import { simulateOfdmTrial } from "../src/lib/ofdmResearch.js";
 import {
@@ -21,6 +22,51 @@ const identity = {
   sourceFingerprint: "a".repeat(64),
   runtimeFingerprint: "b".repeat(64),
 };
+test("Worker ready binds run/source/engine and supplies its own runtime", async () => {
+  const worker = new EventTarget() as Worker,
+    controller = new AbortController();
+  worker.postMessage = (request: unknown) => {
+    const v = request as { runId: string };
+    queueMicrotask(() =>
+      worker.dispatchEvent(
+        new MessageEvent("message", {
+          data: {
+            type: "ready",
+            runId: v.runId,
+            engineVersion: "ofdm-v13.1",
+            ...identity,
+          },
+        }),
+      ),
+    );
+  };
+  assert.deepEqual(
+    await handshakeOfdmWorker(
+      worker,
+      "run",
+      identity.sourceFingerprint,
+      controller.signal,
+    ),
+    identity,
+  );
+  await assert.rejects(
+    handshakeOfdmWorker(worker, "run", "c".repeat(64), controller.signal),
+    /身份无效/,
+  );
+});
+test("aborted Worker initialization rejects immediately without starting a frame", async () => {
+  const worker = new EventTarget() as Worker,
+    controller = new AbortController();
+  worker.postMessage = () => {};
+  const ready = handshakeOfdmWorker(
+    worker,
+    "run",
+    identity.sourceFingerprint,
+    controller.signal,
+  );
+  controller.abort();
+  await assert.rejects(ready, /初始化已取消/);
+});
 test("corrupt storage envelopes and pseudo-empty checkpoints are rejected", () => {
   for (const checkpoint of [0, "", undefined, false])
     assert.throws(() =>

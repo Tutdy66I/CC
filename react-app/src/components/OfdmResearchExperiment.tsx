@@ -6,7 +6,11 @@ import {
   OFDM_ENGINE,
 } from "../lib/ofdmProtocol";
 import { energyBudget } from "../lib/ofdmEnergy";
-import { ofdmIdentity, type OfdmIdentity } from "../lib/ofdmIdentity";
+import {
+  ofdmSourceFingerprint,
+  handshakeOfdmWorker,
+  type OfdmIdentity,
+} from "../lib/ofdmIdentity";
 import {
   assertOfdmResumeIdentity,
   assertOfdmCompletedPrefix,
@@ -70,7 +74,10 @@ export default function OfdmResearchExperiment() {
     [history, setHistory] = useState<OfdmRecord[]>([]);
   const [showOriginal, setShowOriginal] = useState(false);
   const active = useRef<Active | null>(null),
-    launch = useRef(0),
+    pending = useRef<{ worker: Worker; controller: AbortController } | null>(
+      null,
+    ),
+    launch = useRef<symbol | null>(null),
     mounted = useRef(false),
     revision = useRef(0),
     blocked = useRef(false),
@@ -177,7 +184,10 @@ export default function OfdmResearchExperiment() {
     return () => {
       disposed = true;
       mounted.current = false;
-      launch.current = -1;
+      launch.current = null;
+      pending.current?.controller.abort();
+      pending.current?.worker.terminate();
+      pending.current = null;
       const run = active.current;
       if (run) {
         active.current = null;
@@ -189,6 +199,16 @@ export default function OfdmResearchExperiment() {
     };
   }, [persist]);
   async function stop(reason: string) {
+    if (pending.current) {
+      launch.current = null;
+      pending.current.controller.abort();
+      pending.current.worker.terminate();
+      pending.current = null;
+      setRunning(false);
+      setBusy(false);
+      setStatus(`${reason}：初始化尚未发送数据；原检查点保留。`);
+      return;
+    }
     const run = active.current;
     if (!run) return;
     active.current = null;
@@ -221,31 +241,47 @@ export default function OfdmResearchExperiment() {
   }
   async function start(resume: boolean) {
     if (active.current || busy) return;
-    const epoch = ++launch.current;
+    const epoch = Symbol("ofdm-launch");
+    launch.current = epoch;
     setBusy(true);
     setError("");
+    let startingWorker: Worker | undefined;
     try {
-      const identity = await ofdmIdentity();
-      const cp =
+      const sourceFingerprint = await ofdmSourceFingerprint();
+      const frozen =
         resume && checkpoint
           ? await parseOfdmCheckpoint(checkpoint)
           : prepared.plan
-            ? await makeOfdmCheckpoint(
-                await freezeOfdmPlan(prepared.plan),
-                [],
-                identity,
-              )
+            ? await freezeOfdmPlan(prepared.plan)
             : null;
-      if (!cp) throw new Error(prepared.error || "OFDM 方案无效。");
+      if (!frozen) throw new Error(prepared.error || "OFDM 方案无效。");
       if (!mounted.current || epoch !== launch.current) return;
-      assertOfdmResumeIdentity(cp, identity);
       const worker = new Worker(
         new URL("../workers/ofdmResearch.worker.ts", import.meta.url),
         { type: "module" },
       );
+      startingWorker = worker;
+      const runId = crypto.randomUUID(),
+        controller = new AbortController();
+      pending.current = { worker, controller };
+      setRunning(true);
+      setStatus("正在初始化 OFDM 数值 Worker。");
+      const identity = await handshakeOfdmWorker(
+        worker,
+        runId,
+        sourceFingerprint,
+        controller.signal,
+      );
+      if (resume && checkpoint) assertOfdmResumeIdentity(checkpoint, identity);
+      const cp =
+        resume && checkpoint
+          ? checkpoint
+          : await makeOfdmCheckpoint(frozen, [], identity);
+      if (!mounted.current || epoch !== launch.current) return;
+      pending.current = null;
       const run: Active = {
         worker,
-        runId: crypto.randomUUID(),
+        runId,
         checkpoint: cp,
         trials: [...cp.trials],
         identity,
@@ -272,14 +308,23 @@ export default function OfdmResearchExperiment() {
             message?: unknown;
           };
           if (!v || v.runId !== run.runId) return;
+          if (v.type === "ready") return;
           try {
             if (
-              v.protocolHash !== cp.protocolHash ||
               v.engineVersion !== OFDM_ENGINE ||
-              v.sourceFingerprint !== identity.sourceFingerprint ||
-              v.runtimeFingerprint !== identity.runtimeFingerprint
+              v.sourceFingerprint !== identity.sourceFingerprint
             )
-              throw new Error("OFDM Worker 身份不匹配。");
+              throw new Error("OFDM Worker 源码或引擎身份不匹配。");
+            if (v.runtimeFingerprint !== identity.runtimeFingerprint)
+              throw new Error("OFDM Worker 数值运行时身份不匹配。");
+            if (v.type === "error")
+              throw new Error(
+                typeof v.message === "string"
+                  ? v.message
+                  : "OFDM Worker 计算失败。",
+              );
+            if (v.protocolHash !== cp.protocolHash)
+              throw new Error("OFDM Worker 协议身份不匹配。");
             if (v.type === "batch") {
               if (
                 !Array.isArray(v.trials) ||
@@ -352,10 +397,16 @@ export default function OfdmResearchExperiment() {
         setError("OFDM Worker 异常终止；保留已验证前缀。");
         void stop("计算失败");
       };
-      worker.postMessage({ runId: run.runId, checkpoint: cp });
+      worker.postMessage({ type: "start", runId: run.runId, checkpoint: cp });
     } catch (e) {
       if (mounted.current && epoch === launch.current) setError(message(e));
     } finally {
+      if (startingWorker && pending.current?.worker === startingWorker) {
+        pending.current.controller.abort();
+        startingWorker.terminate();
+        pending.current = null;
+        if (mounted.current && epoch === launch.current) setRunning(false);
+      }
       if (mounted.current && epoch === launch.current) setBusy(false);
     }
   }
@@ -664,7 +715,7 @@ export default function OfdmResearchExperiment() {
         </button>
         <button
           type="button"
-          disabled={!running || busy}
+          disabled={!running}
           onClick={() => void stop("已取消")}
         >
           取消 OFDM 计算

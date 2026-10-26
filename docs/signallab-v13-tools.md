@@ -36,6 +36,12 @@ overwrite prior output. F20 is a magnitude/error screen, not a precision study o
 algorithm selection result. The scripts expose no arbitrary matrix or formal-run
 flag. Formal research requires a separately approved fixed protocol and budget.
 
+The numerical runtime fingerprint comes from the actual Worker's init/ready
+handshake. Browser automation or privacy settings may give the window a different
+user agent; this does not change which Worker performed the calculation. Each
+ready/start is bound to runId, engine and source. Resume compares the stored source
+and Worker runtime exactly before starting; it never overwrites an old identity.
+
 Browser experiments reject plans above 4,000 cell-frame or 50,000,000 work-unit.
 One work-unit expression is:
 

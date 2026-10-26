@@ -2,6 +2,152 @@ import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 const name = "OFDM 与频率选择性多径";
 
+test("late checkpoint hashes from repeated cancelled starts cannot replace the current Worker", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const digest = crypto.subtle.digest.bind(crypto.subtle),
+      releases: (() => void)[] = [];
+    Object.assign(window, {
+      ofdmHashRace: {
+        count: () => releases.length,
+        release: () => releases.forEach((fn) => fn()),
+      },
+    });
+    crypto.subtle.digest = async (
+      ...args: Parameters<SubtleCrypto["digest"]>
+    ) => {
+      if (
+        new TextDecoder()
+          .decode(args[1] as ArrayBuffer)
+          .includes('"status":"checkpoint"') &&
+        releases.length < 2
+      )
+        await new Promise<void>((resolve) => releases.push(resolve));
+      return digest(...args);
+    };
+  });
+  await page.goto("/#/signallab");
+  const r = page.getByRole("region", { name, exact: true });
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    await r
+      .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
+      .click();
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          (
+            window as unknown as { ofdmHashRace: { count: () => number } }
+          ).ofdmHashRace.count(),
+        ),
+      )
+      .toBe(attempt);
+    await r
+      .getByRole("button", { name: "取消 OFDM 计算", exact: true })
+      .click();
+    await expect(r.getByRole("status")).toContainText("已取消");
+  }
+  await r
+    .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
+    .click();
+  await expect(r.getByRole("status")).toContainText(/计算中.*帧/);
+  await page.evaluate(() =>
+    (
+      window as unknown as { ofdmHashRace: { release: () => void } }
+    ).ofdmHashRace.release(),
+  );
+  await expect(r.getByRole("status")).toContainText("已保存本地", {
+    timeout: 10000,
+  });
+  await expect(r.getByRole("alert")).not.toBeAttached();
+});
+
+test("OFDM initialization can be cancelled and a late ready cannot start a new run", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const Native = window.Worker;
+    let hold = true,
+      release = () => {},
+      terminations = 0;
+    Object.assign(window, {
+      ofdmInitTest: {
+        release: () => {
+          hold = false;
+          release();
+        },
+        terminations: () => terminations,
+      },
+    });
+    window.Worker = class extends Native {
+      constructor(...args: ConstructorParameters<typeof Worker>) {
+        super(...args);
+        if (!String(args[0]).includes("ofdmResearch.worker")) return;
+        const send = this.postMessage.bind(this),
+          terminate = this.terminate.bind(this);
+        this.postMessage = (payload: unknown) => {
+          if (hold && (payload as { type?: unknown })?.type === "init")
+            release = () => {
+              try {
+                send(payload);
+              } catch {
+                /* terminated old Worker */
+              }
+            };
+          else send(payload);
+        };
+        this.terminate = () => {
+          terminations++;
+          terminate();
+        };
+      }
+    };
+  });
+  await page.goto("/#/signallab");
+  const r = page.getByRole("region", { name, exact: true });
+  await r.getByLabel("OFDM 试验帧数").fill("4");
+  await r
+    .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
+    .click();
+  await expect(r.getByRole("status")).toContainText("正在初始化");
+  await r.getByRole("button", { name: "取消 OFDM 计算", exact: true }).click();
+  await expect(r.getByRole("status")).toContainText("已取消");
+  expect(
+    await page.evaluate(() =>
+      (
+        window as unknown as { ofdmInitTest: { terminations: () => number } }
+      ).ofdmInitTest.terminations(),
+    ),
+  ).toBeGreaterThan(0);
+  await page.evaluate(() =>
+    (
+      window as unknown as { ofdmInitTest: { release: () => void } }
+    ).ofdmInitTest.release(),
+  );
+  await r
+    .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
+    .click();
+  await expect(r.getByRole("status")).toContainText("已保存本地");
+});
+
+test("OFDM binds runtime identity to the numerical Worker when the window user agent differs", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "userAgent", {
+      get: () => "Window-only test user agent; Worker keeps its native runtime",
+    });
+  });
+  await page.goto("/#/signallab");
+  const r = page.getByRole("region", { name, exact: true });
+  await r.getByLabel("OFDM 试验帧数").fill("4");
+  await r
+    .getByRole("button", { name: "冻结 OFDM 协议并运行", exact: true })
+    .click();
+  await expect(r.getByRole("status")).toContainText("已保存本地");
+  await expect(r.getByRole("alert")).not.toBeAttached();
+});
+
 test("OFDM failed local write keeps the new result exportable and the previous record intact", async ({
   page,
 }) => {
