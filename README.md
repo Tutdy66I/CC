@@ -99,6 +99,9 @@ interpolation bias, pilot noise, and complete training/pilot/CP energy accountin
 Scoped physical iPad and Windows native-memory acceptance, plus a fixed formal-study
 budget, are documented in [release acceptance](docs/signallab-v13-release-acceptance.md).
 Formal research execution remains deferred; engineering preflights are not study results.
+The [study execution and independent audit tools](docs/signallab-v13-study-pipeline.md)
+retain fixed budgets, failure denominators, and explicit formal-start authorization.
+See the [protocol and high-SNR resolution audit](docs/signallab-v13-study-protocol-audit.md).
 See [v1.3 implementation and validation](docs/signallab-v13-implementation.md) and
 [bounded reproduction tools](docs/signallab-v13-tools.md).
 See the [comb protocol](docs/signallab-v13-comb-protocol.md) and
