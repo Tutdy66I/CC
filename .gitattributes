@@ -1,2 +1,6 @@
 react-app/scripts/ofdm-study-* text eol=lf
 react-app/tests/ofdm-study-tools.test.mjs text eol=lf
+docs/signallab-v13-study-results.md text eol=lf
+docs/signallab-v13-study-results/*.svg text eol=lf
+docs/signallab-v13-study-results/*.py text eol=lf
+docs/signallab-v13-study-results/*.json text eol=lf

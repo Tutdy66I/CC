@@ -38,6 +38,7 @@ output/signallab-v13-comb-validation/
 output/signallab-v13-release-acceptance/
 output/signallab-v13-study-preparation/
 output/signallab-v13-formal-study/
+output/signallab-v13-finalization-review*/
 react-app/scripts/__pycache__/
 output/playwright/ofdm-*.png
 output/playwright/signallab-*.png

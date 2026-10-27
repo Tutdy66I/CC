@@ -102,6 +102,8 @@ Formal research execution remains deferred; engineering preflights are not study
 The [study execution and independent audit tools](docs/signallab-v13-study-pipeline.md)
 retain fixed budgets, failure denominators, and explicit formal-start authorization.
 See the [protocol and high-SNR resolution audit](docs/signallab-v13-study-protocol-audit.md).
+The [v1.3 formal research report](docs/signallab-v13-study-results.md) presents all
+32 prespecified comparisons, figures, resource evidence and limitations.
 See [v1.3 implementation and validation](docs/signallab-v13-implementation.md) and
 [bounded reproduction tools](docs/signallab-v13-tools.md).
 See the [comb protocol](docs/signallab-v13-comb-protocol.md) and
