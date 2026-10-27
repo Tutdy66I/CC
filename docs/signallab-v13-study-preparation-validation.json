@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-27 Asia/Hong_Kong",
+  "baseline": "v1.3.0 / cf15bf2b65a71695490fb64eb6793f3738fb7718",
+  "protocolSha256": "e9654ff6b2dcd4e733afccc543af3bc99fdc03431a19e13399d637389b0ddaf4",
+  "kernelFingerprint": "b9deff86510bcba6a595fadd270b9d279bac8b4075c34d6a1397c8dd198621ba",
+  "purpose": "engineering preparation only; not formal scientific results",
+  "formalTrialVectorsExecuted": 0,
+  "preflight": {
+    "uniqueEngineeringTrialVectors": 160,
+    "energyBatchRecords": 4,
+    "interruptedReplayExactlyMatchesControl": true,
+    "duplicateResumeAddsNoSamples": true,
+    "unapprovedFormalStartRefused": true,
+    "maximumNodePeakMiB": 302.63671875,
+    "maximumJobCommitMiB": 388.96875,
+    "controlObservedSeconds": 14.874339899999999,
+    "controlChargedSeconds": 30
+  },
+  "forecast": {
+    "formula": "450*(max measured generation+write+stage per group + measured final-audit/report per group) + initialization; then round to 30-second leases, add prepare lease; 1.5x plus 600 seconds reserve",
+    "projectedSeconds": 3150.8534692999992,
+    "chargedProjectionSeconds": 3210,
+    "reservedSeconds": 5415,
+    "timeWithin7200Seconds": true,
+    "expectedPrimaryGiB": 3.988978103734553,
+    "expectedPrimaryAndBackupGiB": 7.977956207469106,
+    "expectedDiskIncludingMetadataApproximatelyGiB": 8.027956207469106,
+    "rawAndBackupHardBoundGiB": 14.0625,
+    "totalDiskCapGiB": 16,
+    "minimumFreeGiB": 20,
+    "nodePeakCapMiB": 512,
+    "limitation": "Two paired engineering groups only; throughput is not a guarantee. Full 900-batch and two-hour endurance not executed."
+  },
+  "tests": {
+    "studyToolsWindows": {
+      "pass": 13,
+      "fail": 0
+    },
+    "core": {
+      "pass": 222,
+      "fail": 0
+    },
+    "windowsBackup": {
+      "pass": 4,
+      "fail": 0
+    },
+    "independentOfdm": {
+      "pass": 5
+    },
+    "independentComb": {
+      "pass": 4
+    },
+    "channelToolsWindows": {
+      "pass": 8
+    },
+    "staticPages": {
+      "pass": 26
+    },
+    "lint": "pass",
+    "typecheck": "pass",
+    "normalAndStaticBuild": "pass",
+    "fullCurrentHeadCI": "pending PR"
+  },
+  "uncertainty": "Absolute paired BER half-width about 0.01994 over 32 hypotheses; cannot resolve 1e-3-scale differences or establish equivalence.",
+  "startupConclusion": "Local engineering gates passed; current-head CI and separate exact-manifest human authorization required before formal start.",
+  "risks": [
+    "No formal results or full-horizon run",
+    "Hard kill during metadata dual-write may require evidence-based recovery; never auto-truncate corrupt history",
+    "Backups are same-volume, not offsite or authenticated against whole-archive replacement",
+    "Execution is verified on Windows local NTFS with 4 KiB allocation units only"
+  ]
+}
