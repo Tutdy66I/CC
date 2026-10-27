@@ -9,6 +9,8 @@ import {
   fsyncSync,
   closeSync,
   renameSync,
+  unlinkSync,
+  lstatSync,
   statSync,
   statfsSync,
   realpathSync,
@@ -166,6 +168,15 @@ export function usage(root) {
   let bytes = 32 * 1024 ** 2; // conservative directory/ledger/report reserve; counted, never spent twice
   const walk = (dir) => {
     for (const x of readdirSync(dir, { withFileTypes: true })) {
+      // The transient marker is covered by the fixed metadata reserve. Skipping it
+      // before stat prevents an independent archive scan racing its removal.
+      if (dir === resolve(root, "coordination") && x.name === "publication.lock") {
+        try {
+          const marker = lstatSync(resolve(dir, x.name));
+          if (!marker.isFile() || marker.isSymbolicLink() || marker.size > 1024) throw Error("Unsafe publication marker");
+        } catch (error) { if (error.code !== "ENOENT") throw error; }
+        continue;
+      }
       if (x.isSymbolicLink()) throw Error("Symlinks are not study data");
       const p = resolve(dir, x.name);
       if (x.isDirectory()) walk(p);
@@ -276,11 +287,39 @@ export function requireSpace(root) {
   if (s.bavail * s.bsize < 20 * 1024 ** 3)
     throw Error("At least 20 GiB free required at every start");
 }
-export function commitDirectory(root, stage, group) {
+// The host uses this same exclusive marker while enumerating disk usage.
+export function commitDirectory(root, stage, group, session) {
+  if (!/^[a-f0-9]{32}$/.test(session)) throw Error("Invalid publication session");
   const dest = resolve(root, "groups", String(group).padStart(6, "0"));
-  if (existsSync(dest)) throw Error("Duplicate committed group");
   mkdirSync(dirname(dest), { recursive: true });
-  renameSync(stage, dest); // same-volume atomic directory publication; no overwriting data
+  const coordination = resolve(root, "coordination");
+  mkdirSync(coordination, { recursive: true });
+  const coordStat = lstatSync(coordination);
+  if (coordStat.isSymbolicLink() || !coordStat.isDirectory()) throw Error("Unsafe coordination directory");
+  const lock = resolve(coordination, "publication.lock");
+  const deadline = Date.now() + 15000;
+  let fd;
+  for (;;) {
+    try {
+      fd = openSync(lock, "wx");
+      break;
+    } catch (error) {
+      if (error.code !== "EEXIST") throw error;
+      try { if (lstatSync(lock).isSymbolicLink()) throw Error("Publication lock is a symlink"); }
+      catch (e) { if (e.code !== "ENOENT") throw e; }
+      if (Date.now() >= deadline) throw Error("Publication lock timeout; preserve archive");
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 20);
+    }
+  }
+  try {
+    writeFileSync(fd, JSON.stringify({ schema: 1, session, pid: process.pid }));
+    fsyncSync(fd);
+    if (existsSync(dest)) throw Error("Duplicate committed group");
+    renameSync(stage, dest); // same-volume atomic directory publication; no overwriting data
+  } finally {
+    closeSync(fd);
+    unlinkSync(lock);
+  }
 }
 export function safeRelative(root, p) {
   const r = relative(root, p);

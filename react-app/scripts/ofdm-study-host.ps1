@@ -8,6 +8,8 @@ $ErrorActionPreference='Stop'
 if ($MyInvocation.InvocationName -eq '.' -or [Environment]::CommandLine -notmatch '(?i)-NonInteractive' -or [Environment]::CommandLine -notmatch '(?i)-File') { throw 'Use a separate powershell.exe -NonInteractive -File host, never an interactive or dot-sourced shell' }
 $watch=[Diagnostics.Stopwatch]::StartNew()
 $studyRoot=[IO.Path]::GetFullPath($Directory)
+if ($studyRoot.TrimEnd([char]92,[char]47) -eq [IO.Path]::GetPathRoot($studyRoot).TrimEnd([char]92,[char]47)) { throw 'A volume root cannot be a study directory' }
+$studyRoot=$studyRoot.TrimEnd([char]92,[char]47)
 $appRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 function AssertNoReparseAncestors([string]$path) {
   $current=[IO.Path]::GetFullPath($path)
@@ -23,6 +25,41 @@ function WriteNew([string]$path,[string]$text) {
   $data=[Text.Encoding]::UTF8.GetBytes($text)
   $f=New-Object IO.FileStream($path,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::Read)
   try { $f.Write($data,0,$data.Length); $f.Flush($true) } finally { $f.Dispose() }
+}
+function Invoke-PublicationLock([string]$path,[string]$ownerSession,[int]$ownerPid,[scriptblock]$body) {
+  $until=[Diagnostics.Stopwatch]::StartNew(); $file=$null
+  while (-not $file) {
+    try { $file=New-Object IO.FileStream($path,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::Read) }
+    catch [IO.IOException] {
+      $cause=$_.Exception
+      while ($cause -isnot [IO.IOException] -and $cause.InnerException) { $cause=$cause.InnerException }
+      if ($cause -isnot [IO.IOException]) { throw }
+      $code=$cause.HResult -band 0xffff
+      if ($code -notin @(80,183)) { throw }
+      # The owner can release the marker between CreateNew and inspection.
+      # Retry only the specific Windows already-exists result, never arbitrary I/O errors.
+      $entry=$null
+      try { $entry=Get-Item -LiteralPath $path -Force -ErrorAction Stop }
+      catch [System.Management.Automation.ItemNotFoundException] { }
+      if ($entry -and ($entry.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Publication lock cannot be a reparse point' }
+      if ($until.ElapsedMilliseconds -ge 15000) { throw 'Publication lock timeout; preserve archive' }
+      Start-Sleep -Milliseconds 20
+    }
+  }
+  try {
+    $marker=[Text.Encoding]::UTF8.GetBytes(('{"schema":1,"session":"'+$ownerSession+'","pid":'+$ownerPid+'}'))
+    $file.Write($marker,0,$marker.Length); $file.Flush($true)
+    & $body
+  } finally { $file.Dispose(); [IO.File]::Delete($path) }
+}
+function Remove-VerifiedAbandonedLock([string]$path,[hashtable]$owners) {
+  if (-not (Test-Path -LiteralPath $path)) { return }
+  $item=Get-Item -LiteralPath $path -Force
+  if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -or $item.PSIsContainer -or $item.Length -gt 1024) { throw 'Unsafe stale publication lock' }
+  $owner=Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+  if ($owner.schema -ne 1 -or $owner.session -isnot [string] -or $owner.session -notmatch '^[a-f0-9]{32}$' -or -not $owners.ContainsKey($owner.session) -or $owners[$owner.session] -ne $owner.pid -or $owner.pid -le 0) { throw 'Unverifiable stale publication lock; preserve it' }
+  if (Get-Process -Id $owner.pid -ErrorAction SilentlyContinue) { throw 'Prior publication process still exists; preserve lock' }
+  [IO.File]::Delete($path)
 }
 function FinalizeCandidate([object]$candidate,[string]$nativeSession) {
   if ($candidate.independentTrialVectors -ne 36000 -or $candidate.familySize -ne 32 -or $candidate.primaryComparisons.Count -ne 32 -or $candidate.mode -ne 'formal') { throw 'Fixed-horizon analysis incomplete' }
@@ -57,7 +94,7 @@ if (-not (Test-Path -LiteralPath $studyRoot)) {
   [IO.Directory]::CreateDirectory($studyRoot) | Out-Null
 }
 if ((Get-Item -LiteralPath $studyRoot).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Study root cannot be a reparse point' }
-foreach ($name in @('leases','sessions','host-tmp','groups','pending','receipts','reports','source','authorizations','stop-requests')) { $p=Join-Path $studyRoot $name; if ((Test-Path -LiteralPath $p) -and ((Get-Item -LiteralPath $p).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Study subdirectory cannot be a reparse point' } }
+foreach ($name in @('leases','sessions','host-tmp','groups','pending','receipts','reports','source','authorizations','stop-requests','coordination')) { $p=Join-Path $studyRoot $name; if ((Test-Path -LiteralPath $p) -and ((Get-Item -LiteralPath $p).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'Study subdirectory cannot be a reparse point' } }
 $lock=New-Object IO.FileStream((Join-Path $studyRoot 'run.lock'),[IO.FileMode]::OpenOrCreate,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)
 $guard=$null
 try {
@@ -81,13 +118,15 @@ try {
   $leaseDir=Join-Path $studyRoot 'leases'; [IO.Directory]::CreateDirectory($leaseDir) | Out-Null
   $leaseFiles=@(Get-ChildItem -LiteralPath $leaseDir -File -Filter '*.json' | Sort-Object Name)
   if ($manifest -and $leaseFiles.Count -eq 0) { throw 'Missing cumulative ledger: never restart a budget over an existing manifest' }
-  $previous=$null; $charged=0L; $seq=0; $oldSession=''; $oldReserved=0L; $settled=$false
+  $previous=$null; $charged=0L; $seq=0; $oldSession=''; $oldReserved=0L; $settled=$false; $ownerSessions=@{}
   foreach ($f in $leaseFiles) {
     if ($f.Name -ne ('{0:d6}.json' -f $seq)) { throw 'Missing or reordered resource ledger event' }
     $b=[IO.File]::ReadAllBytes($f.FullName)
     if ([Convert]::ToBase64String($b) -ne [Convert]::ToBase64String([IO.File]::ReadAllBytes($f.FullName+'.backup'))) { throw 'Resource ledger backup mismatch' }
     $e=[Text.Encoding]::UTF8.GetString($b) | ConvertFrom-Json
     if ($e.seq -ne $seq -or $e.previous -ne $previous -or $e.timeLimitMs -ne $timeLimit -or $e.diskLimitBytes -ne $diskLimit -or $e.memoryBytes -ne 536870912 -or $e.session -isnot [string] -or $e.session -notmatch '^[a-f0-9]{32}$') { throw 'Resource ledger identity mismatch' }
+    if ($ownerSessions.ContainsKey($e.session) -and $ownerSessions[$e.session] -ne $e.childPid) { throw 'Resource session PID changed' }
+    $ownerSessions[$e.session]=$e.childPid
     if ($e.session -ne $oldSession) { $oldSession=$e.session; $oldReserved=0L; $settled=$false }
     if ($e.kind -eq 'grant' -and -not $settled -and $e.reservedMs -gt 0 -and $e.reservedMs -le 30000) { $charged+=$e.reservedMs; $oldReserved+=$e.reservedMs }
     elseif ($e.kind -eq 'settle' -and -not $settled -and $e.usedMs -eq $oldReserved) { $settled=$true }
@@ -97,6 +136,9 @@ try {
   }
   if (@(Get-ChildItem -LiteralPath $leaseDir -File).Count -ne $seq*2) { throw 'Unexpected ledger files' }
   if ($timeLimit-$charged -lt 5000 -or $seq -gt 8000) { throw 'Cumulative resource budget exhausted' }
+  $coordination=Join-Path $studyRoot 'coordination'; [IO.Directory]::CreateDirectory($coordination) | Out-Null
+  $publicationLock=Join-Path $coordination 'publication.lock'
+  Remove-VerifiedAbandonedLock $publicationLock $ownerSessions
   $hostTemp=Join-Path $studyRoot ('host-tmp/'+[Guid]::NewGuid().ToString('N')); [IO.Directory]::CreateDirectory($hostTemp) | Out-Null
   $env:TEMP=$hostTemp; $env:TMP=$hostTemp
   Add-Type -Path (Join-Path $PSScriptRoot 'ofdm-study-guard.cs')
@@ -106,6 +148,7 @@ try {
   $argsList=@('--max-old-space-size=320',(Join-Path $PSScriptRoot 'ofdm-study-runner.mjs'),$Action,$studyRoot,$session,[string]$StopAfterGroups,$AuthorizationPath)
   $guard=[OfdmStudyGuard]::Start($node,$argsList,$appRoot,(Join-Path $studyRoot ('sessions/'+$session+'.log')))
   function Event([string]$kind,[long]$amount,[long]$used) {
+    Invoke-PublicationLock $publicationLock $session $guard.Pid {
     $usedDisk=0L; Get-ChildItem -LiteralPath $studyRoot -Recurse -File | ForEach-Object { $usedDisk += [long]([Math]::Ceiling($_.Length/4096.0)*4096) }
     if ($usedDisk+65536 -gt $diskLimit) { throw 'Disk budget exhausted before resource journal write' }
     $event=[ordered]@{ schema=1; seq=$script:seq; previous=$script:previous; session=$session; action=$Action; kind=$kind; reservedMs=$amount; usedMs=$used; chargedMs=$script:charged; timeLimitMs=$timeLimit; diskLimitBytes=$diskLimit; memoryBytes=536870912L; childPid=$guard.Pid; hardWorkingSet=$guard.HardWorkingSet; hardWorkingSetCeilingBytes=$guard.WorkingSetCeilingBytes; hostRuntime=($PSVersionTable.PSVersion.ToString()+'/'+[Environment]::Version.ToString()); peakWorkingSetBytes=$script:peak }
@@ -116,6 +159,7 @@ try {
     $path=Join-Path $leaseDir ('{0:d6}.json' -f $script:seq)
     WriteNew $path $text; WriteNew ($path+'.backup') $text
     $script:previous=Digest ([Text.Encoding]::UTF8.GetBytes($text)); $script:seq++
+    }
   }
   while ($reserved -lt $watch.ElapsedMilliseconds+5000) {
     if ($timeLimit-$charged -le 0) { throw 'No prepaid execution time remains after validation' }

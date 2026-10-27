@@ -9,6 +9,7 @@ import sys
 import time
 import cmath
 import re
+import stat
 
 PROTOCOL = 'e9654ff6b2dcd4e733afccc543af3bc99fdc03431a19e13399d637389b0ddaf4'
 METHODS = [p+'-'+e for p in ['ideal', 'training', 'comb'] for e in ['zf', 'mmse']]
@@ -504,7 +505,21 @@ def audit(root, stage=None, report=False):
             require(all(expected[k] == actual[k] for k in ['energy', 'channel', 'ebN0Db', 'contrast', 'frameObservations', 'sumLowerBits', 'sumUpperBits', 'unknownBits', 'equivalenceTested', 'precisionAchieved', 'directionSupported']), 'published primary comparison changed')
             require(all(abs(a-b) <= 1e-12 for a, b in zip(expected['simultaneous95Interval'], actual['simultaneous95Interval'])), 'published interval changed')
     pending = len(list((root/'pending').iterdir())) if (root/'pending').exists() else 0
-    charged_disk = 32*1024**2 + sum(math.ceil(p.stat().st_size/4096)*4096 for p in root.rglob('*') if p.is_file())
+    # The transient publication marker is already covered by the fixed metadata
+    # reserve; exclude it before stat so its concurrent release cannot race audit.
+    coordination = root/'coordination'
+    try:
+        c = coordination.lstat()
+        require(stat.S_ISDIR(c.st_mode), 'unsafe coordination directory')
+    except FileNotFoundError:
+        pass
+    marker = coordination/'publication.lock'
+    try:
+        marker_stat = marker.lstat()
+        require(stat.S_ISREG(marker_stat.st_mode) and marker_stat.st_size <= 1024, 'unsafe publication marker')
+    except FileNotFoundError:
+        pass
+    charged_disk = 32*1024**2 + sum(math.ceil(p.stat().st_size/4096)*4096 for p in root.rglob('*') if p != marker and p.is_file())
     require(charged_disk <= m['limits']['diskBytes'], 'archive exceeds disk limit')
     result = dict(verified=True, manifestSha256=mh, mode=m['mode'], groups=len(groups), head=previous,
                   independentTrialVectors=frames, physicalCellFrames=frames*32, familySize=32,

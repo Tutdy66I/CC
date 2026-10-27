@@ -296,7 +296,7 @@ if (action === "prepare") {
       ],
       { encoding: "utf8", maxBuffer: 1024 ** 2, windowsHide: true },
     );
-    commitDirectory(root, stage, group);
+    commitDirectory(root, stage, group, session);
     timings.groups.push({
       group,
       generateAndWriteMs: log.elapsedMs,

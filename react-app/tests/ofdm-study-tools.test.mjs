@@ -10,8 +10,10 @@ import {
   rmSync,
   existsSync,
   symlinkSync,
+  unlinkSync,
 } from "node:fs";
 import { resolve, join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { tmpdir } from "node:os";
 import { spawn, spawnSync } from "node:child_process";
 import {
@@ -24,6 +26,8 @@ import {
   pairedWrite,
   durable,
   sha,
+  commitDirectory,
+  usage,
 } from "../scripts/ofdm-study-common.mjs";
 const python =
   process.env.SIGNALLAB_PYTHON ||
@@ -447,6 +451,110 @@ test("simultaneous fixed-horizon intervals retain resolution limits and never as
 });
 
 test(
+  "Windows resource scan excludes a simultaneous atomic publication and preserves duplicate batches",
+  { skip: process.platform !== "win32", timeout: 20000 },
+  async (t) => {
+    const root = temporary(t), stage = resolve(root, "pending/stage"), lock = resolve(root, "coordination/publication.lock");
+    mkdirSync(stage, { recursive: true });
+    mkdirSync(resolve(root, "coordination"));
+    writeFileSync(resolve(stage, "checkpoint.json"), "immutable checkpoint");
+    const hostText = readFileSync(resolve(app, "scripts/ofdm-study-host.ps1"), "utf8");
+    const fn = hostText.slice(hostText.indexOf("function Invoke-PublicationLock"), hostText.indexOf("function FinalizeCandidate"));
+    const ps = resolve(root, "holder.ps1"), entered = resolve(root, "entered"), release = resolve(root, "release");
+    const q = (s) => "'" + s.replaceAll("'", "''") + "'";
+    const trying = resolve(root, "trying");
+    writeFileSync(ps, `$ErrorActionPreference='Stop'\n${fn}\n[IO.File]::WriteAllText(${q(trying)},'trying'); Invoke-PublicationLock ${q(lock)} ${q('a'.repeat(32))} ${process.pid} { [IO.File]::WriteAllText(${q(entered)},'held'); while (-not (Test-Path -LiteralPath ${q(release)})) { Start-Sleep -Milliseconds 10 }; Get-ChildItem -LiteralPath ${q(root)} -Recurse -File | Out-Null }`);
+    const holder = spawn("powershell.exe", ["-NoProfile", "-NonInteractive", "-File", ps], { windowsHide: true });
+    const holderExit = new Promise((r) => holder.once("exit", r));
+    t.after(() => { if (holder.exitCode === null) holder.kill(); if (existsSync(lock)) unlinkSync(lock); });
+    const until = Date.now() + 10000;
+    while (!existsSync(entered) && holder.exitCode === null && Date.now() < until) await new Promise((r) => setTimeout(r, 10));
+    assert.ok(existsSync(entered), "resource scan did not enter its critical section");
+    const common = pathToFileURL(resolve(app, "scripts/ofdm-study-common.mjs")).href;
+    const code = `import {commitDirectory} from ${JSON.stringify(common)}; process.stdout.write('READY\\n'); commitDirectory(${JSON.stringify(root)},${JSON.stringify(stage)},0,${JSON.stringify('b'.repeat(32))});`;
+    const publisher = spawn(process.execPath, ["--input-type=module", "-e", code], { windowsHide: true });
+    let stdout = "", stderr = "";
+    publisher.stdout.on("data", (b) => { stdout += b; });
+    publisher.stderr.on("data", (b) => { stderr += b; });
+    const publisherExit = new Promise((r) => publisher.once("exit", r));
+    while (!stdout.includes("READY") && publisher.exitCode === null && Date.now() < until) await new Promise((r) => setTimeout(r, 10));
+    assert.match(stdout, /READY/);
+    await new Promise((r) => setTimeout(r, 150));
+    assert.equal(existsSync(resolve(root, "groups/000000")), false);
+    assert.equal(existsSync(resolve(stage, "checkpoint.json")), true);
+    writeFileSync(release, "release");
+    assert.equal(await holderExit, 0);
+    assert.equal(await publisherExit, 0, stderr);
+    assert.equal(readFileSync(resolve(root, "groups/000000/checkpoint.json"), "utf8"), "immutable checkpoint");
+    const duplicate = resolve(root, "pending/duplicate"); mkdirSync(duplicate); writeFileSync(resolve(duplicate, "checkpoint.json"), "different");
+    assert.throws(() => commitDirectory(root, duplicate, 0, 'c'.repeat(32)), /Duplicate/);
+    assert.equal(readFileSync(resolve(root, "groups/000000/checkpoint.json"), "utf8"), "immutable checkpoint");
+    assert.equal(existsSync(lock), false);
+    // Reverse order: publication owns the lock first, so scanning must wait too.
+    unlinkSync(entered); unlinkSync(release); unlinkSync(trying);
+    writeFileSync(lock, JSON.stringify({schema: 1, session: 'b'.repeat(32), pid: process.pid}), {flag:'wx'});
+    const scanner = spawn("powershell.exe", ["-NoProfile", "-NonInteractive", "-File", ps], { windowsHide: true });
+    const scannerExit = new Promise((r) => scanner.once("exit", r));
+    const untilScan = Date.now()+10000;
+    while (!existsSync(trying) && scanner.exitCode === null && Date.now()<untilScan) await new Promise((r) => setTimeout(r, 10));
+    assert.ok(existsSync(trying));
+    await new Promise((r) => setTimeout(r, 150));
+    assert.equal(existsSync(entered), false);
+    unlinkSync(lock);
+    while (!existsSync(entered) && scanner.exitCode === null && Date.now()<untilScan) await new Promise((r) => setTimeout(r, 10));
+    assert.ok(existsSync(entered));
+    writeFileSync(release, "release");
+    assert.equal(await scannerExit, 0);
+    assert.equal(existsSync(lock), false);
+    const fault = resolve(root, "fault.ps1");
+    writeFileSync(fault, `$ErrorActionPreference='Stop'\n${fn}\nInvoke-PublicationLock ${q(lock)} ${q('a'.repeat(32))} ${process.pid} { throw 'injected scan failure' }`);
+    const rejected = spawnSync("powershell.exe", ["-NoProfile", "-NonInteractive", "-File", fault], {encoding:'utf8',windowsHide:true});
+    assert.notEqual(rejected.status, 0);
+    assert.match(rejected.stderr, /injected scan failure/);
+    assert.equal(existsSync(lock), false);
+    assert.equal(readFileSync(resolve(root, "groups/000000/checkpoint.json"), "utf8"), "immutable checkpoint");
+    // Inject a release precisely after CreateNew reports already-exists and before inspection.
+    const vanished = resolve(root, "vanished.ps1");
+    const injected = fn.replace('$entry=$null', '[IO.File]::Delete($path); $entry=$null');
+    assert.notEqual(injected, fn);
+    writeFileSync(lock, 'ordinary existing marker', {flag:'wx'});
+    writeFileSync(vanished, `$ErrorActionPreference='Stop'\n${injected}\nInvoke-PublicationLock ${q(lock)} ${q('a'.repeat(32))} ${process.pid} { }`);
+    const afterRelease=spawnSync('powershell.exe',['-NoProfile','-NonInteractive','-File',vanished],{encoding:'utf8',windowsHide:true});
+    assert.equal(afterRelease.status,0,afterRelease.stderr);
+    assert.equal(existsSync(lock),false);
+    const missing=resolve(root,'missing-parent/publication.lock');
+    const badPath=resolve(root,'missing-path.ps1');
+    writeFileSync(badPath, `$ErrorActionPreference='Stop'\n${fn}\nInvoke-PublicationLock ${q(missing)} ${q('a'.repeat(32))} ${process.pid} { }`);
+    const bad=spawnSync('powershell.exe',['-NoProfile','-NonInteractive','-File',badPath],{encoding:'utf8',windowsHide:true});
+    assert.notEqual(bad.status,0);
+    assert.equal(existsSync(resolve(root,'missing-parent')),false);
+  },
+);
+
+test(
+  "abandoned publication marker survives a killed owner and is cleared only after verified death",
+  { skip: process.platform !== "win32", timeout: 15000 },
+  async (t) => {
+    const root = temporary(t), lock = resolve(root, "publication.lock"), ps = resolve(root, "recover.ps1"), session='d'.repeat(32);
+    const child = spawn(process.execPath, ['-e', `const fs=require('fs');fs.writeFileSync(${JSON.stringify(lock)},JSON.stringify({schema:1,session:${JSON.stringify(session)},pid:process.pid}),{flag:'wx'});console.log('READY');setInterval(()=>{},1000)`], {windowsHide:true});
+    let stdout=''; child.stdout.on('data', (b) => {stdout+=b;});
+    const exited = new Promise((r) => child.once('exit', r));
+    t.after(() => { if (child.exitCode === null) child.kill(); });
+    const until = Date.now()+10000;
+    while (!stdout.includes('READY') && child.exitCode === null && Date.now()<until) await new Promise((r) => setTimeout(r, 10));
+    assert.match(stdout,/READY/);
+    const hostText=readFileSync(resolve(app,'scripts/ofdm-study-host.ps1'),'utf8');
+    const fn=hostText.slice(hostText.indexOf('function Remove-VerifiedAbandonedLock'),hostText.indexOf('function FinalizeCandidate'));
+    const q=(s)=>"'"+s.replaceAll("'","''")+"'";
+    writeFileSync(ps, `$ErrorActionPreference='Stop'\n${fn}\nRemove-VerifiedAbandonedLock ${q(lock)} @{${q(session)}=${child.pid}}`);
+    const run=()=>spawnSync('powershell.exe',['-NoProfile','-NonInteractive','-File',ps],{encoding:'utf8',windowsHide:true});
+    const live=run(); assert.notEqual(live.status,0); assert.match(live.stderr,/still exists/); assert.ok(existsSync(lock));
+    child.kill(); await exited;
+    const recovered=run(); assert.equal(recovered.status,0,recovered.stderr); assert.equal(existsSync(lock),false);
+  },
+);
+
+test(
   "native preflight interrupt/resume matches uninterrupted raw trials, deduplicates and rejects unapproved formal start",
   { skip: process.platform !== "win32", timeout: 120000 },
   async (t) => {
@@ -502,8 +610,17 @@ test(
     const prefix = JSON.parse(runAudit(interrupted).stdout);
     assert.equal(prefix.groups, 0);
     assert.ok(prefix.pendingAttemptDirectories > 0);
+    const marker = resolve(interrupted, "coordination/publication.lock");
+    writeFileSync(marker, "invalid marker", { flag: "wx" });
+    const unsafe = run("resume", interrupted);
+    assert.notEqual(unsafe.status, 0);
+    assert.ok(existsSync(marker), "unsafe stale marker must be retained");
+    unlinkSync(marker);
+    const last = get(resolve(interrupted, "leases", readdirSync(resolve(interrupted, "leases")).filter((x) => x.endsWith('.json')).sort().at(-1)));
+    writeFileSync(marker, JSON.stringify({ schema: 1, session: last.session, pid: last.childPid }), { flag: "wx" });
     const resumed = run("resume", interrupted);
     assert.equal(resumed.status, 0, resumed.stdout + resumed.stderr);
+    assert.equal(existsSync(marker), false);
     const control = run("preflight", uninterrupted);
     assert.equal(control.status, 0, control.stdout + control.stderr);
     for (let group = 0; group < 2; group++)
@@ -589,6 +706,19 @@ test("disk writes refuse the next allocation before crossing a resource cap", (t
     /Disk budget/,
   );
   assert.equal(existsSync(resolve(root, "too-large.json")), false);
+});
+
+test("transient publication marker is accounted safely and oversized markers are rejected", async (t) => {
+  const root = await fixture(t), directory = resolve(root, "coordination"), marker = resolve(directory, "publication.lock");
+  mkdirSync(directory);
+  writeFileSync(marker, JSON.stringify({schema:1,session:'a'.repeat(32),pid:1}));
+  assert.ok(usage(root) > 32*1024**2);
+  assert.equal(runAudit(root).status, 0);
+  writeFileSync(marker, 'x'.repeat(1025));
+  assert.throws(() => usage(root), /Unsafe publication marker/);
+  const rejected = runAudit(root);
+  assert.notEqual(rejected.status, 0);
+  assert.match(rejected.stderr, /unsafe publication marker/);
 });
 
 test(
