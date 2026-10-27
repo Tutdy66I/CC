@@ -297,7 +297,7 @@ export function commitDirectory(root, stage, group, session) {
   const coordStat = lstatSync(coordination);
   if (coordStat.isSymbolicLink() || !coordStat.isDirectory()) throw Error("Unsafe coordination directory");
   const lock = resolve(coordination, "publication.lock");
-  const deadline = Date.now() + 15000;
+  const deadline = performance.now() + 15000;
   let fd;
   for (;;) {
     try {
@@ -307,7 +307,7 @@ export function commitDirectory(root, stage, group, session) {
       if (error.code !== "EEXIST") throw error;
       try { if (lstatSync(lock).isSymbolicLink()) throw Error("Publication lock is a symlink"); }
       catch (e) { if (e.code !== "ENOENT") throw e; }
-      if (Date.now() >= deadline) throw Error("Publication lock timeout; preserve archive");
+      if (performance.now() >= deadline) throw Error("Publication lock timeout; preserve archive");
       Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 20);
     }
   }
