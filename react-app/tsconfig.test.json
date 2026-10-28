@@ -16,6 +16,7 @@
     "tests/**/*.test.ts",
     "src/lib/ofdmSync/**/*.ts",
     "src/workers/ofdmSync.worker.ts",
+    "src/workers/jointSync.worker.ts",
     "src/lib/routes.ts",
     "src/lib/rss.ts",
     "server/rssProxy.ts",

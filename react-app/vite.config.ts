@@ -56,6 +56,16 @@ for (const file of [
     .update(readFileSync(resolve(file)))
     .update('\0')
 }
+const jointSource = createHash('sha256')
+for (const file of [
+  ...syncLibFiles('src/lib'),
+  'src/workers/jointSync.worker.ts',
+].sort()) {
+  jointSource
+    .update(file + '\0')
+    .update(readFileSync(resolve(file)))
+    .update('\0')
+}
 
 function rssProxyPlugin(): Plugin {
   return {
@@ -86,6 +96,9 @@ export default defineConfig({
     __OFDM_SOURCE_FINGERPRINT__: JSON.stringify(ofdmSource.digest('hex')),
     __OFDM_COMB_SOURCE_FINGERPRINT__: JSON.stringify(combSource.digest('hex')),
     __OFDM_SYNC_SOURCE_FINGERPRINT__: JSON.stringify(syncSource.digest('hex')),
+    __OFDM_JOINT_SOURCE_FINGERPRINT__: JSON.stringify(
+      jointSource.digest('hex'),
+    ),
   },
   base: process.env.DEPLOY_BASE_PATH || '/',
   plugins: [
