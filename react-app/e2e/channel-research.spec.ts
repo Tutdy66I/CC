@@ -21,6 +21,29 @@ test('channel navigation keeps its heading below the sticky chapter controls', a
   expect(position.top).toBeGreaterThanOrEqual(position.navBottom)
 })
 
+test('chapter navigation accounts for wrapped controls on narrow screens', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 740 })
+  await page.goto('/#/signallab')
+  const nav = page.getByRole('navigation', { name: '实验章节' })
+  for (const [button, title] of [
+    ['信道研究', '无线衰落与信道估计研究'],
+    ['OFDM 同步', 'OFDM 接收同步'],
+  ]) {
+    const heading = page.getByRole('heading', { name: title, exact: true })
+    await expect(heading).toBeAttached()
+    await nav.getByRole('button', { name: button, exact: true }).click()
+    const navBottom = await nav.evaluate(
+      (node) => node.getBoundingClientRect().bottom,
+    )
+    const headingTop = await heading.evaluate(
+      (node) => node.getBoundingClientRect().top,
+    )
+    expect(headingTop).toBeGreaterThanOrEqual(navBottom)
+  }
+})
+
 test('late channel-module loading cannot move an existing experiment during a click', async ({
   page,
 }) => {

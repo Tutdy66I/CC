@@ -132,8 +132,18 @@ export default function SignalLab() {
           <button
             type="button"
             key={id}
-            onClick={() => {
-              document.getElementById(id)?.scrollIntoView({ block: 'start' })
+            onClick={(event) => {
+              const target = document.getElementById(id)
+              const nav = event.currentTarget.parentElement
+              if (target && nav) {
+                window.scrollTo({
+                  top:
+                    window.scrollY +
+                    target.getBoundingClientRect().top -
+                    nav.offsetHeight -
+                    8,
+                })
+              }
             }}
           >
             {label}
