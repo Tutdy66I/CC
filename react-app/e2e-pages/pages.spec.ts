@@ -1,5 +1,35 @@
 import { expect, test } from '@playwright/test'
 
+test('v1.4 joint synchronization works locally under the Pages subpath', async ({
+  page,
+  baseURL,
+}) => {
+  if (!baseURL) throw new Error('baseURL required')
+  const origin = new URL(baseURL).origin,
+    calls: string[] = []
+  const external = (url: URL) =>
+    url.origin !== origin || url.pathname.includes('/api/')
+  page.on('request', (request) => {
+    if (external(new URL(request.url()))) calls.push(request.url())
+  })
+  await page.route('**/*', (route) =>
+    external(new URL(route.request().url())) ? route.abort() : route.continue(),
+  )
+  await page.goto('./#/signallab')
+  const panel = page.getByRole('region', { name: 'OFDM 接收同步', exact: true })
+  await panel.getByLabel('同步试验帧数').fill('4')
+  await panel.getByRole('button', { name: '运行同步对照' }).click()
+  await expect(panel.getByRole('status')).toContainText('已保存本地')
+  const download = page.waitForEvent('download')
+  await panel.getByRole('button', { name: '导出同步记录' }).click()
+  expect((await download).suggestedFilename()).toBe(
+    'signallab-v14-sync-record.json',
+  )
+  await page.reload()
+  await expect(panel.getByRole('status')).toContainText('已恢复本地记录')
+  expect(calls).toEqual([])
+})
+
 test('v1.3 OFDM Worker exports and restores under the Pages subpath without service calls', async ({
   page,
   baseURL,

@@ -1,0 +1,33 @@
+.joint-sync {
+  margin-block: 2rem;
+  padding: 1rem;
+  border: 1px solid #9998;
+  border-radius: 0.7rem;
+}
+.joint-sync-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.8rem;
+  margin-block: 1rem;
+}
+.joint-sync-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.joint-sync-controls input[type="checkbox"] {
+  align-self: start;
+}
+.joint-sync-results {
+  overflow-x: auto;
+}
+.joint-sync-results table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.joint-sync-results th,
+.joint-sync-results td {
+  padding: 0.45rem;
+  text-align: left;
+  border-bottom: 1px solid #9996;
+}

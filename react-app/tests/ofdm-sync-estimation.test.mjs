@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import "fake-indexeddb/auto";
 
 const fixture = JSON.parse(
   readFileSync(
@@ -126,6 +127,31 @@ test("joint failure is retained as erasures, never repaired using simulation tru
   const a = acquire(empty, 16);
   assert.equal(a.status, "failed");
   assert.equal(a.reason, "low-energy");
+  const weak = await engine.simulateJointTrial(
+    {
+      ...engine.defaultJointPlan(),
+      noiseEnabled: false,
+      taps: [{ delay: 0, i: 1e-100, q: 0 }],
+    },
+    0,
+  );
+  assert.equal(weak.estimated.status, "failed");
+  assert.equal(weak.estimated.metric.erasedBits, 768);
+  assert.equal(weak.estimated.metric.bits, 768);
+  assert.equal(weak.evaluation.estimatedWindowSafe, null);
+});
+
+test("joint random state has an independently verified domain", async () => {
+  const engine = await import("../.test-build/src/lib/ofdmSync/jointEngine.js");
+  assert.equal(typeof engine.deriveJointState, "function");
+  assert.deepEqual(
+    await engine.deriveJointState(20261028, 7, "data", 2),
+    fixture.randomState,
+  );
+  assert.notDeepEqual(
+    await engine.deriveJointState(20261028, 7, "noise", 2),
+    fixture.randomState,
+  );
 });
 
 test("joint protocol separates P1 identity and freezes offset and acquisition rules", async () => {
@@ -193,6 +219,63 @@ test("joint receiver handles multipath and both integer timing boundaries withou
   }
 });
 
+test("CP-insufficient windows are labelled unsafe instead of assumed diagonal", async () => {
+  const { defaultJointPlan, simulateJointTrial } =
+    await import("../.test-build/src/lib/ofdmSync/jointEngine.js");
+  const result = await simulateJointTrial(
+    {
+      ...defaultJointPlan(),
+      cp: 0,
+      noiseEnabled: false,
+      taps: [
+        { delay: 0, i: 1, q: 0 },
+        { delay: 3, i: 0.2, q: 0.1 },
+      ],
+    },
+    0,
+  );
+  assert.equal(result.estimated.status, "ok");
+  assert.equal(result.evaluation.estimatedWindowSafe, false);
+  assert.equal(result.raw.bits, 768);
+  assert.equal(result.ideal.bits, 768);
+});
+
+test("continuous CFO/STO/multipath acquisition matches independent full-waveform Python reference", async () => {
+  const { captureFrame } =
+    await import("../.test-build/src/lib/ofdmSync/capture.js");
+  const { acquireJointObservation } =
+    await import("../.test-build/src/lib/ofdmSync/jointEngine.js");
+  const j = fixture.joint;
+  const received = captureFrame(
+    flat(j.wave),
+    j.taps,
+    128,
+    j.cfo,
+    j.phase,
+    32 + j.sto,
+    32 - j.sto,
+    flat(j.noise),
+  );
+  flat(j.received).forEach((v, i) =>
+    assert.ok(Math.abs(received[i] - v) < 1e-10),
+  );
+  const actual = acquireJointObservation(received, j.cp);
+  assert.equal(actual.status, "ok");
+  assert.equal(actual.peak, j.expected.peak);
+  assert.equal(actual.start, j.expected.start);
+  for (const key of ["cfo", "coherence", "score"])
+    assert.ok(Math.abs(actual[key] - j.expected[key]) < 1e-10);
+  const forbidden = new Proxy(
+    {},
+    {
+      get() {
+        throw new Error("truth was accessed");
+      },
+    },
+  );
+  assert.deepEqual(acquireJointObservation(received, j.cp, forbidden), actual);
+});
+
 test("joint Worker returns complete paired branches and versioned identities", async () => {
   const messages = [];
   globalThis.self = {
@@ -227,6 +310,77 @@ test("joint Worker returns complete paired branches and versioned identities", a
   } finally {
     delete globalThis.self;
   }
+});
+
+test("joint page refuses a Worker from a different source fingerprint", async () => {
+  const identity =
+    await import("../.test-build/src/lib/ofdmSync/jointIdentity.js").catch(
+      () => null,
+    );
+  assert.ok(identity, "joint identity boundary must exist");
+  const expected = "a".repeat(64),
+    protocol = "b".repeat(64);
+  const value = {
+    engineVersion: "ofdm-sync-v14-joint-1",
+    protocolHash: protocol,
+    sourceFingerprint: expected,
+    runtimeFingerprint: "c".repeat(64),
+  };
+  assert.equal(identity.matchesJointIdentity(value, expected, protocol), true);
+  assert.equal(
+    identity.matchesJointIdentity(
+      { ...value, sourceFingerprint: "d".repeat(64) },
+      expected,
+      protocol,
+    ),
+    false,
+  );
+  assert.equal(
+    identity.matchesJointIdentity(
+      { ...value, protocolHash: "e".repeat(64) },
+      expected,
+      protocol,
+    ),
+    false,
+  );
+});
+
+test("joint records validate their hash, complete prefix and isolated CAS storage", async () => {
+  const store =
+    await import("../.test-build/src/lib/ofdmSync/jointRecord.js").catch(
+      () => null,
+    );
+  assert.ok(store, "independent joint records must exist");
+  const engine = await import("../.test-build/src/lib/ofdmSync/jointEngine.js");
+  const plan = { ...engine.defaultJointPlan(), trials: 2 };
+  const frozen = await engine.freezeJointPlan(plan);
+  const trials = await Promise.all(
+    [0, 1].map((i) => engine.simulateJointTrial(plan, i)),
+  );
+  const record = await store.createJointRecord(plan, trials, {
+    protocolHash: frozen.protocolHash,
+    sourceFingerprint: "a".repeat(64),
+    runtimeFingerprint: "b".repeat(64),
+  });
+  assert.deepEqual(await store.parseJointRecord(record), record);
+  const tampered = structuredClone(record);
+  tampered.trials[0].raw.errors++;
+  await assert.rejects(() => store.parseJointRecord(tampered));
+  await assert.rejects(() =>
+    store.createJointRecord(plan, trials.slice(0, 1), {
+      protocolHash: frozen.protocolHash,
+      sourceFingerprint: "a".repeat(64),
+      runtimeFingerprint: "b".repeat(64),
+    }),
+  );
+  const before = await store.readJointState();
+  assert.equal(before.revision, 0);
+  assert.equal(await store.saveJointRecord(record, 0), 1);
+  await assert.rejects(() => store.saveJointRecord(record, 0));
+  assert.equal(
+    (await store.readJointState()).record.integrityHash,
+    record.integrityHash,
+  );
 });
 
 test("the independent reference regenerates within floating-point tolerance", () => {

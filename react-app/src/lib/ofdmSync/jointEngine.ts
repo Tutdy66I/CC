@@ -115,12 +115,24 @@ function oldPlan(p: JointPlan): OfdmPlan {
     noiseEnabled: p.noiseEnabled,
   };
 }
-async function random(
+export async function deriveJointState(
   seed: number,
   trial: number,
   role: "data" | "noise",
   slot: number,
-) {
+): Promise<number[]> {
+  if (
+    !Number.isInteger(seed) ||
+    seed < 0 ||
+    seed > 0xffffffff ||
+    !Number.isSafeInteger(trial) ||
+    trial < 0 ||
+    !["data", "noise"].includes(role) ||
+    !Number.isInteger(slot) ||
+    slot < 0 ||
+    slot > 3
+  )
+    throw new Error("Invalid joint random domain.");
   const digest = new DataView(
     await crypto.subtle.digest(
       "SHA-256",
@@ -129,8 +141,19 @@ async function random(
       ),
     ),
   );
+  const state = [0, 4, 8, 12].map((i) => digest.getUint32(i, true));
+  if (state.every((word) => word === 0))
+    throw new Error("Invalid zero random state.");
+  return state;
+}
+async function random(
+  seed: number,
+  trial: number,
+  role: "data" | "noise",
+  slot: number,
+) {
   const uniform = xoshiro128StarStar(
-    [0, 4, 8, 12].map((i) => digest.getUint32(i, true)),
+    await deriveJointState(seed, trial, role, slot),
   );
   return {
     uniform,
