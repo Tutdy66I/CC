@@ -38,6 +38,10 @@ jobs:
         run: npm run test:ofdm-comb-reference
         env:
           SIGNALLAB_PYTHON: python3
+      - name: Independent OFDM synchronization P1 vectors
+        run: npm run test:ofdm-sync-reference
+        env:
+          SIGNALLAB_PYTHON: python3
       - name: Independent channel mathematics and offline protocol tools
         run: npm run test:channel-tools
         env:

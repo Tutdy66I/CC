@@ -20,6 +20,8 @@
     "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js && node --test tests/backup.test.mjs",
     "test:channel-tools": "node --test tests/channel-tools.test.mjs",
     "test:ofdm-reference": "tsc -p tsconfig.test.json && node --test tests/ofdm-reference.test.mjs",
+    "test:ofdm-sync-reference": "tsc -p tsconfig.test.json && node --test tests/ofdm-sync-reference.test.mjs tests/ofdm-sync-estimation.test.mjs",
+    "test:ofdm-sync-edge": "node scripts/test-ofdm-sync-edge.mjs",
     "test:ofdm-comb-reference": "tsc -p tsconfig.test.json && node --test tests/ofdm-comb-reference.test.mjs",
     "accept:ofdm-native": "tsc -p tsconfig.test.json && node scripts/accept-ofdm-native.mjs",
     "plan:ofdm-study": "tsc -p tsconfig.test.json && node scripts/plan-ofdm-study.mjs",

@@ -35,6 +35,38 @@ for (const file of [
     .update('\0')
 }
 
+// The new engine has its own transitive source identity. Keep the v1.3 lists above unchanged.
+function syncLibFiles(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = `${dir}/${entry.name}`
+    return entry.isDirectory()
+      ? syncLibFiles(path)
+      : entry.isFile() && path.endsWith('.ts')
+        ? [path]
+        : []
+  })
+}
+const syncSource = createHash('sha256')
+for (const file of [
+  ...syncLibFiles('src/lib'),
+  'src/workers/ofdmSync.worker.ts',
+].sort()) {
+  syncSource
+    .update(file + '\0')
+    .update(readFileSync(resolve(file)))
+    .update('\0')
+}
+const jointSource = createHash('sha256')
+for (const file of [
+  ...syncLibFiles('src/lib'),
+  'src/workers/jointSync.worker.ts',
+].sort()) {
+  jointSource
+    .update(file + '\0')
+    .update(readFileSync(resolve(file)))
+    .update('\0')
+}
+
 function rssProxyPlugin(): Plugin {
   return {
     name: 'rss-proxy',
@@ -63,6 +95,10 @@ export default defineConfig({
   define: {
     __OFDM_SOURCE_FINGERPRINT__: JSON.stringify(ofdmSource.digest('hex')),
     __OFDM_COMB_SOURCE_FINGERPRINT__: JSON.stringify(combSource.digest('hex')),
+    __OFDM_SYNC_SOURCE_FINGERPRINT__: JSON.stringify(syncSource.digest('hex')),
+    __OFDM_JOINT_SOURCE_FINGERPRINT__: JSON.stringify(
+      jointSource.digest('hex'),
+    ),
   },
   base: process.env.DEPLOY_BASE_PATH || '/',
   plugins: [
