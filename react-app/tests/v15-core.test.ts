@@ -129,3 +129,16 @@ test("BER and interaction preserve erasure uncertainty and validate counts", () 
   assert.ok(Math.abs(x.upper - 0.8) < 1e-12);
   assert.throws(() => berBounds({ bits: 10, errors: 8, erasedBits: 3 }));
 });
+
+test("zero received capture erases all 768 bits after zero-channel equalization failure", async () => {
+  const frame = await createFrame(fixture.cases[0].config);
+  const zeroObservation = new Float64Array(frame.received.length);
+  const metric = controlledMetric(
+    { ...frame, received: zeroObservation },
+    0,
+    0,
+  );
+
+  assert.deepEqual(metric, { bits: 768, errors: 0, erasedBits: 768 });
+  assert.deepEqual(berBounds(metric), { lower: 0, upper: 1 });
+});
