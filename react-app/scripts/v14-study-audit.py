@@ -182,6 +182,16 @@ def audit(root):
         ber = {name: [item['errors'] / item['bits'], (item['errors'] + item['erasures']) / item['bits']] if item['bits'] else [None, None] for name, item in by_scenario[s].items()}
         per_scenario.append({'scenario': s, 'frames': count, **scenario_failures[s], **by_scenario[s], 'berBounds': ber, 'pairedBerDifferenceBounds': [lower_s, upper_s]})
     pending = len(list((root / 'pending').iterdir()))
+    retry_events = 0
+    retry_log = root / 'publication-retries.jsonl'
+    if retry_log.exists():
+        require(retry_log.is_file() and not retry_log.is_symlink(), 'unsafe retry log')
+        with retry_log.open('r', encoding='utf-8') as stream:
+            for line in stream:
+                require(line.endswith('\n'), 'incomplete retry log')
+                event = json.loads(line)
+                require(isinstance(event, dict) and set(event) == {'index', 'attempt', 'code'} and type(event['index']) is int and 0 <= event['index'] <= len(dirs) and type(event['attempt']) is int and 1 <= event['attempt'] <= 5 and event['code'] == 'EPERM', 'invalid retry event')
+                retry_events += 1
     candidate = None
     if formal and scenario_frames == [25376] * 4 and n == 101504 and pending == 0 and resources['allSessionsReported']:
         candidate = []
@@ -189,7 +199,7 @@ def audit(root):
             low, high = row['pairedBerDifferenceBounds']
             left, right, radius = simultaneous_interval(low * 25376, high * 25376, 25376)
             candidate.append({'scenario': row['scenario'], 'lower': left, 'upper': right, 'radius': radius})
-    return {'mode': m['mode'], 'frames': n, 'complete': n == m['frames'], 'sourceIdentityVerified': verified_identity, 'resources': resources, 'head': previous, 'failed': failed, 'cfoFailures': cfo_failed, 'timingFailures': timing_failed, **totals, 'pairedBerDifferenceBounds': None if formal else [lower, upper], 'perScenario': per_scenario, 'formalConclusion': False, 'confidenceInterval': None, 'candidateIntervals': candidate, 'pendingEntries': pending}
+    return {'mode': m['mode'], 'frames': n, 'complete': n == m['frames'], 'sourceIdentityVerified': verified_identity, 'resources': resources, 'head': previous, 'failed': failed, 'cfoFailures': cfo_failed, 'timingFailures': timing_failed, **totals, 'pairedBerDifferenceBounds': None if formal else [lower, upper], 'perScenario': per_scenario, 'formalConclusion': False, 'confidenceInterval': None, 'candidateIntervals': candidate, 'pendingEntries': pending, 'publicationRetryEvents': retry_events}
 
 
 if __name__ == '__main__':

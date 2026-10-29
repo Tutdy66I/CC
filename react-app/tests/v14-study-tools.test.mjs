@@ -343,6 +343,74 @@ test("publication is atomic and a duplicate never replaces existing evidence", (
   assert.equal(existsSync(join(b, "batch.json")), true);
 });
 
+test("Windows transient rename failures are recorded and retried without replacing evidence", () => {
+  const root = mkdtempSync(join(tmpdir(), "v14-retry-test-"));
+  const common = pathToFileURL(resolve("scripts/v14-study-common.mjs")).href;
+  const code = `
+    import fs from 'node:fs'; import {syncBuiltinESMExports} from 'node:module'; import {join} from 'node:path';
+    Object.defineProperty(process,'platform',{value:'win32'});
+    const root=process.argv[1]; fs.mkdirSync(join(root,'pending'),{recursive:true});
+    const original=fs.renameSync; let calls=0;
+    fs.renameSync=(a,b)=>{calls++;if(calls<=2){const e=new Error('injected sharing denial');e.code='EPERM';throw e;} return original(a,b)};
+    syncBuiltinESMExports(); const {publish}=await import(${JSON.stringify(common)});
+    const stage=join(root,'pending','stage-a');fs.mkdirSync(stage);fs.writeFileSync(join(stage,'batch.json'),'evidence');
+    publish(root,stage,0);
+    const events=fs.readFileSync(join(root,'publication-retries.jsonl'),'utf8').trim().split('\\n').map(JSON.parse);
+    if(calls!==3 || events.length!==2 || events.some(e=>e.code!=='EPERM') || fs.readFileSync(join(root,'batches','000000','batch.json'),'utf8')!=='evidence') process.exit(2);
+  `;
+  const run = spawnSync(
+    process.execPath,
+    ["--input-type=module", "-e", code, root],
+    { encoding: "utf8" },
+  );
+  assert.equal(run.status, 0, run.stderr);
+});
+
+test("persistent and unexpected rename failures preserve the staged batch", () => {
+  const common = pathToFileURL(resolve("scripts/v14-study-common.mjs")).href;
+  for (const code of ["EPERM", "EACCES"]) {
+    const root = mkdtempSync(join(tmpdir(), "v14-retry-exhaustion-"));
+    const child = `
+      import fs from 'node:fs'; import {syncBuiltinESMExports} from 'node:module'; import {join} from 'node:path';
+      Object.defineProperty(process,'platform',{value:'win32'});
+      const root=process.argv[1], code=process.argv[2]; fs.mkdirSync(join(root,'pending'),{recursive:true});
+      let calls=0; fs.renameSync=()=>{calls++;const e=new Error('denied');e.code=code;throw e};syncBuiltinESMExports();
+      const {publish}=await import(${JSON.stringify(common)});const stage=join(root,'pending','stage-a');fs.mkdirSync(stage);fs.writeFileSync(join(stage,'batch.json'),'evidence');
+      let caught;try {publish(root,stage,0)}catch(e){caught=e}
+      if(caught?.code!==code || calls!==(code==='EPERM'?5:1) || fs.readFileSync(join(stage,'batch.json'),'utf8')!=='evidence' || fs.existsSync(join(root,'batches','000000'))) process.exit(2);
+      const log=join(root,'publication-retries.jsonl');
+      if(code==='EPERM' && fs.readFileSync(log,'utf8').trim().split('\\n').length!==5) process.exit(3);
+      if(code==='EACCES' && fs.existsSync(log)) process.exit(4);
+    `;
+    const run = spawnSync(
+      process.execPath,
+      ["--input-type=module", "-e", child, root, code],
+      { encoding: "utf8" },
+    );
+    assert.equal(run.status, 0, run.stderr);
+  }
+});
+
+test("a destination appearing during a retry is never overwritten", () => {
+  const root = mkdtempSync(join(tmpdir(), "v14-retry-race-"));
+  const common = pathToFileURL(resolve("scripts/v14-study-common.mjs")).href;
+  const child = `
+    import fs from 'node:fs'; import {syncBuiltinESMExports} from 'node:module'; import {join} from 'node:path';
+    Object.defineProperty(process,'platform',{value:'win32'}); const root=process.argv[1];
+    fs.mkdirSync(join(root,'pending'),{recursive:true}); let calls=0;
+    fs.renameSync=()=>{calls++;fs.mkdirSync(join(root,'batches','000000'));fs.writeFileSync(join(root,'batches','000000','batch.json'),'other');const e=new Error('race');e.code='EPERM';throw e};
+    syncBuiltinESMExports();const {publish}=await import(${JSON.stringify(common)});const stage=join(root,'pending','stage-a');fs.mkdirSync(stage);fs.writeFileSync(join(stage,'batch.json'),'evidence');
+    try{publish(root,stage,0);process.exit(2)}catch(e){if(e.code!=='EPERM')throw e}
+    if(calls!==1 || fs.readFileSync(join(stage,'batch.json'),'utf8')!=='evidence' || fs.readFileSync(join(root,'batches','000000','batch.json'),'utf8')!=='other')process.exit(3);
+  `;
+  const run = spawnSync(
+    process.execPath,
+    ["--input-type=module", "-e", child, root],
+    { encoding: "utf8" },
+  );
+  assert.equal(run.status, 0, run.stderr);
+});
+
 test("interrupted preflight resumes only after verifying committed chunks and preserves failed staging", async () => {
   const { runPreflight } = await import("../scripts/v14-study-runner.mjs");
   const root = mkdtempSync(join(tmpdir(), "v14-resume-test-"));
@@ -427,6 +495,22 @@ test("independent Python audit reconstructs failures and rejects modified raw by
   assert.equal(summary.estimated.erasures, 38400);
   assert.equal(summary.estimated.bits, 76800);
   assert.equal(summary.formalConclusion, false);
+  writeFileSync(
+    join(root, "publication-retries.jsonl"),
+    '{"index":0,"attempt":1,"code":"EPERM"}\n',
+  );
+  const retryAudit = audit();
+  assert.equal(retryAudit.status, 0, retryAudit.stderr);
+  assert.equal(JSON.parse(retryAudit.stdout).publicationRetryEvents, 1);
+  writeFileSync(
+    join(root, "publication-retries.jsonl"),
+    '{"index":0,"attempt":9,"code":"EPERM"}\n',
+  );
+  assert.notEqual(audit().status, 0);
+  writeFileSync(
+    join(root, "publication-retries.jsonl"),
+    '{"index":0,"attempt":1,"code":"EPERM"}\n',
+  );
   const file = join(root, "batches", "000000", "batch.json");
   writeFileSync(file, readFileSync(file, "utf8") + " ");
   assert.notEqual(audit().status, 0);

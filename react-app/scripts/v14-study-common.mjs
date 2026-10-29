@@ -299,8 +299,32 @@ export function publish(root, stage, index) {
   mkdirSync(join(base, "batches"), { recursive: true });
   return withPublicationLock(base, () => {
     const dest = join(base, "batches", String(index).padStart(6, "0"));
-    if (existsSync(dest))
-      throw Error("Duplicate committed batch; preserve evidence");
-    renameSync(source, dest);
+    for (let attempt = 1; attempt <= 5; attempt++) {
+      if (existsSync(dest))
+        throw Error("Duplicate committed batch; preserve evidence");
+      try {
+        renameSync(source, dest);
+        return;
+      } catch (error) {
+        if (process.platform !== "win32" || error?.code !== "EPERM")
+          throw error;
+        const log = join(base, "publication-retries.jsonl");
+        if (existsSync(log) && lstatSync(log).isSymbolicLink())
+          throw Error("Unsafe publication retry log");
+        const fd = openSync(log, "a");
+        try {
+          writeFileSync(
+            fd,
+            JSON.stringify({ index, attempt, code: error.code }) + "\n",
+          );
+          fsyncSync(fd);
+        } finally {
+          closeSync(fd);
+        }
+        if (attempt === 5 || !existsSync(source) || existsSync(dest))
+          throw error;
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100);
+      }
+    }
   });
 }
