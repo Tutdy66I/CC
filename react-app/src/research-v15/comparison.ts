@@ -164,6 +164,58 @@ export function compareFrame(frame: Frame, e: number, delta: number) {
   };
 }
 
+/** Aggregate complete paired frames, including erasures; this is not inference. */
+export function summarizeEngineeringFrames(
+  frames: readonly ReturnType<typeof compareFrame>[],
+) {
+  if (
+    !Array.isArray(frames) ||
+    frames.length < 1 ||
+    frames.length > 16 ||
+    frames.some(
+      (frame) =>
+        !frame || !Number.isSafeInteger(frame.frameId) || frame.frameId < 0,
+    ) ||
+    new Set(frames.map((frame) => frame.frameId)).size !== frames.length
+  )
+    throw new Error("Invalid paired engineering frames.");
+  function total(select: (frame: ReturnType<typeof compareFrame>) => Metric) {
+    const metric: Metric = { bits: 0, errors: 0, erasedBits: 0 };
+    for (const frame of frames) {
+      const value = select(frame);
+      if (!value || value.bits !== BITS)
+        throw new Error("Invalid engineering frame denominator.");
+      berBounds(value);
+      metric.bits += value.bits;
+      metric.errors += value.errors;
+      metric.erasedBits += value.erasedBits;
+    }
+    return { metric, ber: berBounds(metric) };
+  }
+  const raw = total((frame) => frame.raw.metric),
+    estimated = total((frame) => frame.estimated.metric),
+    ideal = total((frame) => frame.ideal.metric),
+    ed = total((frame) => frame.controlled.ed.metric),
+    e0 = total((frame) => frame.controlled.e0.metric),
+    zD = total((frame) => frame.controlled.zD.metric),
+    z0 = total((frame) => frame.controlled.z0.metric);
+  return {
+    frames: frames.length,
+    raw,
+    estimated,
+    ideal,
+    controlled: { ed, e0, zD, z0 },
+    paired: {
+      estimatedMinusRaw: pairedDifference(estimated.metric, raw.metric),
+      estimatedMinusIdeal: pairedDifference(estimated.metric, ideal.metric),
+      residualCfoMinusIdeal: pairedDifference(e0.metric, z0.metric),
+      timingOffsetMinusIdeal: pairedDifference(zD.metric, z0.metric),
+      jointInterventionMinusIdeal: pairedDifference(ed.metric, z0.metric),
+    },
+    interaction: interaction(ed.metric, e0.metric, zD.metric, z0.metric),
+  };
+}
+
 /** Bounded test-domain runs: no statistical intervals or formal-research claims. */
 export async function runEngineeringBatch(
   config: Omit<FrameConfig, "frameId">,
@@ -214,5 +266,6 @@ export async function runEngineeringBatch(
     intervention: { e, delta },
     frameIds,
     results,
+    summary: summarizeEngineeringFrames(results),
   };
 }

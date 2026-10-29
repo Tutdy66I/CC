@@ -12,6 +12,7 @@ import {
   pairedDifference,
   runEngineeringBatch,
   scoreReceiver,
+  summarizeEngineeringFrames,
 } from "../src/research-v15/comparison.js";
 import {
   makeObservation,
@@ -103,6 +104,121 @@ test("independent Python validates all receiver branches and capture/window fail
       assert.equal(estimated.reason, v.acquisition.reason);
     }
   }
+});
+
+test("batch totals and paired bounds equal independent frame sums with real acquisition failures", async () => {
+  const config = {
+    cp: 16,
+    cfo: 0.25,
+    sto: 8,
+    phase: 0.31,
+    taps: [{ delay: 0, i: 1, q: 0 }],
+    noisePower: 10,
+  };
+  const batch = await runEngineeringBatch(
+    config,
+    [0, 1, 2, 3, 4, 5, 6, 7],
+    0.2,
+    -4,
+  );
+  const failed = batch.results.filter(
+    (frame) => frame.estimated.receiver.status === "capture-failed",
+  );
+  assert.ok(failed.length > 0 && failed.length < batch.results.length);
+  assert.ok(failed.every((frame) => frame.estimated.metric.erasedBits === 768));
+  checkSummary(batch.results, batch.summary);
+  assert.equal(batch.summary.estimated.metric.bits, 8 * 768);
+  assert.ok(batch.summary.estimated.metric.erasedBits >= failed.length * 768);
+});
+
+type EngineeringFrame = ReturnType<typeof compareFrame>;
+function checkSummary(
+  frames: EngineeringFrame[],
+  actual: ReturnType<typeof summarizeEngineeringFrames>,
+) {
+  function sum(
+    select: (frame: EngineeringFrame) => {
+      bits: number;
+      errors: number;
+      erasedBits: number;
+    },
+  ) {
+    const metric = frames.map(select).reduce(
+      (acc, value) => ({
+        bits: acc.bits + value.bits,
+        errors: acc.errors + value.errors,
+        erasedBits: acc.erasedBits + value.erasedBits,
+      }),
+      { bits: 0, errors: 0, erasedBits: 0 },
+    );
+    return {
+      metric,
+      ber: {
+        lower: metric.errors / metric.bits,
+        upper: (metric.errors + metric.erasedBits) / metric.bits,
+      },
+    };
+  }
+  const raw = sum((f) => f.raw.metric),
+    estimated = sum((f) => f.estimated.metric),
+    ideal = sum((f) => f.ideal.metric),
+    ed = sum((f) => f.controlled.ed.metric),
+    e0 = sum((f) => f.controlled.e0.metric),
+    zD = sum((f) => f.controlled.zD.metric),
+    z0 = sum((f) => f.controlled.z0.metric);
+  const diff = (a: typeof raw, b: typeof raw) => ({
+    lower: a.ber.lower - b.ber.upper,
+    upper: a.ber.upper - b.ber.lower,
+  });
+  assert.deepEqual(actual, {
+    frames: frames.length,
+    raw,
+    estimated,
+    ideal,
+    controlled: { ed, e0, zD, z0 },
+    paired: {
+      estimatedMinusRaw: diff(estimated, raw),
+      estimatedMinusIdeal: diff(estimated, ideal),
+      residualCfoMinusIdeal: diff(e0, z0),
+      timingOffsetMinusIdeal: diff(zD, z0),
+      jointInterventionMinusIdeal: diff(ed, z0),
+    },
+    interaction: {
+      lower: ed.ber.lower - e0.ber.upper - zD.ber.upper + z0.ber.lower,
+      upper: ed.ber.upper - e0.ber.lower - zD.ber.lower + z0.ber.upper,
+    },
+  });
+}
+
+test("aggregation preserves capture failure and controlled-window erasures", async () => {
+  const first = await createFrame(cases[0].config);
+  const second = await createFrame({ ...cases[0].config, frameId: 99 });
+  const short = compareFrame(
+    { ...first, received: first.received.slice(0, 1000) },
+    0.1,
+    0,
+  );
+  const zero = compareFrame(
+    { ...second, received: new Float64Array(second.received.length) },
+    0.1,
+    0,
+  );
+  assert.equal(short.estimated.receiver.status, "window-failed");
+  assert.equal(zero.estimated.receiver.status, "capture-failed");
+  const frames = [short, zero],
+    summary = summarizeEngineeringFrames(frames);
+  checkSummary(frames, summary);
+  assert.deepEqual(summary.estimated.metric, {
+    bits: 1536,
+    errors: 0,
+    erasedBits: 1536,
+  });
+  assert.deepEqual(summary.estimated.ber, { lower: 0, upper: 1 });
+  for (const point of Object.values(summary.controlled)) {
+    assert.equal(point.metric.bits, 1536);
+    assert.ok(point.metric.erasedBits >= 768);
+  }
+  assert.throws(() => summarizeEngineeringFrames([short, short]));
 });
 
 test("estimator useful start subtracts CP exactly once before receiverFfts", async () => {
