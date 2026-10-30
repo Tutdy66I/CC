@@ -221,6 +221,35 @@ async function fixture(page: Page, signedIn = true) {
 const section = (page: Page) =>
   page.getByRole('region', { name: 'AI 引导式实验', exact: true })
 
+async function localRecord(
+  page: Page,
+  id: string,
+): Promise<LocalExperiment | undefined> {
+  return page.evaluate(
+    async ({ namespace, user, id }) => {
+      const db = await new Promise<IDBDatabase>((resolve, reject) => {
+        const request = indexedDB.open(namespace)
+        request.onsuccess = () => resolve(request.result)
+        request.onerror = () => reject(request.error)
+      })
+      try {
+        return await new Promise<LocalExperiment | undefined>(
+          (resolve, reject) => {
+            const tx = db.transaction('experiments', 'readonly')
+            const request = tx.objectStore('experiments').get([user, id])
+            tx.oncomplete = () =>
+              resolve(request.result as LocalExperiment | undefined)
+            tx.onabort = () => reject(tx.error)
+          },
+        )
+      } finally {
+        db.close()
+      }
+    },
+    { namespace: `signallab-cloud-v1:${host}|/CC/`, user: owner, id },
+  )
+}
+
 test('bad cloud rows are isolated while later valid rows and tombstones reconcile', async ({
   page,
 }) => {
@@ -592,28 +621,187 @@ test('lost insert response is retried without duplicates and another device rest
   browser,
 }) => {
   const service = await fixture(page)
-  service.loseResponse = true
   await page.goto('./#/signallab')
   await expect(page.getByText('已登录：', { exact: false })).toBeVisible()
-  await section(page)
-    .getByRole('button', { name: '确认方案并运行', exact: true })
-    .click()
-  await expect.poll(() => service.rows.length).toBe(1)
   await expect(page.getByText('云端同步完成。')).toBeVisible()
-  expect(service.rows).toHaveLength(1)
-  expect(service.writes).toBeGreaterThanOrEqual(2)
-  const context = await browser.newContext()
+  let release!: () => void
+  const gate = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  let retryStarted = false
+  await page.route('**/rest/v1/experiment_records*', async (route) => {
+    if (route.request().method() === 'POST' && service.writes === 1) {
+      retryStarted = true
+      await gate
+    }
+    await route.fallback()
+  })
   try {
-    const device = await context.newPage()
-    const second = await fixture(device)
-    second.rows = structuredClone(service.rows)
-    await device.goto('http://127.0.0.1:4177/CC/#/signallab')
-    await expect(section(device).locator('tbody tr')).toHaveCount(6)
-    await expect(
-      section(device).getByText(/以下数据来自该完成记录/),
-    ).toContainText(service.rows[0].id)
+    service.loseResponse = true
+    await section(page)
+      .getByRole('button', { name: '确认方案并运行', exact: true })
+      .click()
+    await expect.poll(() => service.rows.length).toBe(1)
+    const original = structuredClone(service.rows[0])
+    await expect
+      .poll(async () => (await localRecord(page, original.id))?.pending)
+      .toBe(true)
+    await expect.poll(() => retryStarted).toBe(true)
+    expect(service.loseResponse).toBe(false)
+    release()
+    await expect.poll(() => service.writes).toBeGreaterThanOrEqual(2)
+    await expect
+      .poll(async () => (await localRecord(page, original.id))?.pending)
+      .toBe(false)
+    await expect(page.getByLabel('实验账号与同步')).toContainText('待同步 0 条')
+    expect(service.rows).toHaveLength(1)
+    expect(service.writes).toBeGreaterThanOrEqual(2)
+    expect(service.rows[0]).toEqual(original)
+    const context = await browser.newContext()
+    try {
+      const device = await context.newPage()
+      const second = await fixture(device)
+      second.rows = structuredClone(service.rows)
+      await device.goto('http://127.0.0.1:4177/CC/#/signallab')
+      await expect(section(device).locator('tbody tr')).toHaveCount(6)
+      await expect(
+        section(device).getByText(/以下数据来自该完成记录/),
+      ).toContainText(service.rows[0].id)
+      await expect
+        .poll(async () => (await localRecord(device, original.id))?.pending)
+        .toBe(false)
+      const restored = await localRecord(device, original.id)
+      expect(restored?.owner).toBe(owner)
+      expect(restored?.record.plan).toEqual(original.parameters)
+      expect(restored?.record.rows).toEqual(original.results)
+    } finally {
+      await context.close()
+    }
   } finally {
-    await context.close()
+    release()
+  }
+})
+
+test('a concurrent GET reconciles a lost insert response without a second write', async ({
+  page,
+  context,
+}) => {
+  const service = await fixture(page)
+  await page.goto('./#/signallab')
+  await expect(page.getByText('云端同步完成。')).toBeVisible()
+  const device = await context.newPage()
+  const second = await fixture(device)
+  second.rows = service.rows
+  await device.goto('http://127.0.0.1:4177/CC/#/signallab')
+  await expect(device.getByText('云端同步完成。')).toBeVisible()
+  let releaseGet!: () => void
+  let releasePost!: () => void
+  const getGate = new Promise<void>((resolve) => {
+    releaseGet = resolve
+  })
+  const postGate = new Promise<void>((resolve) => {
+    releasePost = resolve
+  })
+  let getStarted = false
+  let getReturned = false
+  await page.route('**/rest/v1/experiment_records*', async (route) => {
+    if (route.request().method() !== 'GET' || getStarted)
+      return route.fallback()
+    getStarted = true
+    await getGate
+    getReturned = true
+    return route.fulfill({
+      json: service.rows.filter((row) => row.user_id === owner),
+      headers: { 'Access-Control-Allow-Origin': 'http://127.0.0.1:4177' },
+    })
+  })
+  await device.route('**/rest/v1/experiment_records*', async (route) => {
+    if (route.request().method() === 'POST' && second.writes >= 1)
+      await postGate
+    await route.fallback()
+  })
+  try {
+    await page.evaluate(() => dispatchEvent(new Event('online')))
+    await expect.poll(() => getStarted).toBe(true)
+    second.loseResponse = true
+    await section(device)
+      .getByRole('button', { name: '确认方案并运行', exact: true })
+      .click()
+    await expect.poll(() => service.rows.length).toBe(1)
+    const original = structuredClone(service.rows[0])
+    expect(original.user_id).toBe(owner)
+    expect(second.loseResponse).toBe(false)
+    await expect
+      .poll(async () => (await localRecord(device, original.id))?.pending)
+      .toBe(true)
+    expect(second.writes).toBe(1)
+    releaseGet()
+    await expect.poll(() => getReturned).toBe(true)
+    await expect
+      .poll(async () => (await localRecord(page, original.id))?.pending)
+      .toBe(false)
+    await expect(page.getByLabel('实验账号与同步')).toContainText('待同步 0 条')
+    const reconciled = await localRecord(page, original.id)
+    expect(reconciled?.owner).toBe(owner)
+    expect(reconciled?.record.id).toBe(original.id)
+    expect(reconciled?.record.plan).toEqual(original.parameters)
+    expect(reconciled?.record.rows).toEqual(original.results)
+    expect(service.rows).toEqual([original])
+    expect(second.writes).toBe(1)
+  } finally {
+    releaseGet()
+    releasePost()
+    await device.close()
+  }
+})
+
+test('sign-out and account switch cancel an old in-flight reconciliation', async ({
+  page,
+}) => {
+  const service = await fixture(page)
+  await page.goto('./#/signallab')
+  await expect(page.getByText('云端同步完成。')).toBeVisible()
+  service.rows = [cloudRecord()]
+  let release!: () => void
+  const gate = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  let started = false
+  let settled = false
+  await page.route('**/rest/v1/experiment_records*', async (route) => {
+    if (route.request().method() !== 'GET' || started) return route.fallback()
+    started = true
+    await gate
+    try {
+      await route.fulfill({
+        json: service.rows,
+        headers: { 'Access-Control-Allow-Origin': 'http://127.0.0.1:4177' },
+      })
+    } catch {
+      // Sign-out may abort the request before the delayed response is delivered.
+    } finally {
+      settled = true
+    }
+  })
+  try {
+    await page.evaluate(() => dispatchEvent(new Event('online')))
+    await expect.poll(() => started).toBe(true)
+    await page.getByRole('button', { name: '退出登录' }).click()
+    await expect(page.getByText('未登录，实验仍在本地运行。')).toBeVisible()
+    await page.evaluate(
+      ({ key, data }) => localStorage.setItem(key, JSON.stringify(data)),
+      { key: storageKey, data: session(other) },
+    )
+    await page.reload()
+    await expect(page.getByText('已登录：22@fixture.invalid')).toBeVisible()
+    release()
+    await expect.poll(() => settled).toBe(true)
+    await expect(section(page).locator('#guided-history option')).toHaveText([
+      '尚无完成记录',
+    ])
+    expect(service.rows).toEqual([cloudRecord()])
+  } finally {
+    release()
   }
 })
 
