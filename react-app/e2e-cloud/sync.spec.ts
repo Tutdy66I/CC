@@ -682,7 +682,7 @@ test('lost insert response is retried without duplicates and another device rest
   }
 })
 
-test('a concurrent GET reconciles a lost insert response without a second write', async ({
+test('a concurrent GET reconciles before an already-started POST retry settles', async ({
   page,
   context,
 }) => {
@@ -704,6 +704,7 @@ test('a concurrent GET reconciles a lost insert response without a second write'
   })
   let getStarted = false
   let getReturned = false
+  let retryAtGate = false
   await page.route('**/rest/v1/experiment_records*', async (route) => {
     if (route.request().method() !== 'GET' || getStarted)
       return route.fallback()
@@ -716,8 +717,10 @@ test('a concurrent GET reconciles a lost insert response without a second write'
     })
   })
   await device.route('**/rest/v1/experiment_records*', async (route) => {
-    if (route.request().method() === 'POST' && second.writes >= 1)
+    if (route.request().method() === 'POST' && second.writes >= 1) {
+      retryAtGate = true
       await postGate
+    }
     await route.fallback()
   })
   try {
@@ -734,6 +737,7 @@ test('a concurrent GET reconciles a lost insert response without a second write'
     await expect
       .poll(async () => (await localRecord(device, original.id))?.pending)
       .toBe(true)
+    await expect.poll(() => retryAtGate).toBe(true)
     expect(second.writes).toBe(1)
     releaseGet()
     await expect.poll(() => getReturned).toBe(true)
@@ -749,6 +753,42 @@ test('a concurrent GET reconciles a lost insert response without a second write'
     expect(service.rows).toEqual([original])
     expect(second.writes).toBe(1)
     expect(service.writes).toBe(0)
+    // At this point GET alone has cleared pending, but an already-started retry
+    // remains in flight. Once released, that retry legitimately writes again.
+    const duplicate = device.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        response.url().includes('/experiment_records') &&
+        response.status() === 409,
+    )
+    const lookup = device.waitForResponse(
+      (response) =>
+        response.request().method() === 'GET' &&
+        response.url().includes('/experiment_records') &&
+        new URL(response.url()).searchParams.get('id') ===
+          `eq.${original.id}` &&
+        response.status() === 200,
+    )
+    releasePost()
+    await duplicate
+    await lookup
+    await expect.poll(() => second.writes).toBe(2)
+    await expect
+      .poll(async () => (await localRecord(device, original.id))?.pending)
+      .toBe(false)
+    await expect(device.getByLabel('实验账号与同步')).not.toContainText(
+      '同步中…',
+    )
+    await expect(device.getByLabel('实验账号与同步')).toContainText(
+      '待同步 0 条',
+    )
+    expect(service.writes).toBe(0)
+    expect(service.rows).toEqual([original])
+    const finalRecord = await localRecord(device, original.id)
+    expect(finalRecord?.owner).toBe(owner)
+    expect(finalRecord?.record.id).toBe(original.id)
+    expect(finalRecord?.record.plan).toEqual(original.parameters)
+    expect(finalRecord?.record.rows).toEqual(original.results)
   } finally {
     releaseGet()
     releasePost()
