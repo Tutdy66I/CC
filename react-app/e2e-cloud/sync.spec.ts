@@ -748,6 +748,7 @@ test('a concurrent GET reconciles a lost insert response without a second write'
     expect(reconciled?.record.rows).toEqual(original.results)
     expect(service.rows).toEqual([original])
     expect(second.writes).toBe(1)
+    expect(service.writes).toBe(0)
   } finally {
     releaseGet()
     releasePost()
