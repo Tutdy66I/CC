@@ -1,0 +1,40 @@
+.v15-sync {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid #a7b8c4;
+  border-radius: 0.5rem;
+}
+.v15-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.7rem;
+}
+.v15-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.v15-controls input,
+.v15-controls textarea {
+  max-width: 100%;
+  padding: 0.35rem;
+}
+.v15-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.v15-scroll table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.v15-scroll th,
+.v15-scroll td {
+  border: 1px solid #a7b8c4;
+  padding: 0.35rem;
+  text-align: left;
+}
+.v15-bar {
+  width: 8rem;
+  min-width: 8rem;
+  height: 1.2rem;
+}
