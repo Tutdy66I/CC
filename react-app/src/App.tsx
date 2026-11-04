@@ -10,8 +10,10 @@ const ArchivePage = lazy(() => import('./pages/ArchivePage'))
 const TodoList = lazy(() => import('./components/TodoList'))
 const RSSReader = lazy(() => import('./pages/RSSReader'))
 const SignalLab = lazy(() => import('./pages/SignalLab'))
+const OfdmCompat = lazy(() => import('./ofdm-record-compat/CompatImport'))
 
 function App() {
+  const [showOfdmCompat, setShowOfdmCompat] = useState(false)
   const [view, setView] = useState<View>(() =>
     readViewFromHash(window.location.hash),
   )
@@ -101,7 +103,19 @@ function App() {
       content = <RSSReader />
       break
     case 'signallab':
-      content = <SignalLab />
+      content = (
+        <>
+          <button
+            type="button"
+            onClick={() => setShowOfdmCompat((v) => !v)}
+            aria-expanded={showOfdmCompat}
+          >
+            OFDM 兼容记录
+          </button>
+          {showOfdmCompat && <OfdmCompat />}
+          <SignalLab />
+        </>
+      )
       break
     case 'todos':
       content = <TodoList />
