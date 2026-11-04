@@ -26,6 +26,9 @@ const OfdmResearchExperiment = lazy(
 const JointSyncExperiment = lazy(
   () => import('../components/JointSyncExperiment'),
 )
+const V15SyncComparison = lazy(
+  () => import('../components/V15SyncComparison'),
+)
 
 function Waveform({
   values,
@@ -126,6 +129,7 @@ export default function SignalLab() {
           ['信道研究', 'channel-title'],
           ['OFDM 研究', 'ofdm-title'],
           ['OFDM 同步', 'joint-sync-title'],
+          ['v1.5 工程对照', 'v15-sync-title'],
           ['载波研究', 'research-title'],
           ['比特与波形', 'bpsk-controls'],
         ].map(([label, id]) => (
@@ -350,6 +354,9 @@ export default function SignalLab() {
       </Suspense>
       <Suspense fallback={<p>正在加载 OFDM 同步实验…</p>}>
         <JointSyncExperiment />
+      </Suspense>
+      <Suspense fallback={<p>正在加载 v1.5 工程对照…</p>}>
+        <V15SyncComparison />
       </Suspense>
     </main>
   )
