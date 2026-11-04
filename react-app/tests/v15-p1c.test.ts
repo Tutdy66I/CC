@@ -183,6 +183,21 @@ test('rapid repeated start is rejected and worker errors terminate without resul
   assert.equal(w.terminated, true)
   assert.equal('result' in c.state, false)
 })
+test('unmount disposal terminates an active task and suppresses late messages', () => {
+  const w = new FakeWorker(),
+    changes: string[] = []
+  const c = new P1cController(
+    () => w,
+    (s) => changes.push(s.state),
+  )
+  c.start(request([1]))
+  c.dispose()
+  assert.equal(w.terminated, true)
+  w.emit({ type: 'ready', version: P1C_VERSION, runId: 'test-1' })
+  w.emit({ type: 'done', version: P1C_VERSION, runId: 'test-1', result: {} })
+  assert.deepEqual(changes, ['running'])
+  assert.throws(() => c.start(request([2])))
+})
 test('complete result is accepted once and post-terminal messages are ignored', async () => {
   const w = new FakeWorker()
   const c = new P1cController(
