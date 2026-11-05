@@ -1,5 +1,26 @@
 export type DependencyNode = { path: string; dependencies: readonly string[] };
 
+// Candidate protocol root is not yet fixed. Reserve these exact protocol names
+// in every directory, including case variants, until it has been reviewed.
+const protocolNames = new Set([
+  "01-model.json",
+  "02-random.json",
+  "03-statistics.json",
+  "04-numeric.json",
+  "05-evidence.json",
+  "06-dependencies.json",
+]);
+
+function reservedDependency(path: string): boolean {
+  const base = path.slice(path.lastIndexOf("/") + 1).toLowerCase();
+  return (
+    protocolNames.has(base) ||
+    base === "manifest" ||
+    base.startsWith("manifest.") ||
+    /^(?:0[1-6]-.*\.json)$/i.test(path)
+  );
+}
+
 /** Validates declared paths and edges only. It cannot certify filesystem links or closure. */
 export function validateDependencyGraph(
   nodes: readonly DependencyNode[],
@@ -26,7 +47,7 @@ export function validateDependencyGraph(
             part.endsWith(".") ||
             /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part),
         ) ||
-      /^(?:0[1-6]-.*\.json|manifest(?:\..*)?)$/i.test(path) ||
+      reservedDependency(path) ||
       path <= previous ||
       folded.has(path.toLowerCase()) ||
       !Array.isArray(node.dependencies)
