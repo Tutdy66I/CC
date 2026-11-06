@@ -66,3 +66,36 @@ test("fixed small DSP graph retains a boundary-uncertified decision", () => {
     "certified",
   ]);
 });
+
+test("instrumented public ZF path matches production and remains fail-closed after refinement", () => {
+  const data = JSON.parse(run("v15-zf-public-audit.py")) as {
+    firstStrictCrossing: string;
+    baselineDecision: string[];
+    refinedDecision: string[];
+    checks: { withinBaseline: boolean; withinRefined: boolean }[];
+    conditionalRounding: { matches: boolean }[];
+    syntheticMismatchProbe: {
+      source: string;
+      status: string;
+      detectedNodes: string[];
+    };
+  };
+  assert.equal(data.firstStrictCrossing, "zf.re.numerator");
+  assert.deepEqual(data.baselineDecision, [
+    "boundary-uncertified",
+    "certified",
+  ]);
+  assert.deepEqual(data.refinedDecision, ["boundary-uncertified", "certified"]);
+  assert.equal(data.checks.length, 16);
+  assert.ok(
+    data.checks.every((row) => row.withinBaseline && row.withinRefined),
+  );
+  assert.equal(data.conditionalRounding.length, 15);
+  assert.ok(data.conditionalRounding.every((row) => row.matches));
+  assert.equal(
+    data.syntheticMismatchProbe.source,
+    "deliberately-altered-public-test",
+  );
+  assert.equal(data.syntheticMismatchProbe.status, "mismatch");
+  assert.ok(data.syntheticMismatchProbe.detectedNodes.includes("fft[0]"));
+});
