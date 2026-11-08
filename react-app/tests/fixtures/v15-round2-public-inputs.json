@@ -1,0 +1,292 @@
+{
+  "envelopes": [
+    {
+      "op": "log",
+      "inputs": ["0000000000000001"]
+    },
+    {
+      "op": "log",
+      "inputs": ["3fe0000000000000"]
+    },
+    {
+      "op": "log",
+      "inputs": ["3ff0000000000000"]
+    },
+    {
+      "op": "log",
+      "inputs": ["3ff0000000000001"]
+    },
+    {
+      "op": "log",
+      "inputs": ["4000000000000000"]
+    },
+    {
+      "op": "log",
+      "inputs": ["7fefffffffffffff"]
+    },
+    {
+      "op": "hypot",
+      "inputs": ["0000000000000000", "0000000000000000"]
+    },
+    {
+      "op": "hypot",
+      "inputs": ["4008000000000000", "4010000000000000"]
+    },
+    {
+      "op": "hypot",
+      "inputs": ["3ff0000000000000", "3ff0000000000000"]
+    },
+    {
+      "op": "hypot",
+      "inputs": ["3fb999999999999a", "3fc999999999999a"]
+    },
+    {
+      "op": "hypot",
+      "inputs": ["0000000000000001", "0000000000000001"]
+    },
+    {
+      "op": "hypot",
+      "inputs": ["7e37e43c8800759c", "7e37e43c8800759c"]
+    }
+  ],
+  "angles": [
+    {
+      "op": "sin",
+      "inputs": ["0000000000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["0000000000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["8000000000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["8000000000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["c08f400000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["c08f400000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["c024000000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["c024000000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["c000000000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["c000000000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["4000000000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["4000000000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["4024000000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["4024000000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["408f400000000000"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["408f400000000000"]
+    },
+    {
+      "op": "sin",
+      "inputs": ["7fefffffffffffff"]
+    },
+    {
+      "op": "cos",
+      "inputs": ["7fefffffffffffff"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["3ff0000000000000", "3ff0000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["3ff0000000000000", "bff0000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["bff0000000000000", "bff0000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["bff0000000000000", "3ff0000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["3ff0000000000000", "0000000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["bff0000000000000", "0000000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["0000000000000000", "bff0000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["8000000000000000", "bff0000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["0000000000000000", "3ff0000000000000"]
+    },
+    {
+      "op": "atan2",
+      "inputs": ["8000000000000000", "3ff0000000000000"]
+    }
+  ],
+  "graph": [
+    {
+      "id": "ordinary",
+      "signal": [
+        "3ff0000000000000",
+        "3fe0000000000000",
+        "3fd0000000000000",
+        "bfc0000000000000"
+      ],
+      "h": ["3ff0000000000000", "3fd0000000000000"]
+    },
+    {
+      "id": "cancel",
+      "signal": [
+        "3ff0000000000000",
+        "3fe0000000000000",
+        "bff0000000000000",
+        "bfe0000000000000"
+      ],
+      "h": ["3fd3333333333333", "3fc999999999999a"]
+    },
+    {
+      "id": "near",
+      "signal": [
+        "3ff0000000000000",
+        "3fe0000000000000",
+        "bfeffffffffffffe",
+        "bfe0000000000000"
+      ],
+      "h": ["3fd3333333333333", "3fc999999999999a"]
+    },
+    {
+      "id": "zf-boundary",
+      "signal": [
+        "3fd3333333333333",
+        "bfdccccccccccccd",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "h": ["3fd3333333333333", "3fc999999999999a"]
+    }
+  ],
+  "graphTraceNames": [
+    "fir.ii",
+    "fir.qq",
+    "fir.re.product",
+    "fir.qi",
+    "fir.iq",
+    "fir.im.product",
+    "fir.re.accumulate",
+    "fir.im.accumulate",
+    "fir.ii",
+    "fir.qq",
+    "fir.re.product",
+    "fir.qi",
+    "fir.iq",
+    "fir.im.product",
+    "fir.re.accumulate",
+    "fir.im.accumulate",
+    "butterfly.c-re",
+    "butterfly.s-im",
+    "butterfly.re",
+    "butterfly.s-re",
+    "butterfly.c-im",
+    "butterfly.im",
+    "fft.out0.re",
+    "fft.out0.im",
+    "fft.out1.re",
+    "fft.out1.im",
+    "sqrt2.enclosure",
+    "fft.scale",
+    "fft.scaled",
+    "fft.scaled",
+    "fft.scaled",
+    "fft.scaled",
+    "zf.a",
+    "zf.b",
+    "zf.a2",
+    "zf.b2",
+    "zf.d",
+    "zf.u",
+    "zf.v",
+    "zf.ua",
+    "zf.vb",
+    "zf.re.numerator",
+    "zf.re",
+    "zf.va",
+    "zf.ub",
+    "zf.im.numerator",
+    "zf.im"
+  ],
+  "zfTraceNames": [
+    "scale",
+    "zf.a",
+    "zf.b",
+    "zf.a2",
+    "zf.b2",
+    "zf.d",
+    "zf.u",
+    "zf.v",
+    "zf.ua",
+    "zf.vb",
+    "zf.re.numerator",
+    "zf.re",
+    "zf.va",
+    "zf.ub",
+    "zf.im.numerator",
+    "zf.im"
+  ],
+  "zfRoundingNames": [
+    "zf.a",
+    "zf.b",
+    "zf.a2",
+    "zf.b2",
+    "zf.d",
+    "zf.u",
+    "zf.v",
+    "zf.ua",
+    "zf.vb",
+    "zf.re.numerator",
+    "zf.re",
+    "zf.va",
+    "zf.ub",
+    "zf.im.numerator",
+    "zf.im"
+  ]
+}
