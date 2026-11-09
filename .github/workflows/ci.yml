@@ -55,6 +55,18 @@ jobs:
           path: react-app/.test-build/numeric-public/
           include-hidden-files: true
           retention-days: 7
+      - name: Check public runtime inventory
+        run: |
+          python3 -I -B scripts/v15-runtime-inventory-selftest.py
+          python3 -I -B scripts/v15-runtime-inventory.py
+      - name: Preserve public runtime inventory
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: public-runtime-inventory
+          path: react-app/.test-build/runtime-inventory/
+          include-hidden-files: true
+          retention-days: 14
       - name: Independent OFDM DFT, FIR, Toeplitz and scalar receiver references
         run: npm run test:ofdm-reference
         env:
