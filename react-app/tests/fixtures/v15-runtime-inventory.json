@@ -1,0 +1,280 @@
+{
+  "nodeGraph": {
+    "dynamic": [
+      {
+        "expression": "import(\n  `data:text/javascript;base64,${Buffer.from(instrumented).toString(\"base64\")}`\n)",
+        "from": "scripts/v15-zf-trace-public.mjs"
+      }
+    ],
+    "edges": [
+      {
+        "from": ".test-build/src/lib/ofdmModulation.js",
+        "to": ".test-build/src/lib/qam16.js"
+      },
+      {
+        "from": ".test-build/src/lib/ofdmModulation.js",
+        "to": ".test-build/src/lib/qpsk.js"
+      },
+      {
+        "from": ".test-build/src/lib/ofdmModulation.js",
+        "to": ".test-build/src/lib/signallab.js"
+      },
+      {
+        "from": ".test-build/src/lib/qam16.js",
+        "to": ".test-build/src/lib/signallab.js"
+      },
+      {
+        "from": ".test-build/src/lib/qpsk.js",
+        "to": ".test-build/src/lib/signallab.js"
+      },
+      {
+        "from": "scripts/v15-interval-public-node.mjs",
+        "to": ".test-build/src/lib/fft.js"
+      },
+      {
+        "from": "scripts/v15-interval-public-node.mjs",
+        "to": ".test-build/src/lib/multipathChannel.js"
+      },
+      {
+        "from": "scripts/v15-interval-public-node.mjs",
+        "to": ".test-build/src/lib/ofdmEqualizer.js"
+      },
+      {
+        "from": "scripts/v15-interval-public-node.mjs",
+        "to": ".test-build/src/lib/ofdmModulation.js"
+      },
+      {
+        "from": "scripts/v15-numeric-public-node.mjs",
+        "to": "node:perf_hooks"
+      },
+      {
+        "from": "scripts/v15-zf-trace-public.mjs",
+        "to": ".test-build/src/lib/ofdmEqualizer.js"
+      },
+      {
+        "from": "scripts/v15-zf-trace-public.mjs",
+        "to": "node:child_process"
+      },
+      {
+        "from": "scripts/v15-zf-trace-public.mjs",
+        "to": "node:crypto"
+      },
+      {
+        "from": "scripts/v15-zf-trace-public.mjs",
+        "to": "node:fs"
+      }
+    ],
+    "entries": [
+      "scripts/v15-numeric-public-node.mjs",
+      "scripts/v15-envelopes-public-node.mjs",
+      "scripts/v15-angle-public-node.mjs",
+      "scripts/v15-interval-public-node.mjs",
+      "scripts/v15-zf-trace-public.mjs"
+    ],
+    "files": [
+      ".test-build/src/lib/fft.js",
+      ".test-build/src/lib/multipathChannel.js",
+      ".test-build/src/lib/ofdmEqualizer.js",
+      ".test-build/src/lib/ofdmModulation.js",
+      ".test-build/src/lib/qam16.js",
+      ".test-build/src/lib/qpsk.js",
+      ".test-build/src/lib/signallab.js",
+      "scripts/v15-angle-public-node.mjs",
+      "scripts/v15-envelopes-public-node.mjs",
+      "scripts/v15-interval-public-node.mjs",
+      "scripts/v15-numeric-public-node.mjs",
+      "scripts/v15-zf-trace-public.mjs"
+    ]
+  },
+  "pythonImports": {
+    "scripts/v15-angle-public-audit.py": [
+      "fractions",
+      "functools",
+      "importlib",
+      "json",
+      "math",
+      "pathlib",
+      "struct",
+      "subprocess",
+      "time",
+      "tracemalloc"
+    ],
+    "scripts/v15-envelopes-public-audit.py": [
+      "fractions",
+      "importlib",
+      "json",
+      "math",
+      "pathlib",
+      "struct",
+      "subprocess",
+      "time",
+      "tracemalloc"
+    ],
+    "scripts/v15-interval-public-audit.py": [
+      "fractions",
+      "importlib",
+      "json",
+      "math",
+      "pathlib",
+      "struct",
+      "subprocess",
+      "time",
+      "tracemalloc"
+    ],
+    "scripts/v15-numeric-ci-selftest.py": [
+      "copy",
+      "importlib",
+      "os",
+      "pathlib",
+      "subprocess",
+      "tempfile",
+      "unittest"
+    ],
+    "scripts/v15-numeric-public-audit.py": [
+      "fractions",
+      "json",
+      "math",
+      "os",
+      "struct",
+      "subprocess",
+      "time",
+      "tracemalloc"
+    ],
+    "scripts/v15-numeric-public-ci.py": [
+      "collections",
+      "hashlib",
+      "json",
+      "pathlib",
+      "re",
+      "shutil",
+      "struct",
+      "subprocess",
+      "sys"
+    ],
+    "scripts/v15-numeric-public-selftest.py": [
+      "fractions",
+      "importlib",
+      "math",
+      "pathlib",
+      "unittest"
+    ],
+    "scripts/v15-round2-evidence-selftest.py": [
+      "contextlib",
+      "copy",
+      "importlib",
+      "io",
+      "json",
+      "os",
+      "pathlib",
+      "subprocess",
+      "sys",
+      "tempfile",
+      "unittest"
+    ],
+    "scripts/v15-round2-evidence.py": [
+      "hashlib",
+      "importlib",
+      "json",
+      "math",
+      "os",
+      "pathlib",
+      "re",
+      "shutil",
+      "struct",
+      "subprocess",
+      "sys"
+    ],
+    "scripts/v15-round2-public-selftest.py": [
+      "copy",
+      "fractions",
+      "importlib",
+      "json",
+      "math",
+      "pathlib",
+      "subprocess",
+      "unittest"
+    ],
+    "scripts/v15-zf-public-audit.py": [
+      "copy",
+      "fractions",
+      "importlib",
+      "json",
+      "math",
+      "pathlib",
+      "subprocess",
+      "time",
+      "tracemalloc"
+    ]
+  },
+  "pythonReferences": {
+    "scripts/v15-angle-public-audit.py": [
+      "scripts/v15-angle-public-node.mjs",
+      "v15-numeric-public-audit.py"
+    ],
+    "scripts/v15-envelopes-public-audit.py": [
+      "scripts/v15-envelopes-public-node.mjs",
+      "v15-numeric-public-audit.py"
+    ],
+    "scripts/v15-interval-public-audit.py": [
+      "scripts/v15-interval-public-node.mjs",
+      "v15-numeric-public-audit.py"
+    ],
+    "scripts/v15-numeric-ci-selftest.py": ["v15-numeric-public-ci.py"],
+    "scripts/v15-numeric-public-audit.py": [
+      "scripts/v15-numeric-public-node.mjs"
+    ],
+    "scripts/v15-numeric-public-ci.py": ["scripts/v15-numeric-public-audit.py"],
+    "scripts/v15-numeric-public-selftest.py": ["v15-numeric-public-audit.py"],
+    "scripts/v15-round2-evidence-selftest.py": ["v15-round2-evidence.py"],
+    "scripts/v15-round2-evidence.py": [
+      "scripts/v15-angle-public-audit.py",
+      "scripts/v15-envelopes-public-audit.py",
+      "scripts/v15-interval-public-audit.py",
+      "scripts/v15-zf-public-audit.py",
+      "v15-angle-public-audit",
+      "v15-envelopes-public-audit",
+      "v15-interval-public-audit",
+      "v15-zf-public-audit"
+    ],
+    "scripts/v15-round2-public-selftest.py": [
+      "scripts/v15-interval-public-node.mjs",
+      "v15-angle-public-audit",
+      "v15-envelopes-public-audit",
+      "v15-interval-public-audit"
+    ],
+    "scripts/v15-zf-public-audit.py": [
+      "scripts/v15-zf-trace-public.mjs",
+      "v15-interval-public-audit.py"
+    ]
+  },
+  "sources": {
+    "package-lock.json": "1c33a7cf63a8a888a4e2bd310f86793928622ac7f53c44d11c19fad489a43b5f",
+    "package.json": "5b62e2863ae6f8ef9482847b6d1e7a8a5ccefc44cb9b60ee9307f1173c9bc37f",
+    "scripts/v15-angle-public-audit.py": "01509c6de55925ef16b36f629606b07d688138f85902ffc49b0153b6ba2ba707",
+    "scripts/v15-angle-public-node.mjs": "95adefa7e004fa18ea2821235bfbb347fc19651fedc3bc7a96d95fd4bf84ce83",
+    "scripts/v15-envelopes-public-audit.py": "441e416e983c50b50622518d31c836004cb02744aa661180c00e9e07cd83edad",
+    "scripts/v15-envelopes-public-node.mjs": "bb78eada3537474c77748069c873d060c05ca8c16d562dbccdbcedb8cc1380fd",
+    "scripts/v15-interval-public-audit.py": "87f85671c12ec2daa456946f8e22440429420f99c079ad9114580352fc1889bb",
+    "scripts/v15-interval-public-node.mjs": "ef685cb58cf56aaf3c1724a659fc83ea0a4735d9ca228cf81164fb282c9097ff",
+    "scripts/v15-numeric-ci-selftest.py": "b4b0063d137cf001ab7b50725f26f99a1eb154e2321cd7b40195256c7aad059a",
+    "scripts/v15-numeric-public-audit.py": "68741898a9931566ed696e598c9e5e29097cead7a62df0d4bb80a721c7f9eeb6",
+    "scripts/v15-numeric-public-ci.py": "b96e0a997b4cec2940751c643c2610d5370eda97625df3aff4dd65233ef9bca7",
+    "scripts/v15-numeric-public-node.mjs": "bdde9b1d1c61f953b964745e4a0e25a2bded016ce21095ab82d18d8f8804c450",
+    "scripts/v15-numeric-public-selftest.py": "c65005b50779cf20116c8f3669f891dc2b5964c5d1281e2e063e74c70674ffd7",
+    "scripts/v15-round2-evidence-selftest.py": "b18f2a3d3bf4d55b54a4140a8a3513e0561ddb371c139866367851fb65b2ae6d",
+    "scripts/v15-round2-evidence.py": "411c525ecf58ba4715887c79226b0259e0f6c603cd9c93271147a5cba5920d52",
+    "scripts/v15-round2-public-selftest.py": "f46cd8abf0560347e336810c70377e552abee46f0481fb0ab24c3f97deea3b2f",
+    "scripts/v15-runtime-graph.mjs": "2276a288ef26e4fd6f304608603913d84188fc7a40dfce81d70f76b95b9a85c4",
+    "scripts/v15-zf-public-audit.py": "e6c6b49e955eee801b2d88658781e7b61f3a8cf07debdbdd446cbf232214455a",
+    "scripts/v15-zf-trace-public.mjs": "3295cef0b1174738547f5021351fe685fc887dc0e727874a3d0f0bdac9bd8c3d",
+    "src/lib/fft.ts": "8cc4de322a5bdb8b4a0eea17772bc7ab6da0dd64c74eb143b64be8e8deb317da",
+    "src/lib/multipathChannel.ts": "4a0116ce2b14702e90330c1bc673b9b5664040793e857c3908cd73a0f464c471",
+    "src/lib/ofdmEqualizer.ts": "780329064b2a3562e67c9efb40c4bd1151aaa4192b69963cf5757c09f28720a7",
+    "src/lib/ofdmModulation.ts": "49ce0fc31db14c36cbb41b0f608ab97b0d7d45194acd251055068cf77c0b1756",
+    "src/lib/qam16.ts": "02982f9ea00b9613c8709b795ed998b540ae0bf10cf2c4cee975d4f637f751ea",
+    "src/lib/qpsk.ts": "e5223571ac1d5a3fff1f126126b5aa94c7809ae6a6e013d113647129771c5f74",
+    "src/lib/signallab.ts": "3e9cd2c6e49c73168d95a334dd8035ff1e344ac7931569a35ac3c83f4d37e1e9",
+    "tests/fixtures/v15-round2-public-inputs.json": "93a5f2c086fa1d8384d3da9c2ce0d25b95da5ee56f936627e487d152ad5f6a6a",
+    "tsconfig.test.json": "10d3f7c630d596cf95f2121b89e58b9e3ffaead2261b5f4197e69022623e2337"
+  }
+}
