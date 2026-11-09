@@ -3,6 +3,7 @@ import ast, hashlib, importlib.util, json, os, pathlib, re, shutil, subprocess, 
 
 FIXTURE=pathlib.Path('tests/fixtures/v15-runtime-inventory.json')
 FIXTURE_SHA256='ceb9727751447693e0ed9959c22b3dbca24e5dd440cf4a00cc171363e05a9d62'
+EXPECTED_OUTPUTS={'audit.exit.json','audit.stderr.txt','audit.stdout.json','deterministic.json'} | {name+suffix for name in ('node-runtime','static-graph','typescript-rebuild') for suffix in ('.stdout','.stderr','.exit.json')}
 def sha(data): return hashlib.sha256(data).hexdigest()
 def need(condition,message):
     if not condition: raise ValueError(message)
@@ -47,6 +48,24 @@ def installed_packages(lock):
         if entry.get('version') is not None: need(item.get('version')==entry['version'],'installed version mismatch: '+path)
         installed.append({'path':path,'version':item.get('version'),'packageJsonSha256':sha(data)})
     return {'scope':'lock-listed package metadata; does not discover extraneous files or verify package tarball integrity','installed':installed,'missingOptional':missing_optional}
+def verify_output_manifest(out):
+    out=pathlib.Path(out); mp=out/'manifest.json';need(mp.is_file() and not mp.is_symlink(),'missing or unsafe manifest');manifest=parse(mp.read_bytes())
+    need(isinstance(manifest,dict) and set(manifest)=={'algorithm','files'} and manifest['algorithm']=='sha256' and isinstance(manifest['files'],list),'invalid output manifest')
+    names=[]
+    for item in manifest['files']:
+        need(isinstance(item,dict) and set(item)=={'name','sha256'},'invalid manifest entry')
+        name=item['name']; digest=item['sha256']
+        need(isinstance(name,str) and name in EXPECTED_OUTPUTS and '/' not in name and '\\' not in name and not pathlib.PureWindowsPath(name).is_absolute(),'invalid manifest path')
+        need(isinstance(digest,str) and re.fullmatch('[0-9a-f]{64}',digest),'invalid manifest digest')
+        need(name not in names,'duplicate manifest path');names.append(name)
+        path=out/name;need(path.is_file() and not path.is_symlink(),'missing or unsafe evidence file')
+        need(sha(path.read_bytes())==digest,'output digest mismatch: '+name)
+    need(set(names)==EXPECTED_OUTPUTS,'output manifest file set mismatch')
+    need({p.name for p in out.iterdir()}==EXPECTED_OUTPUTS|{'manifest.json'},'unexpected or missing output file')
+def deterministic_packages(packages):
+    entries=packages['installed'];missing=packages['missingOptional']
+    need(len({x['path'] for x in entries})==len(entries) and len(set(missing))==len(missing),'duplicate installed package path')
+    return {'installed':sorted(entries,key=lambda x:x['path']),'missingOptional':sorted(missing)}
 def child(out,name,args):
     proc=subprocess.run(args,capture_output=True)
     (out/(name+'.stdout')).write_bytes(proc.stdout);(out/(name+'.stderr')).write_bytes(proc.stderr)
@@ -108,6 +127,7 @@ def main():
         data=run(out);(out/'audit.stdout.json').write_text(json.dumps(data,indent=2)+'\n',encoding='utf8');(out/'audit.stderr.txt').write_bytes(b'')
         stable={k:data[k] for k in ('status','scope','node','python','typescript','instrumentation','workflowSha256','pythonImports','pythonReferences','nodeGraph','compiled','unresolved')}
         stable['sources']={k:v['normalizedSha256'] for k,v in data['sources'].items()}
+        stable['installedPackages']=deterministic_packages(data['installedPackages'])
         (out/'deterministic.json').write_text(json.dumps(stable,sort_keys=True,separators=(',',':'))+'\n',encoding='utf8');code=0
     except Exception:
         (out/'audit.stdout.json').write_bytes(b'');(out/'audit.stderr.txt').write_text(traceback.format_exc(),encoding='utf8')
@@ -115,7 +135,16 @@ def main():
         (out/'audit.exit.json').write_text(json.dumps({'exitCode':code})+'\n',encoding='utf8')
         files=sorted(p for p in out.iterdir() if p.is_file() and p.name!='manifest.json')
         (out/'manifest.json').write_text(json.dumps({'algorithm':'sha256','files':[{'name':p.name,'sha256':sha(p.read_bytes())} for p in files]},indent=2)+'\n',encoding='utf8')
+    if code==0:
+        try: verify_output_manifest(out)
+        except Exception:
+            error=traceback.format_exc();(out/'manifest-verification-error.txt').write_text(error,encoding='utf8');print(error,file=sys.stderr);return 1
     if code: print((out/'audit.stderr.txt').read_text(encoding='utf8'),file=sys.stderr)
     else: print(json.dumps({'status':'unresolved','evidence':str(out),'manifestSha256':sha((out/'manifest.json').read_bytes())}))
     return code
-if __name__=='__main__': sys.exit(main())
+if __name__=='__main__':
+    if len(sys.argv)==3 and sys.argv[1]=='--verify-manifest':
+        try:verify_output_manifest(sys.argv[2]);print('output manifest verified')
+        except Exception:traceback.print_exc();sys.exit(1)
+    elif len(sys.argv)==1:sys.exit(main())
+    else:sys.exit('usage: v15-runtime-inventory.py [--verify-manifest DIRECTORY]')
