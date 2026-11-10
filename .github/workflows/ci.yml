@@ -67,6 +67,16 @@ jobs:
           path: react-app/.test-build/runtime-inventory/
           include-hidden-files: true
           retention-days: 14
+      - name: Test synthetic public evidence offline restore
+        run: python3 -I -B scripts/v15-public-evidence-archive-ci.py
+      - name: Preserve synthetic restore prototype results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: public-evidence-restore-prototype
+          path: react-app/.test-build/public-evidence-restore-prototype/
+          include-hidden-files: true
+          retention-days: 14
       - name: Independent OFDM DFT, FIR, Toeplitz and scalar receiver references
         run: npm run test:ofdm-reference
         env:
