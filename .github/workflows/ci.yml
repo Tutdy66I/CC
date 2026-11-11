@@ -77,6 +77,16 @@ jobs:
           path: react-app/.test-build/public-evidence-restore-prototype/
           include-hidden-files: true
           retention-days: 14
+      - name: Verify fixed synthetic archive independently
+        run: python3 -I -B scripts/v15-synthetic-independent-ci.py
+      - name: Preserve synthetic replay objects
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: synthetic-independent-replay
+          path: react-app/.test-build/synthetic-independent-replay/
+          include-hidden-files: true
+          retention-days: 14
       - name: Independent OFDM DFT, FIR, Toeplitz and scalar receiver references
         run: npm run test:ofdm-reference
         env:
